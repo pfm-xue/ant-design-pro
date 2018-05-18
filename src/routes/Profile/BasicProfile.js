@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider } from 'antd';
+import { Card, Badge, Table, Divider, Button } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './BasicProfile.less';
+
+import StandardTable from 'components/StandardTable';
+
+import { Link } from 'dva/router';
 
 const { Description } = DescriptionList;
 
 const progressColumns = [
   {
-    title: '时间',
+    title: 'アップロード時間',
     dataIndex: 'time',
     key: 'time',
   },
   {
-    title: '当前进度',
+    title: 'アップロード者',
     dataIndex: 'rate',
     key: 'rate',
   },
   {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status',
-    render: text =>
-      text === 'success' ? (
-        <Badge status="success" text="成功" />
-      ) : (
-        <Badge status="processing" text="进行中" />
-      ),
-  },
-  {
-    title: '操作员ID',
+    title: '注釈',
     dataIndex: 'operator',
     key: 'operator',
   },
   {
-    title: '耗时',
-    dataIndex: 'cost',
-    key: 'cost',
+    title: '操作',
+    render: () => (
+      <Fragment>
+        <Button type="primary">
+          <Link to="/profile/basic">編集</Link>
+        </Button>
+        <Divider type="vertical" />
+        <Link to="/profile/basic" className={styles.logo} key="logo">
+          <Button>详细 </Button>
+        </Link>
+      </Fragment>
+    ),
   },
 ];
 
@@ -65,7 +67,6 @@ export default class BasicProfile extends Component {
         amount += Number(item.amount);
       });
       goodsData = basicGoods.concat({
-        id: '总计',
         num,
         amount,
       });
@@ -82,84 +83,53 @@ export default class BasicProfile extends Component {
     };
     const goodsColumns = [
       {
-        title: '商品编号',
+        title: '作成日',
         dataIndex: 'id',
         key: 'id',
-        render: (text, row, index) => {
-          if (index < basicGoods.length) {
-            return <a href="">{text}</a>;
-          }
-          return {
-            children: <span style={{ fontWeight: 600 }}>总计</span>,
-            props: {
-              colSpan: 4,
-            },
-          };
-        },
       },
       {
-        title: '商品名称',
+        title: '計画作成者',
         dataIndex: 'name',
         key: 'name',
-        render: renderContent,
       },
       {
-        title: '商品条码',
+        title: '注釈',
         dataIndex: 'barcode',
         key: 'barcode',
-        render: renderContent,
       },
       {
-        title: '单价',
-        dataIndex: 'price',
-        key: 'price',
-        align: 'right',
-        render: renderContent,
-      },
-      {
-        title: '数量（件）',
-        dataIndex: 'num',
-        key: 'num',
-        align: 'right',
-        render: (text, row, index) => {
-          if (index < basicGoods.length) {
-            return text;
-          }
-          return <span style={{ fontWeight: 600 }}>{text}</span>;
-        },
-      },
-      {
-        title: '金额',
-        dataIndex: 'amount',
-        key: 'amount',
-        align: 'right',
-        render: (text, row, index) => {
-          if (index < basicGoods.length) {
-            return text;
-          }
-          return <span style={{ fontWeight: 600 }}>{text}</span>;
-        },
+        title: '操作',
+        render: () => (
+          <Fragment>
+            <Button type="primary">
+              <Link to="/profile/basic">編集</Link>
+            </Button>
+            <Divider type="vertical" />
+            <Link to="/profile/basic" className={styles.logo} key="logo">
+              <Button>详细 </Button>
+            </Link>
+          </Fragment>
+        ),
       },
     ];
+
     return (
-      <PageHeaderLayout title="基础详情页">
+      <PageHeaderLayout title="ユーザー詳細情報">
         <Card bordered={false}>
-          <DescriptionList size="large" title="退款申请" style={{ marginBottom: 32 }}>
-            <Description term="取货单号">1000000000</Description>
-            <Description term="状态">已取货</Description>
-            <Description term="销售单号">1234123421</Description>
-            <Description term="子订单">3214321432</Description>
+          <DescriptionList size="large" title="ユーザー情報" style={{ marginBottom: 32 }}>
+            <Description term="利用者氏名">曲丽丽</Description>
+            <Description term="生年月日">1987-09-20</Description>
+            <Description term="性別">女</Description>
+            <Description term="電話番号">1234567893215</Description>
+            <Description term="住所">东京都江戸川区江戸川（1～3丁目、4丁目1～14番）</Description>
           </DescriptionList>
           <Divider style={{ marginBottom: 32 }} />
-          <DescriptionList size="large" title="用户信息" style={{ marginBottom: 32 }}>
-            <Description term="用户姓名">付小小</Description>
-            <Description term="联系电话">18100000000</Description>
-            <Description term="常用快递">菜鸟仓储</Description>
-            <Description term="取货地址">浙江省杭州市西湖区万塘路18号</Description>
-            <Description term="备注">无</Description>
-          </DescriptionList>
-          <Divider style={{ marginBottom: 32 }} />
-          <div className={styles.title}>退货商品</div>
+          <div className={styles.title}>計画書一覧</div>
+          <div className="main">
+            <Link to="/form/advanced-form" className={styles.logo} key="logo">
+              <Button type="primary">新規計画書</Button>
+            </Link>
+          </div>
           <Table
             style={{ marginBottom: 24 }}
             pagination={false}
@@ -168,7 +138,10 @@ export default class BasicProfile extends Component {
             columns={goodsColumns}
             rowKey="id"
           />
-          <div className={styles.title}>退货进度</div>
+          <div className={styles.title}>画像一覧</div>
+          <Link to="/form/basic-form" className={styles.logo} key="logo">
+            <Button type="primary">画像のアップロード</Button>
+          </Link>
           <Table
             style={{ marginBottom: 16 }}
             pagination={false}
@@ -177,6 +150,7 @@ export default class BasicProfile extends Component {
             columns={progressColumns}
           />
         </Card>
+        {/* <CreateForm2 {...parentMethods2} ImageUpload={ImageUpload} /> */}
       </PageHeaderLayout>
     );
   }

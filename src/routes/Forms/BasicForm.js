@@ -20,6 +20,8 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
+import { Link } from 'dva/router';
+
 @connect(({ loading }) => ({
   submitting: loading.effects['form/submitRegularForm'],
 }))
@@ -60,133 +62,52 @@ export default class BasicForms extends PureComponent {
     };
 
     return (
-      <PageHeaderLayout
-        title="基础表单"
-        content="表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。"
-      >
+      <PageHeaderLayout title="画像のアップロード" content="">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="标题">
+            <FormItem {...formItemLayout} label="アップロード者">
               {getFieldDecorator('title', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入标题',
+                    message: 'アップロード者の氏名入力してください',
                   },
                 ],
-              })(<Input placeholder="给目标起个名字" />)}
+              })(<Input placeholder="アップロード者" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="起止日期">
-              {getFieldDecorator('date', {
+            <FormItem {...formItemLayout} label="アップロード画像">
+              {getFieldDecorator('title', {
                 rules: [
                   {
                     required: true,
-                    message: '请选择起止日期',
+                    message: '画像を選択してください',
                   },
                 ],
-              })(<RangePicker style={{ width: '100%' }} placeholder={['开始日期', '结束日期']} />)}
+              })(<Input type="file" placeholder="给目标起个名字" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="目标描述">
+            <FormItem {...formItemLayout} label="画像の注釈">
               {getFieldDecorator('goal', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入目标描述',
+                    message: '性別を選択してください',
                   },
                 ],
               })(
                 <TextArea
                   style={{ minHeight: 32 }}
-                  placeholder="请输入你的阶段性工作目标"
+                  placeholder="画像の注釈入力してください"
                   rows={4}
                 />
               )}
-            </FormItem>
-            <FormItem {...formItemLayout} label="衡量标准">
-              {getFieldDecorator('standard', {
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入衡量标准',
-                  },
-                ],
-              })(<TextArea style={{ minHeight: 32 }} placeholder="请输入衡量标准" rows={4} />)}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={
-                <span>
-                  客户
-                  <em className={styles.optional}>
-                    （选填）
-                    <Tooltip title="目标的服务对象">
-                      <Icon type="info-circle-o" style={{ marginRight: 4 }} />
-                    </Tooltip>
-                  </em>
-                </span>
-              }
-            >
-              {getFieldDecorator('client')(
-                <Input placeholder="请描述你服务的客户，内部客户直接 @姓名／工号" />
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={
-                <span>
-                  邀评人<em className={styles.optional}>（选填）</em>
-                </span>
-              }
-            >
-              {getFieldDecorator('invites')(
-                <Input placeholder="请直接 @姓名／工号，最多可邀请 5 人" />
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={
-                <span>
-                  权重<em className={styles.optional}>（选填）</em>
-                </span>
-              }
-            >
-              {getFieldDecorator('weight')(<InputNumber placeholder="请输入" min={0} max={100} />)}
-              <span>%</span>
-            </FormItem>
-            <FormItem {...formItemLayout} label="目标公开" help="客户、邀评人默认被分享">
-              <div>
-                {getFieldDecorator('public', {
-                  initialValue: '1',
-                })(
-                  <Radio.Group>
-                    <Radio value="1">公开</Radio>
-                    <Radio value="2">部分公开</Radio>
-                    <Radio value="3">不公开</Radio>
-                  </Radio.Group>
-                )}
-                <FormItem style={{ marginBottom: 0 }}>
-                  {getFieldDecorator('publicUsers')(
-                    <Select
-                      mode="multiple"
-                      placeholder="公开给"
-                      style={{
-                        margin: '8px 0',
-                        display: getFieldValue('public') === '2' ? 'block' : 'none',
-                      }}
-                    >
-                      <Option value="1">同事甲</Option>
-                      <Option value="2">同事乙</Option>
-                      <Option value="3">同事丙</Option>
-                    </Select>
-                  )}
-                </FormItem>
-              </div>
             </FormItem>
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交
               </Button>
-              <Button style={{ marginLeft: 8 }}>保存</Button>
+              <Link to="/profile/basic">
+                <Button style={{ marginLeft: 8 }}>キャンセル</Button>
+              </Link>
             </FormItem>
           </Form>
         </Card>

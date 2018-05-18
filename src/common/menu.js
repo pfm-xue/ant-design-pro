@@ -1,21 +1,173 @@
 import { isUrl } from '../utils/utils';
 
 const menuData = [
+  // {
+  //   name: 'dashboard',
+  //   icon: 'dashboard',
+  //   path: 'dashboard',
+  //   children: [
+  //     {
+  //       name: '分析页',
+  //       path: 'analysis',
+  //     },
+  //     {
+  //       name: '监控页',
+  //       path: 'monitor',
+  //     },
+  //     {
+  //       name: '工作台',
+  //       path: 'workplace',
+  //       // hideInBreadcrumb: true,
+  //       // hideInMenu: true,
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: 'ユーザー詳細情報',
+  //   icon: 'form',
+  //   path: 'form',
+  //   children: [
+  //     {
+  //       name: '画像のアップロード',
+  //       path: 'basic-form',
+  //     },
+  //     {
+  //       name: '分步表单',
+  //       path: 'step-form',
+  //     },
+  //     {
+  //       name: '個別機能訓練計画書',
+  //       path: 'advanced-form',
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: '列表页',
+  //   icon: 'table',
+  //   path: 'list',
+  //   children: [
+  //     {
+  //       name: '查询表格',
+  //       path: 'table-list',
+  //     },
+  //     {
+  //       name: '标准列表',
+  //       path: 'basic-list',
+  //     },
+  //     {
+  //       name: '卡片列表',
+  //       path: 'card-list',
+  //     },
+  //     {
+  //       name: '搜索列表',
+  //       path: 'search',
+  //       children: [
+  //         {
+  //           name: '搜索列表（文章）',
+  //           path: 'articles',
+  //         },
+  //         {
+  //           name: '搜索列表（项目）',
+  //           path: 'projects',
+  //         },
+  //         {
+  //           name: '搜索列表（应用）',
+  //           path: 'applications',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: '利用者一覧',
+  //   icon: 'profile',
+  //   path: 'profile',
+  //   children: [
+  //     {
+  //       name: 'ユーザー詳細情報',
+  //       path: 'basic',
+  //     },
+  //     {
+  //       name: '高级详情页',
+  //       path: 'advanced',
+  //       authority: 'admin',
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: '结果页',
+  //   icon: 'check-circle-o',
+  //   path: 'result',
+  //   children: [
+  //     {
+  //       name: '成功',
+  //       path: 'success',
+  //     },
+  //     {
+  //       name: '失败',
+  //       path: 'fail',
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: '异常页',
+  //   icon: 'warning',
+  //   path: 'exception',
+  //   children: [
+  //     {
+  //       name: '403',
+  //       path: '403',
+  //     },
+  //     {
+  //       name: '404',
+  //       path: '404',
+  //     },
+  //     {
+  //       name: '500',
+  //       path: '500',
+  //     },
+  //     {
+  //       name: '触发异常',
+  //       path: 'trigger',
+  //       hideInMenu: true,
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: '账户',
+  //   icon: 'user',
+  //   path: 'user',
+  //   authority: 'guest',
+  //   children: [
+  //     {
+  //       name: '登录',
+  //       path: 'login',
+  //     },
+  //     {
+  //       name: '注册',
+  //       path: 'register',
+  //     },
+  //     {
+  //       name: '注册结果',
+  //       path: 'register-result',
+  //     },
+  //   ],
+  // },
   {
-    name: 'dashboard',
+    name: 'Home',
     icon: 'dashboard',
     path: 'dashboard',
     children: [
+      // {
+      //   name: '分析页',
+      //   path: 'analysis',
+      // },
+      // {
+      //   name: '监控页',
+      //   path: 'monitor',
+      // },
       {
-        name: '分析页',
-        path: 'analysis',
-      },
-      {
-        name: '监控页',
-        path: 'monitor',
-      },
-      {
-        name: '工作台',
+        name: '一覧',
         path: 'workplace',
         // hideInBreadcrumb: true,
         // hideInMenu: true,
@@ -23,134 +175,71 @@ const menuData = [
     ],
   },
   {
-    name: '表单页',
+    name: '管理者管理',
     icon: 'form',
-    path: 'form',
+    path: 'role',
     children: [
       {
-        name: '基础表单',
-        path: 'basic-form',
-      },
-      {
-        name: '分步表单',
-        path: 'step-form',
-      },
-      {
-        name: '高级表单',
-        authority: 'admin',
-        path: 'advanced-form',
+        name: '管理者一覧',
+        path: 'physician-role',
       },
     ],
   },
   {
-    name: '列表页',
-    icon: 'table',
-    path: 'list',
+    name: 'ユーザー管理',
+    icon: 'user',
+    path: 'patient',
     children: [
       {
-        name: '查询表格',
-        path: 'table-list',
+        name: '利用者一覧',
+        path: 'list-patient',
       },
+    ],
+  },
+  {
+    name: 'スケジュール管理',
+    icon: 'table',
+    path: 'schedule',
+    children: [
       {
-        name: '标准列表',
-        path: 'basic-list',
-      },
-      {
-        name: '卡片列表',
-        path: 'card-list',
-      },
-      {
-        name: '搜索列表',
-        path: 'search',
+        name: '管理者スケジュール',
+        path: 'roles',
         children: [
           {
-            name: '搜索列表（文章）',
-            path: 'articles',
+            name: '介護士',
+            path: 'admin1',
           },
           {
-            name: '搜索列表（项目）',
-            path: 'projects',
+            name: '施設内システム管理者',
+            path: 'admin2',
           },
           {
-            name: '搜索列表（应用）',
-            path: 'applications',
+            name: '看護師',
+            path: 'admin3',
+          },
+          {
+            name: '相談員',
+            path: 'admin4',
           },
         ],
       },
-    ],
-  },
-  {
-    name: '详情页',
-    icon: 'profile',
-    path: 'profile',
-    children: [
       {
-        name: '基础详情页',
-        path: 'basic',
+        name: 'ユーザースケジュール',
+        path: 'patient',
       },
       {
-        name: '高级详情页',
-        path: 'advanced',
-        authority: 'admin',
-      },
-    ],
-  },
-  {
-    name: '结果页',
-    icon: 'check-circle-o',
-    path: 'result',
-    children: [
-      {
-        name: '成功',
-        path: 'success',
-      },
-      {
-        name: '失败',
-        path: 'fail',
-      },
-    ],
-  },
-  {
-    name: '异常页',
-    icon: 'warning',
-    path: 'exception',
-    children: [
-      {
-        name: '403',
-        path: '403',
-      },
-      {
-        name: '404',
-        path: '404',
-      },
-      {
-        name: '500',
-        path: '500',
-      },
-      {
-        name: '触发异常',
-        path: 'trigger',
-        hideInMenu: true,
-      },
-    ],
-  },
-  {
-    name: '账户',
-    icon: 'user',
-    path: 'user',
-    authority: 'guest',
-    children: [
-      {
-        name: '登录',
-        path: 'login',
-      },
-      {
-        name: '注册',
-        path: 'register',
-      },
-      {
-        name: '注册结果',
-        path: 'register-result',
+        name: '設備スケジュール',
+        path: 'equipment',
+        children: [
+          {
+            name: '活動室',
+            path: 'activityroom',
+          },
+          {
+            name: '浴室',
+            path: 'shogiroom',
+          },
+        ],
       },
     ],
   },
