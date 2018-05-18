@@ -32,7 +32,7 @@ const progressColumns = [
     render: () => (
       <Fragment>
         <Button type="primary">
-          <Link to="/profile/basic">編集</Link>
+          <Link to="/form/basic-form">編集</Link>
         </Button>
         <Divider type="vertical" />
         <Link to="/profile/basic" className={styles.logo} key="logo">
@@ -102,10 +102,10 @@ export default class BasicProfile extends Component {
         render: () => (
           <Fragment>
             <Button type="primary">
-              <Link to="/profile/basic">編集</Link>
+              <Link to="/form/advanced-form">編集</Link>
             </Button>
             <Divider type="vertical" />
-            <Link to="/profile/basic" className={styles.logo} key="logo">
+            <Link to="/dashboard/monitor" className={styles.logo} key="logo">
               <Button>详细 </Button>
             </Link>
           </Fragment>
@@ -129,7 +129,7 @@ export default class BasicProfile extends Component {
             <Link to="/form/advanced-form" className={styles.logo} key="logo">
               <Button type="primary">新規計画書</Button>
             </Link>
-          </div>
+          </div>   
           <Table
             style={{ marginBottom: 24 }}
             pagination={false}

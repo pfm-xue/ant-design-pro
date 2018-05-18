@@ -1,27 +1,27 @@
 import { isUrl } from '../utils/utils';
 
 const menuData = [
-  // {
-  //   name: 'dashboard',
-  //   icon: 'dashboard',
-  //   path: 'dashboard',
-  //   children: [
-  //     {
-  //       name: '分析页',
-  //       path: 'analysis',
-  //     },
-  //     {
-  //       name: '监控页',
-  //       path: 'monitor',
-  //     },
-  //     {
-  //       name: '工作台',
-  //       path: 'workplace',
-  //       // hideInBreadcrumb: true,
-  //       // hideInMenu: true,
-  //     },
-  //   ],
-  // },
+  {
+    name: 'Home',
+    icon: 'dashboard',
+    path: 'dashboard',
+    children: [
+      // {
+      //   name: '分析页',
+      //   path: 'analysis',
+      // },
+      // {
+      //   name: '监控页',
+      //   path: 'monitor',
+      // },
+      {
+        name: '一覧',
+        path: 'workplace',
+        // hideInBreadcrumb: true,
+        // hideInMenu: true,
+      },
+    ],
+  },
   // {
   //   name: 'ユーザー詳細情報',
   //   icon: 'form',
@@ -153,27 +153,6 @@ const menuData = [
   //     },
   //   ],
   // },
-  {
-    name: 'Home',
-    icon: 'dashboard',
-    path: 'dashboard',
-    children: [
-      // {
-      //   name: '分析页',
-      //   path: 'analysis',
-      // },
-      // {
-      //   name: '监控页',
-      //   path: 'monitor',
-      // },
-      {
-        name: '一覧',
-        path: 'workplace',
-        // hideInBreadcrumb: true,
-        // hideInMenu: true,
-      },
-    ],
-  },
   {
     name: '管理者管理',
     icon: 'form',

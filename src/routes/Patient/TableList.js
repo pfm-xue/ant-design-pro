@@ -431,12 +431,12 @@ export default class TableList extends PureComponent {
               </Button>
             </div>
             <StandardTable
-              selectedRows={selectedRows}
+              selectedRows=''
               loading={loading}
               data={data}
               columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
+              // onSelectRow={this.handleSelectRows}
+              // onChange={this.handleStandardTableChange}
             />
           </div>
         </Card>
