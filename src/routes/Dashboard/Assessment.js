@@ -179,7 +179,7 @@ export default class BasicForms extends PureComponent {
               </FormItem>
           </Card>
           <Card style={{ marginBottom: 24 }}
-                title="筋力"
+                title="麻痺"
                 bordered={false}
               >
               <FormItem {...formItemLayout} label="上肢">
@@ -192,10 +192,9 @@ export default class BasicForms extends PureComponent {
                   ],
                 })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value="1">実用</Radio>
+                  <Radio value="2">補助</Radio>
+                  <Radio value="3">廃用</Radio>
                 </Radio.Group>
               )}
               </FormItem>
@@ -209,14 +208,13 @@ export default class BasicForms extends PureComponent {
                   ],
                 })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value="1">かなり動かせる</Radio>
+                  <Radio value="2">半分程度</Radio>
+                  <Radio value="3">僅かに動かせる</Radio>
                 </Radio.Group>
               )}
               </FormItem>
-              <FormItem {...formItemLayout} label="体幹">
+              <FormItem {...formItemLayout} label="手指">
                 {getFieldDecorator('title', {
                   rules: [
                     {
@@ -226,10 +224,9 @@ export default class BasicForms extends PureComponent {
                   ],
                 })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value="1">かなり動かせる</Radio>
+                  <Radio value="2">半分程度</Radio>
+                  <Radio value="3">僅かに動かせる</Radio>
                 </Radio.Group>
               )}
               </FormItem>
