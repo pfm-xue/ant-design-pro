@@ -1,12 +1,67 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Row, Col, Card, List, Avatar } from 'antd';
+import { Row, Col, Card, List, Avatar, Tabs, Button, Table, Divider,
+         Form, Input, Modal, Checkbox, Select, TimePicker, Dropdown,　Menu } from 'antd';
+
+const { TabPane } = Tabs;
+
+const FormItem = Form.Item;
+
+const { Search } = Input;
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './Workplace.less';
+
+const CreateForm1 = Form.create()(props => {
+  const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="実施記録基本情報"
+      visible={modalVisible1}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible1()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
+        {form.getFieldDecorator('user', {
+          rules: [{ required: true, message: '実施者入力してください' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
+        {form.getFieldDecorator('startTime', {
+          rules: [{ required: true, message: '请输入' }],
+        })(
+          <TimePicker
+            placeholder='実施時間(Start)'
+            style={{ width: '100%' }}
+          />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
+        {form.getFieldDecorator('endTime', {
+          rules: [{ required: true, message: '请输入' }],
+        })(
+          <TimePicker
+            placeholder='実施時間(End)'
+            style={{ width: '100%' }}
+          />)}
+    </FormItem>                         
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
+        {form.getFieldDecorator('program', {
+          rules: [{ required: true, message: '電話番号入力してください' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+    </Modal>
+  );
+});
 
 @connect(({ project, activities, chart, loading }) => ({
   project,
@@ -16,6 +71,17 @@ import styles from './Workplace.less';
   activitiesLoading: loading.effects['activities/fetchList'],
 }))
 export default class Workplace extends PureComponent {
+
+  state = {
+    modalVisible1: false,
+  };
+
+  handleModalVisible1 = flag => {
+    this.setState({
+      modalVisible1: !!flag,
+    });
+  };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -71,6 +137,8 @@ export default class Workplace extends PureComponent {
     });
   }
 
+  
+
   render() {
     const {
       project: { notice },
@@ -78,6 +146,8 @@ export default class Workplace extends PureComponent {
       activitiesLoading,
       // chart: { radarData },
     } = this.props;
+
+    const { modalVisible1 } = this.state;
 
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
@@ -111,55 +181,141 @@ export default class Workplace extends PureComponent {
       </div>
     );
 
+    const salesExtra = (
+      <div className={styles.salesExtraWrap}>
+      <Search className={styles.extraContentSearch} placeholder="Search" onSearch={() => ({})} />
+      </div>
+    );
+
+
+    const dataSource = [{
+      key: '1',
+      name: '鈴木',
+      record: 　'未実施',
+      Vital1: '36.8℃',
+      Vital2: '126/66',
+      Vital3: '68',
+      vitality: '未実施',
+      Visits: 　'未実施'
+    },
+    {
+      key: '2',
+      name: '佐々木',
+      record: 　'未実施',
+      Vital1: '',
+      Vital2: '',
+      Vital3: '',
+      vitality: '未実施',
+      Visits: 　'未実施'
+    }];
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="new">初回</Menu.Item>
+        <Menu.Item key="update">更新</Menu.Item>
+      </Menu>
+    );
+    
+    const columns = [{
+      title: '利用',
+      render: () => (
+          <Checkbox></Checkbox>
+      ),
+    },
+    {
+      title: '利用者名',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: '実施記録',
+      dataIndex: 'record',
+      key: 'record',
+      render: text => <a onClick={() => this.handleModalVisible1(true)}>{text}</a>,
+    },
+    {
+      title: 'バイタル',
+      children: [{
+        title: '体温',
+        dataIndex: 'Vital1',
+        key: 'Vital1',
+      },
+      {
+        title: '血圧',
+        dataIndex: 'Vital2',
+        key: 'Vital2',
+      },
+      {
+        title: '脈帕',
+        dataIndex: 'Vital3',
+        key: 'Vital3',
+      }],
+    },
+    {
+      title: '体力測定',
+      dataIndex: 'vitality',
+      key: 'vitality',
+    },
+    {
+      title: '居宅訪問',
+      dataIndex: 'Visits',
+      key: 'Visits',
+    },
+    {
+      title: '操作',
+      render: () => (
+        <Fragment>
+          <Dropdown overlay={menu} placement="bottomRight">
+            <Button　type="primary">アセスメント</Button>
+          </Dropdown>
+        </Fragment>
+      ),
+    }];
+
+    const parentMethods1 = {
+      handleModalVisible1: this.handleModalVisible1,
+    };
+
     return (
       <PageHeaderLayout content={pageHeaderContent} extraContent={extraContent}>
+
+      
         <Row gutter={24}>
           <Col>
-            <Card
-              className={styles.projectList}
-              style={{ marginBottom: 24 }}
-              title="実施中の項目"
-              bordered={false}
-              loading={projectLoading}
-              bodyStyle={{ padding: 0 }}
-            >
-              {notice.map(item => (
-                <Card.Grid className={styles.projectGrid} key={item.id}>
-                  <Card bodyStyle={{ padding: 0 }} bordered={false}>
-                    <Card.Meta
-                      title={
-                        <div className={styles.cardTitle}>
-                          <Avatar size="small" src={item.logo} />
-                          <Link to="/schedule/patient">{item.title}</Link>
-                        </div>
-                      }
-                      description={item.description}
-                    />
-                    <div className={styles.projectItemContent}>
-                      <Link to="/schedule/equipment/shogiroom">{item.member || ''}</Link>
-                      {item.updatedAt && (
-                        <span className={styles.datetime} title={item.updatedAt}>
-                          {moment(item.updatedAt).fromNow()}
-                        </span>
-                      )}
-                    </div>
-                  </Card>
-                </Card.Grid>
-              ))}
-            </Card>
-            <Card
-              bodyStyle={{ padding: 0 }}
-              bordered={false}
-              className={styles.activeCard}
-              title="未実施の項目"
-              loading={activitiesLoading}
-            >
-              <List loading={activitiesLoading} size="large">
-                <div className={styles.activitiesList}>{this.renderActivities()}</div>
-              </List>
+            <Card>
+              <Tabs tabBarExtraContent={salesExtra} >         
+              {/*アセスメント*/}
+              <TabPane tab="アセスメント" key="assessment">
+                <div>
+                  <Button type="primary" >今日(予定)</Button>
+                  <Divider type="vertical" />
+                  <Button type="primary" >全員</Button>   
+                  <Table dataSource={dataSource} columns={columns} />
+                </div>
+              </TabPane>
+              {/*計画書*/}
+              <TabPane tab="計画書" key="plan">
+                <div>
+                  <Button type="primary" >今日(予定)</Button>
+                  <Divider type="vertical" />
+                  <Button type="primary" >全員</Button>   
+                  <Table dataSource={dataSource} columns={columns} />
+                </div>
+              </TabPane>
+              {/*実施記録*/}
+              <TabPane tab="実施記録" key="record">
+                <div>
+                  <Button type="primary" >今日(予定)</Button>
+                  <Divider type="vertical" />
+                  <Button type="primary" >全員</Button>   
+                  <Table dataSource={dataSource} columns={columns} />
+                </div>
+              </TabPane>
+              </Tabs>
             </Card>
           </Col>
         </Row>
+        <CreateForm1 {...parentMethods1} modalVisible1={modalVisible1} />
       </PageHeaderLayout>
     );
   }
