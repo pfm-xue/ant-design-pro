@@ -211,8 +211,8 @@ export default class Workplace extends PureComponent {
 
     const menu = (
       <Menu>
-        <Menu.Item key="new">初回</Menu.Item>
-        <Menu.Item key="update">更新</Menu.Item>
+        <Menu.Item key="new"><Link to="/dashboard/assessment" >初回</Link></Menu.Item>
+        <Menu.Item key="update"><Link to="/dashboard/assessment" >更新</Link></Menu.Item>
       </Menu>
     );
     
