@@ -63,6 +63,50 @@ const CreateForm1 = Form.create()(props => {
   );
 });
 
+const CreateForm = Form.create()(props => {
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="バイタル情報"
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
+        {form.getFieldDecorator('user', {
+          rules: [{ required: true, message: '実施者入力してください' }],
+        })(<Input addonAfter="℃" placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="血圧">
+        {form.getFieldDecorator('startTime', {
+          rules: [{ required: true, message: '请输入' }],
+        })(
+          <TimePicker
+            placeholder='実施時間(Start)'
+            style={{ width: '100%' }}
+          />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="脈帕">
+        {form.getFieldDecorator('endTime', {
+          rules: [{ required: true, message: '请输入' }],
+        })(<Input placeholder="请输入" />)}
+    </FormItem>                         
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="SpO2">
+        {form.getFieldDecorator('program', {
+          rules: [{ required: true, message: '電話番号入力してください' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+    </Modal>
+  );
+});
+
 @connect(({ project, activities, chart, loading }) => ({
   project,
   activities,
@@ -74,11 +118,18 @@ export default class Workplace extends PureComponent {
 
   state = {
     modalVisible1: false,
+    modalVisible: false,
   };
 
   handleModalVisible1 = flag => {
     this.setState({
       modalVisible1: !!flag,
+    });
+  };
+
+  handleModalVisible = flag => {
+    this.setState({
+      modalVisible: !!flag,
     });
   };
 
@@ -147,7 +198,7 @@ export default class Workplace extends PureComponent {
       // chart: { radarData },
     } = this.props;
 
-    const { modalVisible1 } = this.state;
+    const { modalVisible1, modalVisible } = this.state;
 
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
@@ -226,6 +277,7 @@ export default class Workplace extends PureComponent {
       title: '利用者名',
       dataIndex: 'name',
       key: 'name',
+      render: text => <Link to="/profile/basic">{text}</Link>,
     },
     {
       title: '実施記録',
@@ -239,6 +291,7 @@ export default class Workplace extends PureComponent {
         title: '体温',
         dataIndex: 'Vital1',
         key: 'Vital1',
+        render: text => <a onClick={() => this.handleModalVisible(true)}>{text === '' ? '℃' : text}</a>,
       },
       {
         title: '血圧',
@@ -276,20 +329,22 @@ export default class Workplace extends PureComponent {
       handleModalVisible1: this.handleModalVisible1,
     };
 
+    const parentMethods = {
+      handleModalVisible: this.handleModalVisible,
+    };    
+
     return (
       <PageHeaderLayout content={pageHeaderContent} extraContent={extraContent}>
-
-      
         <Row gutter={24}>
           <Col>
             <Card>
-              <Tabs tabBarExtraContent={salesExtra} >         
+              <Tabs tabBarExtraContent={salesExtra} >
               {/*アセスメント*/}
               <TabPane tab="アセスメント" key="assessment">
                 <div>
                   <Button type="primary" >今日(予定)</Button>
                   <Divider type="vertical" />
-                  <Button type="primary" >全員</Button>   
+                  <Button type="primary" >全員</Button>
                   <Table dataSource={dataSource} columns={columns} />
                 </div>
               </TabPane>
@@ -298,7 +353,7 @@ export default class Workplace extends PureComponent {
                 <div>
                   <Button type="primary" >今日(予定)</Button>
                   <Divider type="vertical" />
-                  <Button type="primary" >全員</Button>   
+                  <Button type="primary" >全員</Button>
                   <Table dataSource={dataSource} columns={columns} />
                 </div>
               </TabPane>
@@ -307,7 +362,7 @@ export default class Workplace extends PureComponent {
                 <div>
                   <Button type="primary" >今日(予定)</Button>
                   <Divider type="vertical" />
-                  <Button type="primary" >全員</Button>   
+                  <Button type="primary" >全員</Button>
                   <Table dataSource={dataSource} columns={columns} />
                 </div>
               </TabPane>
@@ -315,6 +370,7 @@ export default class Workplace extends PureComponent {
             </Card>
           </Col>
         </Row>
+        <CreateForm {...parentMethods} modalVisible={modalVisible} />
         <CreateForm1 {...parentMethods1} modalVisible1={modalVisible1} />
       </PageHeaderLayout>
     );

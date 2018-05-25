@@ -8,7 +8,6 @@ import CountDown from 'components/CountDown';
 import ActiveChart from 'components/ActiveChart';
 import Authorized from '../../utils/Authorized';
 import styles from './Monitor.less';
-import img1 from './HBWnDEUXCnGnGrRfrpKa.png';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 const { Secured } = Authorized;
@@ -38,7 +37,6 @@ export default class Monitor extends PureComponent {
 
     return (
       <PageHeaderLayout title="計画書詳細情報">
-      <img src={img1} alt="map" />
       </PageHeaderLayout>
     );
   }

@@ -11,6 +11,9 @@ import {
   Radio,
   Icon,
   Tooltip,
+  Slider,
+  Row,
+  Col,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './style.less';
@@ -231,6 +234,241 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
           </Card>
+          <Card style={{ marginBottom: 24 }}
+                title="ADL Barthel Index"
+                bordered={false}
+              >
+          <FormItem {...formItemLayout} label="食事">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">10点</Radio>
+                  <Radio value="2">5点</Radio>
+                  <Radio value="3">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="車椅子〜ベッドへの移乗">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">15点</Radio>
+                  <Radio value="2">10点</Radio>
+                  <Radio value="3">5点</Radio>
+                  <Radio value="4">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="整容">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">5点</Radio>
+                  <Radio value="2">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="トイレ動作">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">10点</Radio>
+                  <Radio value="2">5点</Radio>
+                  <Radio value="3">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="入浴">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">5点</Radio>
+                  <Radio value="2">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="歩行">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">15点</Radio>
+                  <Radio value="2">10点</Radio>
+                  <Radio value="3">5点</Radio>
+                  <Radio value="4">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="階段昇降">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">10点</Radio>
+                  <Radio value="2">5点</Radio>
+                  <Radio value="3">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="着替え">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">10点</Radio>
+                  <Radio value="2">5点</Radio>
+                  <Radio value="3">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="排便コントロール">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">10点</Radio>
+                  <Radio value="2">5点</Radio>
+                  <Radio value="3">0点</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="合計点">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                  <Slider defaultValue={0}/>
+              )}
+              </FormItem>
+          </Card>
+          <Card style={{ marginBottom: 24 }}
+                title="家庭でのIADL"
+                bordered={false}
+              >
+              <FormItem {...formItemLayout} label="買い物">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">できる</Radio>
+                  <Radio value="2">介助でできる</Radio>
+                  <Radio value="3">できない</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="調理">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">できる</Radio>
+                  <Radio value="2">介助でできる</Radio>
+                  <Radio value="3">できない</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="掃除">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">できる</Radio>
+                  <Radio value="2">介助でできる</Radio>
+                  <Radio value="3">できない</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+              <FormItem {...formItemLayout} label="洗濯">
+                {getFieldDecorator('title', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '選択入力してください',
+                    },
+                  ],
+                })(
+                <Radio.Group>
+                  <Radio value="1">できる</Radio>
+                  <Radio value="2">介助でできる</Radio>
+                  <Radio value="3">できない</Radio>
+                </Radio.Group>
+              )}
+              </FormItem>
+          </Card>
+          <Card style={{ marginBottom: 24 }}
+                title="Short Physical Performance Battery"
+                bordered={false}
+              >                
+          </Card>          
             <FooterToolbar {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交

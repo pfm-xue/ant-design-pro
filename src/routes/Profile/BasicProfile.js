@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker } from 'antd';
+import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './BasicProfile.less';
@@ -65,10 +65,6 @@ const CreateForm1 = Form.create()(props => {
 }))
 export default class BasicProfile extends Component {
 
-  state = {
-    modalVisible1: false,
-  };
-
   handleModalVisible1 = flag => {
     this.setState({
       modalVisible1: !!flag,
@@ -81,6 +77,24 @@ export default class BasicProfile extends Component {
       type: 'profile/fetchBasic',
     });
   }
+
+  state = {
+    modalVisible1: false,
+    previewVisible: false,
+    previewImage: '',
+    fileList: [],
+  };
+
+  handleCancel = () => this.setState({ previewVisible: false })
+
+  handlePreview = (file) => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    });
+  }
+
+  handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
     const { profile, loading } = this.props;
@@ -110,6 +124,14 @@ export default class BasicProfile extends Component {
       return obj;
     };
 
+    const { previewVisible, previewImage, fileList } = this.state;
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+
     function getListData(value) {
       let listData;
       switch (value.date()) {
@@ -126,33 +148,15 @@ export default class BasicProfile extends Component {
           ]; break;
         case 15:
           listData = [
-            { type: 'warning', content: 'This is warning event' },
-            { type: 'success', content: 'This is very long usual event。。....' },
-            { type: 'error', content: 'This is error event 1.' },
-            { type: 'error', content: 'This is error event 2.' },
-            { type: 'error', content: 'This is error event 3.' },
-            { type: 'error', content: 'This is error event 4.' },
+            { type: 'error', content: ' error event 1.' },
+            { type: 'error', content: ' error event 2.' },
           ]; break;
         default:
       }
       return listData || [];
     }
     
-    function dateCellRender(value) {
-      const listData = getListData(value);
-      return (
-        <ul className="events" onClick={() => this.handleModalVisible1(true)} >
-          {
-            listData.map(item => (
-              <li key={item.content}>
-                <Badge status={item.type} text={item.content}>
-                </Badge>
-              </li>
-            ))
-          }
-        </ul>
-      );
-    }
+
     
     function getMonthData(value) {
       if (value.month() === 8) {
@@ -174,6 +178,62 @@ export default class BasicProfile extends Component {
       handleModalVisible1: this.handleModalVisible1,
     };
 
+    const onPrev = () => {
+      dispatch(routerRedux.push('/dashboard/workplace'));
+    };
+
+    function confirm() {
+      message.success('点击了确定');
+    }
+    
+    function cancel() {
+    }
+
+    function confirm(data) {
+      Modal.confirm({
+        iconType: 'bars',
+        title: '詳細情報',
+        okText: '編集',
+        cancelText: '削除',
+        maskClosable: 'false',
+        content: (
+          <div>                
+            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+              {
+                data.map(item => (
+                  <li key={item.content}>
+                    <Badge status={item.type} text={item.content}>
+                    </Badge>
+                  </li>
+                ))
+              }            
+            </Card>  
+          </div>
+        ),
+        onOk() {
+        },
+        onCancel() {
+        },
+      });
+    }
+    
+    function dateCellRender(value) {
+      const listData = getListData(value);
+      return (
+        <ul className="events">
+          <a onClick={() => confirm(listData)} >
+          {
+            listData.map(item => (
+              <li key={item.content}>
+                <Badge status={item.type} text={item.content}>
+                </Badge>
+              </li>
+            ))
+          }
+          </a>
+        </ul>
+      );
+    }
     return (
       <PageHeaderLayout title="ユーザー詳細情報">
         <Card style={{ marginBottom: 24 }} title="ユーザー情報" bordered={false} >
@@ -188,28 +248,49 @@ export default class BasicProfile extends Component {
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
          <Tabs>         
           {/*スケジュール*/}
-          <TabPane tab="スケジュール" key="assessment"> 
-            <Calendar 
-              dateCellRender={dateCellRender}
-              monthCellRender={monthCellRender}
-              />
-            </TabPane>
+          <TabPane tab="スケジュール" key="assessment">
+            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+              <Button type="primary" icon="plus" onClick={() => this.handleModalVisible1(true)} >新規</Button>
+              <br/><br/>
+                <Calendar
+                  dateCellRender={dateCellRender}
+                  monthCellRender={monthCellRender}
+                  />
+            </Card>      
+        　</TabPane>
             {/*計画書*/}
             <TabPane tab="計画書" key="plan">
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <Steps direction="vertical" >
-                <Step title="2018-07-01" description='藤野和宏  第六次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                <Step title="2018-04-01" description='藤野和宏  第五次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                <Step title="2018-01-01" description='藤野和宏  第四次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                <Step title="2017-09-01" description='第三次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>                
-                <Step title="2017-06-01" description='第二次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                <Step title="2017-03-01" description='計画書が初めて作成する。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-              </Steps>
+              <Link to="/form/advanced-form" >
+                <Button type="primary" icon="plus">新規</Button>
+              </Link>
+              <br/><br/>
+                <Steps direction="vertical" >
+                  <Step title="2018-07-01" description='藤野和宏  第六次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/profile/plan-show" ><Icon type="edit" /></Link>}/>
+                  <Step title="2018-04-01" description='藤野和宏  第五次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
+                  <Step title="2018-01-01" description='藤野和宏  第四次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
+                  <Step title="2017-09-01" description='第三次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>                
+                  <Step title="2017-06-01" description='第二次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
+                  <Step title="2017-03-01" description='計画書が初めて作成する。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
+                </Steps>
             </Card>
             </TabPane>
             {/*画像*/}
             <TabPane tab="画像" key="record">
-              {/* <Table dataSource={dataSource} columns={columns} /> */}
+            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+              <Upload
+                action="//jsonplaceholder.typicode.com/posts/"
+                listType="picture-card"
+                fileList={fileList}
+                onPreview={this.handlePreview}
+                onChange={this.handleChange}
+              >
+                {uploadButton}
+              </Upload>
+              <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                <img alt="example" style={{ width: '100%' }} src={previewImage} />
+              </Modal>
+            </Card>  
             </TabPane>
           </Tabs>
         </Card>
