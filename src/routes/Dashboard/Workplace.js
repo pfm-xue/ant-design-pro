@@ -188,8 +188,6 @@ export default class Workplace extends PureComponent {
     });
   }
 
-  
-
   render() {
     const {
       project: { notice },
@@ -247,7 +245,7 @@ export default class Workplace extends PureComponent {
       Vital2: '126/66',
       Vital3: '68',
       vitality: '未実施',
-      Visits: 　'未実施'
+      Visits: 　'未実施',
     },
     {
       key: '2',
@@ -257,7 +255,7 @@ export default class Workplace extends PureComponent {
       Vital2: '',
       Vital3: '',
       vitality: '未実施',
-      Visits: 　'未実施'
+      Visits: 　'未実施',
     }];
 
     const menu = (
@@ -266,6 +264,23 @@ export default class Workplace extends PureComponent {
         <Menu.Item key="update"><Link to="/dashboard/assessment" >更新</Link></Menu.Item>
       </Menu>
     );
+
+    const vital = [{
+      title: '体温',
+      dataIndex: 'Vital1',
+      key: 'Vital1',
+      render: text => <a onClick={() => this.handleModalVisible(true)}>{text === '' ? '℃' : text}</a>,
+    },
+    {
+      title: '血圧',
+      dataIndex: 'Vital2',
+      key: 'Vital2',
+    },
+    {
+      title: '脈帕',
+      dataIndex: 'Vital3',
+      key: 'Vital3',
+    }];
     
     const columns = [{
       title: '利用',
@@ -287,22 +302,8 @@ export default class Workplace extends PureComponent {
     },
     {
       title: 'バイタル',
-      children: [{
-        title: '体温',
-        dataIndex: 'Vital1',
-        key: 'Vital1',
-        render: text => <a onClick={() => this.handleModalVisible(true)}>{text === '' ? '℃' : text}</a>,
-      },
-      {
-        title: '血圧',
-        dataIndex: 'Vital2',
-        key: 'Vital2',
-      },
-      {
-        title: '脈帕',
-        dataIndex: 'Vital3',
-        key: 'Vital3',
-      }],
+      children: vital,
+      key: vital,
     },
     {
       title: '体力測定',

@@ -74,7 +74,7 @@ export default class BasicForms extends PureComponent {
                 bordered={false}
               >
               <FormItem {...formItemLayout} label="上肢">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('joint_arm', {
                   rules: [
                     {
                       required: true,
@@ -91,7 +91,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="下肢">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('joint_legs', {
                   rules: [
                     {
                       required: true,
@@ -108,7 +108,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="体幹">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('joint_runk', {
                   rules: [
                     {
                       required: true,
@@ -130,7 +130,7 @@ export default class BasicForms extends PureComponent {
                 bordered={false}
               >
               <FormItem {...formItemLayout} label="上肢">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('tendon_arm', {
                   rules: [
                     {
                       required: true,
@@ -147,7 +147,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="下肢">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('tendon_legs', {
                   rules: [
                     {
                       required: true,
@@ -164,7 +164,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="体幹">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('tendon_runk', {
                   rules: [
                     {
                       required: true,
@@ -186,7 +186,7 @@ export default class BasicForms extends PureComponent {
                 bordered={false}
               >
               <FormItem {...formItemLayout} label="上肢">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('paralysis_arm', {
                   rules: [
                     {
                       required: true,
@@ -202,7 +202,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="下肢">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('paralysis_legs', {
                   rules: [
                     {
                       required: true,
@@ -218,7 +218,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="手指">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('paralysis_finger', {
                   rules: [
                     {
                       required: true,
@@ -239,7 +239,7 @@ export default class BasicForms extends PureComponent {
                 bordered={false}
               >
           <FormItem {...formItemLayout} label="食事">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('meal', {
                   rules: [
                     {
                       required: true,
@@ -255,7 +255,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="車椅子〜ベッドへの移乗">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('move', {
                   rules: [
                     {
                       required: true,
@@ -272,7 +272,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="整容">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('aesthetic', {
                   rules: [
                     {
                       required: true,
@@ -287,7 +287,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="トイレ動作">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('toilet', {
                   rules: [
                     {
                       required: true,
@@ -303,7 +303,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="入浴">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('bath', {
                   rules: [
                     {
                       required: true,
@@ -335,7 +335,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="階段昇降">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('stairs', {
                   rules: [
                     {
                       required: true,
@@ -351,7 +351,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="着替え">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('change', {
                   rules: [
                     {
                       required: true,
@@ -367,7 +367,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="排便コントロール">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('defecation', {
                   rules: [
                     {
                       required: true,
@@ -383,7 +383,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="合計点">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('total', {
                   rules: [
                     {
                       required: true,
@@ -400,7 +400,7 @@ export default class BasicForms extends PureComponent {
                 bordered={false}
               >
               <FormItem {...formItemLayout} label="買い物">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('shopping', {
                   rules: [
                     {
                       required: true,
@@ -416,7 +416,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="調理">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('cook', {
                   rules: [
                     {
                       required: true,
@@ -432,7 +432,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="掃除">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('cleaning', {
                   rules: [
                     {
                       required: true,
@@ -448,7 +448,7 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
               <FormItem {...formItemLayout} label="洗濯">
-                {getFieldDecorator('title', {
+                {getFieldDecorator('washing', {
                   rules: [
                     {
                       required: true,
@@ -471,7 +471,9 @@ export default class BasicForms extends PureComponent {
           </Card>          
             <FooterToolbar {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
-                提交
+                <Link to="/dashboard/workplace">
+                  提交
+                </Link>
               </Button>
               <Link to="/profile/basic">
                 <Button style={{ marginLeft: 8 }}>キャンセル</Button>

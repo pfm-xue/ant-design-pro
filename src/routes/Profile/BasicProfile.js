@@ -137,19 +137,19 @@ export default class BasicProfile extends Component {
       switch (value.date()) {
         case 8:
           listData = [
-            { type: 'warning', content: 'This is warning event.' },
-            { type: 'success', content: 'This is usual event.' },
+            { type: 'warning', content: '屋外歩行訓練' },
+            { type: 'success', content: '浴槽を跨ぐ練習' },
           ]; break;
         case 10:
           listData = [
-            { type: 'warning', content: 'This is warning event.' },
-            { type: 'success', content: 'This is usual event.' },
-            { type: 'error', content: 'This is error event.' },
+            { type: 'warning', content: '屋外歩行訓練' },
+            { type: 'success', content: '浴槽を跨ぐ練習' },
+            { type: 'error', content: '下肢筋力訓練' },
           ]; break;
         case 15:
           listData = [
-            { type: 'error', content: ' error event 1.' },
-            { type: 'error', content: ' error event 2.' },
+            { type: 'warning', content: '屋外歩行訓練' },
+            { type: 'success', content: '浴槽を跨ぐ練習' },
           ]; break;
         default:
       }
@@ -216,7 +216,6 @@ export default class BasicProfile extends Component {
         },
       });
     }
-    
     function dateCellRender(value) {
       const listData = getListData(value);
       return (
@@ -267,7 +266,7 @@ export default class BasicProfile extends Component {
               <br/><br/>
                 <Steps direction="vertical" >
                   <Step title="2018-07-01" description='藤野和宏  第六次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/profile/plan-show" ><Icon type="edit" /></Link>}/>
-                  <Step title="2018-04-01" description='藤野和宏  第五次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
+                  <Step title="2018-04-01" description='藤野和宏  第五次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
                   <Step title="2018-01-01" description='藤野和宏  第四次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
                   <Step title="2017-09-01" description='第三次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>                
                   <Step title="2017-06-01" description='第二次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>

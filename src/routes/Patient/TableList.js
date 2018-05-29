@@ -32,17 +32,22 @@ const CreateForm = Form.create()(props => {
       onCancel={() => handleModalVisible()}
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
-        {form.getFieldDecorator('no', {
+        {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '氏名入力してください' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
+        {form.getFieldDecorator('phonetic', {
+          rules: [{ required: true, message: '氏名入力してください' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>      
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
-        {form.getFieldDecorator('description', {
+        {form.getFieldDecorator('birth', {
           rules: [{ required: true, message: '生年月日を選択してください' }],
         })(<Input type="Date" placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
-        {form.getFieldDecorator('role', {
+        {form.getFieldDecorator('sex', {
           rules: [{ required: true, message: '性別を選択してください' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -50,7 +55,7 @@ const CreateForm = Form.create()(props => {
             <Option value="1">女</Option>
           </Select>
         )}
-      </FormItem>
+      </FormItem> 
     </Modal>
   );
 });
@@ -73,17 +78,22 @@ const CreateForm1 = Form.create()(props => {
       onCancel={() => handleModalVisible1()}
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
-        {form.getFieldDecorator('no', {
+        {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '氏名入力してください' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
+        {form.getFieldDecorator('phonetic', {
+          rules: [{ required: true, message: '氏名入力してください' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>      
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
-        {form.getFieldDecorator('description', {
+        {form.getFieldDecorator('birth', {
           rules: [{ required: true, message: '生年月日を選択してください' }],
         })(<Input type="Date" placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
-        {form.getFieldDecorator('role', {
+        {form.getFieldDecorator('sex', {
           rules: [{ required: true, message: '性別を選択してください' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -91,79 +101,7 @@ const CreateForm1 = Form.create()(props => {
             <Option value="1">女</Option>
           </Select>
         )}
-      </FormItem>
-    </Modal>
-  );
-});
-
-// 利用者 图片上传
-const CreateForm2 = Form.create()(props => {
-  const { ImageUpload, form, handleAdd, handleImageUpload } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="画像のアップロード"
-      visible={ImageUpload}
-      onOk={okHandle}
-      onCancel={() => handleImageUpload()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
-        {form.getFieldDecorator('no', {
-          rules: [{ required: true, message: '氏名入力してください' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="注釈">
-        {form.getFieldDecorator('description', {
-          rules: [{ required: true, message: '生年月日を選択してください' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アップロード">
-        {form.getFieldDecorator('role', {
-          rules: [{ required: true, message: '性別を選択してください' }],
-        })(<Input type="file" placeholder="请输入" />)}
-      </FormItem>
-    </Modal>
-  );
-});
-
-// 利用者 计划作成
-const CreateForm3 = Form.create()(props => {
-  const { MakePlan, form, handleAdd, handleMakePlan } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="個別機能訓練計画書"
-      visible={MakePlan}
-      onOk={okHandle}
-      onCancel={() => handleMakePlan()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
-        {form.getFieldDecorator('no', {
-          rules: [{ required: true, message: '氏名入力してください' }],
-        })(<Input type="Date" placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
-        {form.getFieldDecorator('description', {
-          rules: [{ required: true, message: '生年月日を選択してください' }],
-        })(<Input type="Date" placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：">
-        {form.getFieldDecorator('role', {
-          rules: [{ required: true, message: '性別を選択してください' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
+      </FormItem> 
     </Modal>
   );
 });
@@ -175,8 +113,6 @@ const CreateForm3 = Form.create()(props => {
 @Form.create()
 export default class TableList extends PureComponent {
   state = {
-    MakePlan: false,
-    ImageUpload: false,
     modalVisible1: false,
     modalVisible: false,
     expandForm: false,
@@ -296,18 +232,6 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleImageUpload = flag => {
-    this.setState({
-      ImageUpload: !!flag,
-    });
-  };
-
-  handleMakePlan = flag => {
-    this.setState({
-      MakePlan: !!flag,
-    });
-  };
-
   handleAdd = fields => {
     this.props.dispatch({
       type: 'rule/add',
@@ -386,14 +310,6 @@ export default class TableList extends PureComponent {
             <Button type="primary" onClick={() => this.handleModalVisible1(true)}>
               編集
             </Button>
-            {/* <Divider type="vertical" />
-            <Button type="primary" onClick={() => this.handleMakePlan(true)}>
-              計画を立つ
-            </Button>
-            <Divider type="vertical" />
-            <Button type="primary" onClick={() => this.handleImageUpload(true)}>
-              画像のアップロード
-            </Button> */}
             <Divider type="vertical" />
             <Link to="/profile/basic" className={styles.logo} key="logo">
               <Button>详细 </Button>
@@ -410,14 +326,6 @@ export default class TableList extends PureComponent {
     const parentMethods1 = {
       handleAdd: this.handleAdd,
       handleModalVisible1: this.handleModalVisible1,
-    };
-    const parentMethods2 = {
-      handleAdd: this.handleAdd,
-      handleImageUpload: this.handleImageUpload,
-    };
-    const parentMethods3 = {
-      handleAdd: this.handleAdd,
-      handleMakePlan: this.handleMakePlan,
     };
 
     return (
@@ -442,8 +350,6 @@ export default class TableList extends PureComponent {
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
         <CreateForm1 {...parentMethods1} modalVisible1={modalVisible1} />
-        <CreateForm2 {...parentMethods2} ImageUpload={ImageUpload} />
-        <CreateForm3 {...parentMethods3} MakePlan={MakePlan} />
       </PageHeaderLayout>
     );
   }

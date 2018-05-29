@@ -12,6 +12,7 @@ import {
   Select,
   Divider,
   Popover,
+  Mention
 } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
@@ -23,6 +24,7 @@ const { TextArea } = Input;
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
+const { toString, toContentState } = Mention;
 
 const fieldLabels = {
   name: '仓库名',
@@ -130,55 +132,58 @@ class AdvancedForm extends PureComponent {
         </span>
       );
     };
+
     return (
       <PageHeaderLayout
         title="【個別機能訓練計画書】"
         content=""
         wrapperClassName={styles.advancedForm}
       >
-        <Card title="" className={styles.card} bordered={false}>
-          <Form layout="vertical" hideRequiredMark>
+        <Form layout="vertical" hideRequiredMark>
+          <Card title="" className={styles.card} bordered={false}>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('createDate', {
                     rules: [{ required: true, message: '作成日入力してください' }],
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('createLastTime', {
                     rules: [{ required: true, message: '前回作成日入力してください' }],
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('planAuthor', {
                     rules: [{ required: true, message: '計画作成者入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(
+                  <Input placeholder="请输入" />
+                  )}
                 </Form.Item>
               </Col>
             </Row>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('phonetic', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('sex', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('birth', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
@@ -187,21 +192,21 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護認定：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('certification', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('admin', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="看護：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('nursing', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
@@ -210,21 +215,21 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('nursingCare', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="機能訓練：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('functionalTraining', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="相談員：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('counselor', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
@@ -233,21 +238,21 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="氏名：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('name', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="本人の希望：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('oneselfDesire', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="家族の希望：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('familyDesire', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
@@ -256,21 +261,21 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item wrapperCol={{ span: 20 }} label="障害老人の日常生活自立度：">
-                  {getFieldDecorator('name2', {
+                  {getFieldDecorator('disorder', {
                     rules: [{ required: true, message: '请输入' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item wrapperCol={{ span: 20 }} label="認知症老人の日常生活自立度：">
-                  {getFieldDecorator('name2', {
+                  {getFieldDecorator('dementia', {
                     rules: [{ required: true, message: '请输入' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item wrapperCol={{ span: 20 }} label="病名、合併症(心疾患、吸器疾患等)：">
-                  {form.getFieldDecorator('no11', {
+                  {form.getFieldDecorator('diseaseName', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
                 </Form.Item>
@@ -278,15 +283,15 @@ class AdvancedForm extends PureComponent {
             </Row>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="運同時のリスク(血圧、不整脈、呼吸等)：">
-                  {form.getFieldDecorator('no11', {
+                <Form.Item wrapperCol={{ span: 20 }} label="運動時のリスク(血圧、不整脈、呼吸等)：">
+                  {form.getFieldDecorator('exerciseRisk', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item wrapperCol={{ span: 20 }} label="生活課題：">
-                  {form.getFieldDecorator('no11', {
+                  {form.getFieldDecorator('lifeIssues', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
                 </Form.Item>
@@ -294,22 +299,20 @@ class AdvancedForm extends PureComponent {
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item
                   wrapperCol={{ span: 20 }}
-                  label="在宅環境（生活課題に関連する在宅環境課題）："
+                  label="在宅環境(生活課題に関連する在宅環境課題)："
                 >
-                  {form.getFieldDecorator('no11', {
+                  {form.getFieldDecorator('homeEnvironment', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
                 </Form.Item>
               </Col>
             </Row>
-          </Form>
         </Card>
         <Card title="個別機能訓練加算Ⅰ" className={styles.card} bordered={false}>
-          <Form layout="vertical" hideRequiredMark>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('longTermGoals', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
@@ -323,7 +326,7 @@ class AdvancedForm extends PureComponent {
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('longTermGoalsDegree', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(
                     <Select placeholder="逹成度">
@@ -338,7 +341,7 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('shortTermGoals', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
@@ -352,7 +355,7 @@ class AdvancedForm extends PureComponent {
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('shortTermGoalsDegree', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(
                     <Select placeholder="逹成度">
@@ -371,130 +374,46 @@ class AdvancedForm extends PureComponent {
                   wrapperCol={{ span: 40 }}
                   label="①プログラム内容："
                 >
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('programContent', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="留意点：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('attention', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="頻度：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('frequency', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="時間：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('time', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 8 }} wrapperCol={{ span: 40 }} label="主な実施者：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('personLiable', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
             </Row>
-            <Row gutter={16}>
-              <Col lg={4} md={24} sm={24}>
-                <Form.Item
-                  labelCol={{ span: 20 }}
-                  wrapperCol={{ span: 40 }}
-                  label="②プログラム内容："
-                >
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="留意点：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="頻度：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="時間：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 8 }} wrapperCol={{ span: 40 }} label="主な実施者：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={4} md={24} sm={24}>
-                <Form.Item
-                  labelCol={{ span: 20 }}
-                  wrapperCol={{ span: 40 }}
-                  label="③プログラム内容："
-                >
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="留意点：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="頻度：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="時間：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 8 }} wrapperCol={{ span: 40 }} label="主な実施者：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
         </Card>
-        <Card title="個別機能訓練加算Ⅱ" className={styles.card} bordered={false}>
-          <Form layout="vertical" hideRequiredMark>
+        <Card title="個別機能訓練計画書Ⅱ" className={styles.card} bordered={false}>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('longTermGoals', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
@@ -508,7 +427,7 @@ class AdvancedForm extends PureComponent {
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('longTermGoalsDegree', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(
                     <Select placeholder="逹成度">
@@ -523,7 +442,7 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('shortTermGoals', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
@@ -537,7 +456,7 @@ class AdvancedForm extends PureComponent {
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('shortTermGoalsDegree', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(
                     <Select placeholder="逹成度">
@@ -556,124 +475,42 @@ class AdvancedForm extends PureComponent {
                   wrapperCol={{ span: 40 }}
                   label="①プログラム内容："
                 >
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('programContent', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="留意点：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('attention', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="頻度：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('frequency', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="時間：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('time', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 8 }} wrapperCol={{ span: 40 }} label="主な実施者：">
-                  {form.getFieldDecorator('no', {
+                  {form.getFieldDecorator('personLiable', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
             </Row>
-            <Row gutter={16}>
-              <Col lg={4} md={24} sm={24}>
-                <Form.Item
-                  labelCol={{ span: 20 }}
-                  wrapperCol={{ span: 40 }}
-                  label="②プログラム内容："
-                >
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="留意点：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="頻度：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="時間：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 8 }} wrapperCol={{ span: 40 }} label="主な実施者：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={4} md={24} sm={24}>
-                <Form.Item
-                  labelCol={{ span: 20 }}
-                  wrapperCol={{ span: 40 }}
-                  label="③プログラム内容："
-                >
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="留意点：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="頻度：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 40 }} label="時間：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 4 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 8 }} wrapperCol={{ span: 40 }} label="主な実施者：">
-                  {form.getFieldDecorator('no', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
-        </Card>
+          </Card>
+        </Form>
         <FooterToolbar style={{ width: this.state.width }}>
           {getErrorInfo()}
           <Button type="primary" onClick={validate} loading={submitting}>
