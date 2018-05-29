@@ -14,6 +14,7 @@ import {
   Slider,
   Row,
   Col,
+  Divider,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './style.less';
@@ -464,10 +465,85 @@ export default class BasicForms extends PureComponent {
               )}
               </FormItem>
           </Card>
-          <Card style={{ marginBottom: 24 }}
-                title="Short Physical Performance Battery"
+          <Card title="Short Physical Performance Battery"
                 bordered={false}
-              >                
+              >
+              <Divider>バランス</Divider>
+              <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+                <FormItem {...formItemLayout} label="閉脚立位">
+                  {getFieldDecorator('closedStance', {
+                    rules: [{ required: true, message: '閉脚立位入力してください', },],
+                  })(<Input placeholder="请输入" />)}
+                </FormItem>
+              </Col>
+              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="セミタンデム位">
+                  {getFieldDecorator('semiTandem', {
+                    rules: [{ required: true, message: 'セミタンデム位入力してください' }],
+                  })(<Input placeholder="请输入" />)}
+                </FormItem>
+              </Col>
+              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="タンデム位">
+                  {getFieldDecorator('tandem', {
+                    rules: [{ required: true, message: 'タンデム位入力してください' }],
+                  })(
+                  <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Divider>4ｍ　歩行テスト</Divider>
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+                <FormItem {...formItemLayout} label="補助具の使用">
+                  {getFieldDecorator('subsidize', {
+                    rules: [{ required: true, message: '閉脚立位入力してください', },],
+                  })(<Input placeholder="请输入" />)}
+                </FormItem>
+              </Col>
+              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="1回目">
+                  {getFieldDecorator('noOne', {
+                    rules: [{ required: true, message: 'セミタンデム位入力してください' }],
+                  })(<Input placeholder="请输入" />)}
+                </FormItem>
+              </Col>
+              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="2回目">
+                  {getFieldDecorator('noTwo', {
+                    rules: [{ required: true, message: 'タンデム位入力してください' }],
+                  })(
+                  <Input placeholder="请输入" />
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
+            <Divider />
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+                <FormItem {...formItemLayout} label="椅子立ち上がりテスト 5回">
+                  {getFieldDecorator('chair', {
+                    rules: [{ required: true, message: '閉脚立位入力してください', },],
+                  })(<Input placeholder="请输入" />)}
+                </FormItem>
+              </Col>
+              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="合計">
+                  {getFieldDecorator('total_Short', {
+                    rules: [{ required: true, message: 'セミタンデム位入力してください' }],
+                  })(<Slider defaultValue={0} max={12} />)}
+                </FormItem> 
+              </Col>
+              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+               <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="評価日">
+                  {getFieldDecorator('total_Short', {
+                    rules: [{ required: true, message: 'セミタンデム位入力してください' }],
+                  })(<Input type="Date" placeholder="请输入" />)}
+                </FormItem>               
+              </Col>
+            </Row>
           </Card>          
             <FooterToolbar {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>

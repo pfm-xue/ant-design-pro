@@ -82,6 +82,13 @@ const planSchema = mongoose.Schema({
     }],
   },
   specialNotes: String, // 特記事項
+  planBook: [
+    {
+      type: mongoose.Schema.Types.ObjectId,   // assessment:アセスメント
+      ref: 'Assessment',
+      index: true,
+    }
+  ],
   delete_flag: {
     type: Boolean,
     default: false,
@@ -170,9 +177,6 @@ const assessmentSchema = mongoose.Schema({
     default: false,
   },
 });
-
-
-
 
 
 const Plan = exports.Plan = mongoose.model('Plan', planSchema);
