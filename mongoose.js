@@ -178,7 +178,31 @@ const assessmentSchema = mongoose.Schema({
   },
 });
 
+// task:アセスメント
+const taskSchema = mongoose.Schema({
+  //    関連使用者
+  task_user: {
+    ref: 'User',
+    type: mongoose.Schema.Types.ObjectId,
+  },
+  //    関連管理者
+  task_admin: {
+    ref: 'Admin',
+    type: mongoose.Schema.Types.ObjectId,
+  },
+  //    関連計画書
+  task_plan: {
+    ref: 'Plan',
+    type: mongoose.Schema.Types.ObjectId,
+  },
+  date: Date,                   // 治療の時間
+  delete_flag: {
+    type: Boolean,
+    default: false,
+  },
+});
 
+const Task = exports.Task = mongoose.model('Task', taskSchema);
 const Plan = exports.Plan = mongoose.model('Plan', planSchema);
 const User = exports.User = mongoose.model('User', userSchema);
 const Admin = exports.Admin = mongoose.model('Admin', adminSchema);

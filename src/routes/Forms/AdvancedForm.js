@@ -408,6 +408,19 @@ class AdvancedForm extends PureComponent {
                 </Form.Item>
               </Col>
             </Row>
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+              </Col>
+              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+              </Col>
+              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('programAdded', {
+                    rules: [{ required: true, message: 'ふりがな入力してください' }],
+                  })(<Input placeholder="请输入" />)}
+                </Form.Item>
+              </Col>
+            </Row>            
         </Card>
         <Card title="個別機能訓練計画書Ⅱ" className={styles.card} bordered={false}>
             <Row gutter={16}>
@@ -420,7 +433,7 @@ class AdvancedForm extends PureComponent {
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item>
-                  {getFieldDecorator('url2', {
+                  {form.getFieldDecorator('url2', {
                     rules: [{ required: true, message: '请选择' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
@@ -449,7 +462,7 @@ class AdvancedForm extends PureComponent {
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item>
-                  {getFieldDecorator('url2', {
+                  {form.getFieldDecorator('url2', {
                     rules: [{ required: true, message: '请选择' }],
                   })(<Input placeholder="请输入" />)}
                 </Form.Item>
@@ -509,6 +522,19 @@ class AdvancedForm extends PureComponent {
                 </Form.Item>
               </Col>
             </Row>
+            <Row gutter={16}>
+              <Col lg={6} md={12} sm={24}>
+              </Col>
+              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+              </Col>
+              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('programPlan', {
+                    rules: [{ required: true, message: 'ふりがな入力してください' }],
+                  })(<Input placeholder="请输入" />)}
+                </Form.Item>
+              </Col>
+            </Row>             
           </Card>
         </Form>
         <FooterToolbar style={{ width: this.state.width }}>

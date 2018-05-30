@@ -215,6 +215,10 @@ export const getRouterData = app => {
     '/profile/plan-show': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile1')),
     },
+
+    '/role/physician-show': {
+      component: dynamicWrapper(app, ['role'], () => import('../routes/Role/BasicProfile')),
+    },
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

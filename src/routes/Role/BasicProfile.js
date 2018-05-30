@@ -87,18 +87,18 @@ export default class BasicProfile extends Component {
     function getListData(value) {
       let listData;
       switch (value.date()) {
-        case 8:
+        case 1:
           listData = [
             { type: 'warning', content: '屋外歩行訓練' },
             { type: 'success', content: '浴槽を跨ぐ練習' },
           ]; break;
-        case 10:
+        case 2:
           listData = [
             { type: 'warning', content: '屋外歩行訓練' },
             { type: 'success', content: '浴槽を跨ぐ練習' },
             { type: 'error', content: '下肢筋力訓練' },
           ]; break;
-        case 15:
+        case 30:
           listData = [
             { type: 'warning', content: '屋外歩行訓練' },
             { type: 'success', content: '浴槽を跨ぐ練習' },
@@ -234,62 +234,44 @@ export default class BasicProfile extends Component {
     });
   
     return (
-      <PageHeaderLayout title="使用者詳細情報">
-        <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
+      <PageHeaderLayout title="管理者詳細情報">
+        <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false} >
           <DescriptionList size="large" title="" style={{ marginBottom: 32 }}>
-            <Description term="利用者氏名">曲丽丽</Description>
-            <Description term="生年月日">1987-09-20</Description>
+            <Description term="管理者氏名">曲丽丽</Description>
+            <Description term="電話番号">15541188563</Description>
             <Description term="性別">女</Description>
-            <Description term="電話番号">1234567893215</Description>
-            <Description term="住所">东京都江戸川区江戸川（1～3丁目、4丁目1～14番）</Description>
+            <Description term="role">介護士、看護師</Description>
           </DescriptionList>
         </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
-         <Tabs>         
-          {/*スケジュール*/}
-          <TabPane tab="スケジュール" key="assessment">
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <Button type="primary" icon="plus" onClick={() => this.handleModalVisible1(true)} >新規</Button>
-              <br/><br/>
-                <Calendar
-                  dateCellRender={dateCellRender}
-                  monthCellRender={monthCellRender}
-                />
-            </Card>      
-        　</TabPane>
-            {/*計画書*/}
-            <TabPane tab="計画書" key="plan">
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <Link to="/form/advanced-form" >
-                <Button type="primary" icon="plus">新規</Button>
-              </Link>
-              <br/><br/>
-                <Steps direction="vertical" >
-                  <Step title="2018-07-01" description='藤野和宏  第六次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/profile/plan-show" ><Icon type="edit" /></Link>}/>
-                  <Step title="2018-04-01" description='藤野和宏  第五次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                  <Step title="2018-01-01" description='藤野和宏  第四次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                  <Step title="2017-09-01" description='第三次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>                
-                  <Step title="2017-06-01" description='第二次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                  <Step title="2017-03-01" description='計画書が初めて作成する。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                </Steps>
-            </Card>
-            </TabPane>
+          <Tabs>         
+            {/*スケジュール*/}
+            <TabPane tab="スケジュール" key="assessment">
+              <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible1(true)} >新規</Button>
+                <br/><br/>
+                  <Calendar
+                    dateCellRender={dateCellRender}
+                    monthCellRender={monthCellRender}
+                  />
+              </Card>      
+          　</TabPane>
             {/*画像*/}
             <TabPane tab="画像" key="record">
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={this.handlePreview}
-                onChange={this.handleChange}
-              >
-                {uploadButton}
-              </Upload>
-              <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                <img alt="example" style={{ width: '100%' }} src={previewImage} />
-              </Modal>
-            </Card>  
+              <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+                <Upload
+                  action="//jsonplaceholder.typicode.com/posts/"
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={this.handlePreview}
+                  onChange={this.handleChange}
+                >
+                  {uploadButton}
+                </Upload>
+                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                  <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+              </Card>  
             </TabPane>
           </Tabs>
         </Card>

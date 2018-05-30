@@ -3,7 +3,8 @@ import moment from 'moment';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Row, Col, Card, List, Avatar, Tabs, Button, Table, Divider,
-         Form, Input, Modal, Checkbox, Select, TimePicker, Dropdown,　Menu } from 'antd';
+         Form, Input, Modal, Checkbox, Select, TimePicker, Dropdown,
+         Menu, Switch, DatePicker } from 'antd';
 
 const { TabPane } = Tabs;
 
@@ -119,6 +120,54 @@ export default class Workplace extends PureComponent {
   state = {
     modalVisible1: false,
     modalVisible: false,
+    date: '',
+    data: [{
+      key: '1',
+      name: '鈴木',
+      record: 　'実施',
+      Vital1: '36.8℃',
+      Vital2: '126/66',
+      Vital3: '68',
+      time: '2018-05-29 13:00',
+      vitality: '実施',
+      Visits: 　'実施',
+    },{
+      key: '2',
+      name: '佐々木',
+      record: 　'未実施',
+      Vital1: '',
+      Vital2: '',
+      Vital3: '',
+      vitality: '未実施',
+      Visits: 　'未実施',
+    },{
+      key: '3',
+      name: '下口 敏輝',
+      record: 　'未実施',
+      Vital1: '',
+      Vital2: '',
+      Vital3: '',
+      vitality: '未実施',
+      Visits: 　'未実施',
+    },{
+      key: '4',
+      name: '鈴木 直哉',
+      record: 　'未実施',
+      Vital1: '',
+      Vital2: '',
+      Vital3: '',
+      vitality: '未実施',
+      Visits: 　'未実施',
+    },{
+      key: '5',
+      name: ' 岡崎 宏典',
+      record: 　'未実施',
+      Vital1: '',
+      Vital2: '',
+      Vital3: '',
+      vitality: '未実施',
+      Visits: 　'未実施',
+    }],
   };
 
   handleModalVisible1 = flag => {
@@ -188,6 +237,80 @@ export default class Workplace extends PureComponent {
     });
   }
 
+  toggle = () => {
+    this.setState({
+      date: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+    });
+  }
+
+  yesterday = () => {
+    this.setState({
+      data:[{
+        key: '1',
+        name: '鈴木',
+        record: 　'実施',
+        Vital1: '36.8℃',
+        Vital2: '126/66',
+        Vital3: '68',
+        time: '2018-05-29 13:00',
+        vitality: '実施',
+        Visits: 　'実施',
+      }],
+    });
+  }
+
+  today = () => {
+    this.setState({
+      data:[{
+        key: '2',
+        name: '佐々木',
+        record: 　'未実施',
+        Vital1: '',
+        Vital2: '',
+        Vital3: '',
+        time: '',
+        vitality: '未実施',
+        Visits: 　'未実施',
+      },{
+        key: '3',
+        name: '下口 敏輝',
+        record: 　'未実施',
+        Vital1: '',
+        Vital2: '',
+        Vital3: '',
+        time: '',
+        vitality: '未実施',
+        Visits: 　'未実施',
+      }],
+    });
+  }
+
+  tomorrow = () => {
+    this.setState({
+      data:[{
+        key: '4',
+        name: '鈴木 直哉',
+        record: 　'未実施',
+        Vital1: '',
+        Vital2: '',
+        Vital3: '',
+        time: '',
+        vitality: '未実施',
+        Visits: 　'未実施',
+      },{
+        key: '5',
+        name: ' 岡崎 宏典',
+        record: 　'未実施',
+        Vital1: '',
+        Vital2: '',
+        Vital3: '',
+        time: '',
+        vitality: '未実施',
+        Visits: 　'未実施',
+      }],
+    });
+  }
+
   render() {
     const {
       project: { notice },
@@ -196,7 +319,7 @@ export default class Workplace extends PureComponent {
       // chart: { radarData },
     } = this.props;
 
-    const { modalVisible1, modalVisible } = this.state;
+    const { modalVisible1, modalVisible, date } = this.state;
 
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
@@ -236,27 +359,7 @@ export default class Workplace extends PureComponent {
       </div>
     );
 
-
-    const dataSource = [{
-      key: '1',
-      name: '鈴木',
-      record: 　'未実施',
-      Vital1: '36.8℃',
-      Vital2: '126/66',
-      Vital3: '68',
-      vitality: '未実施',
-      Visits: 　'未実施',
-    },
-    {
-      key: '2',
-      name: '佐々木',
-      record: 　'未実施',
-      Vital1: '',
-      Vital2: '',
-      Vital3: '',
-      vitality: '未実施',
-      Visits: 　'未実施',
-    }];
+    const dateFormat = 'YYYY-MM-DD HH:mm';
 
     const menu = (
       <Menu>
@@ -264,24 +367,14 @@ export default class Workplace extends PureComponent {
         <Menu.Item key="update"><Link to="/dashboard/assessment" >更新</Link></Menu.Item>
       </Menu>
     );
+    const dateList = (
+      <Menu>
+        <Menu.Item key="yesterday" onClick={this.yesterday}>昨日</Menu.Item>
+        <Menu.Item key="today" onClick={this.today}>今日</Menu.Item>
+        <Menu.Item key="tomorrow" onClick={this.tomorrow}>明日</Menu.Item>
+      </Menu>
+    );    
 
-    const vital = [{
-      title: '体温',
-      dataIndex: 'Vital1',
-      key: 'Vital1',
-      render: text => <a onClick={() => this.handleModalVisible(true)}>{text === '' ? '℃' : text}</a>,
-    },
-    {
-      title: '血圧',
-      dataIndex: 'Vital2',
-      key: 'Vital2',
-    },
-    {
-      title: '脈帕',
-      dataIndex: 'Vital3',
-      key: 'Vital3',
-    }];
-    
     const columns = [{
       title: '利用',
       render: () => (
@@ -289,7 +382,19 @@ export default class Workplace extends PureComponent {
       ),
     },
     {
-      title: '利用者名',
+      title: '到着時間',
+      dataIndex: 'time',
+      key: 'time',
+      render: () => (
+        <Fragment>
+          {this.state.date}
+          <Divider type="vertical" />
+          <Button type="primary" size="small" onClick={this.toggle}>到着</Button>
+        </Fragment>
+      ),
+    },    
+    {
+      title: '利用者氏名',
       dataIndex: 'name',
       key: 'name',
       render: text => <Link to="/profile/basic">{text}</Link>,
@@ -302,13 +407,35 @@ export default class Workplace extends PureComponent {
     },
     {
       title: 'バイタル',
-      children: vital,
-      key: vital,
+      children: [{
+        title: '体温',
+        dataIndex: 'Vital1',
+        key: 'Vital1',
+      },{
+        title: '血圧',
+        dataIndex: 'Vital2',
+        key: 'Vital2',
+      },{
+        title: '脈帕',
+        dataIndex: 'Vital3',
+        key: 'Vital3',
+      },{
+        title: '',
+        render: text => <a onClick={() => this.handleModalVisible(true)}><Button size="small" icon="edit" ></Button></a>,
+      }],
     },
     {
       title: '体力測定',
       dataIndex: 'vitality',
       key: 'vitality',
+      filters: [{
+        text: '未実施',
+        value: '未実施',
+      }, {
+        text: '実施',
+        value: '実施',
+      }],
+      onFilter: (value, record) => record.vitality.indexOf(value) === 0,    
     },
     {
       title: '居宅訪問',
@@ -332,7 +459,7 @@ export default class Workplace extends PureComponent {
 
     const parentMethods = {
       handleModalVisible: this.handleModalVisible,
-    };    
+    };
 
     return (
       <PageHeaderLayout content={pageHeaderContent} extraContent={extraContent}>
@@ -343,28 +470,34 @@ export default class Workplace extends PureComponent {
               {/*アセスメント*/}
               <TabPane tab="アセスメント" key="assessment">
                 <div>
-                  <Button type="primary" >今日(予定)</Button>
-                  <Divider type="vertical" />
-                  <Button type="primary" >全員</Button>
-                  <Table dataSource={dataSource} columns={columns} />
+                  <Dropdown overlay={dateList} placement="bottomRight">
+                    <Button type="primary" >時間(予定)</Button>
+                  </Dropdown>
+                  {/* <Divider type="vertical" />
+                  <Button type="primary" >全員</Button> */}
+                  <Table dataSource={this.state.data} columns={columns} />
                 </div>
               </TabPane>
               {/*計画書*/}
               <TabPane tab="計画書" key="plan">
                 <div>
-                  <Button type="primary" >今日(予定)</Button>
-                  <Divider type="vertical" />
-                  <Button type="primary" >全員</Button>
-                  <Table dataSource={dataSource} columns={columns} />
+                  <Dropdown overlay={dateList} placement="bottomRight">
+                    <Button type="primary" >時間(予定)</Button>
+                  </Dropdown>
+                  {/* <Divider type="vertical" />
+                  <Button type="primary" >全員</Button> */}
+                  <Table dataSource={this.state.data} columns={columns} />
                 </div>
               </TabPane>
               {/*実施記録*/}
               <TabPane tab="実施記録" key="record">
                 <div>
-                  <Button type="primary" >今日(予定)</Button>
-                  <Divider type="vertical" />
-                  <Button type="primary" >全員</Button>
-                  <Table dataSource={dataSource} columns={columns} />
+                  <Dropdown overlay={dateList} placement="bottomRight">
+                    <Button type="primary" >時間(予定)</Button>
+                  </Dropdown>
+                  {/* <Divider type="vertical" />
+                  <Button type="primary" >全員</Button> */}
+                  <Table dataSource={this.state.data} columns={columns} />
                 </div>
               </TabPane>
               </Tabs>

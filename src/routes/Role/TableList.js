@@ -1,8 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Select, Button, Modal, message } from 'antd';
+import { Row, Col, Card, Form, Input, Select, Button, Modal, message, Divider } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+
+import { Link } from 'dva/router';
 
 import styles from './TableList.less';
 
@@ -323,6 +325,10 @@ export default class TableList extends PureComponent {
             <Button type="primary" onClick={() => this.handleModalVisible1(true)}>
               編集
             </Button>
+            <Divider type="vertical" />
+            <Link to="/role/physician-show">
+              <Button>详细 </Button>
+            </Link>            
           </Fragment>
         ),
       },

@@ -162,6 +162,10 @@ const menuData = [
         name: '管理者一覧',
         path: 'physician-role',
       },
+      // {
+      //   name: '管理者情報',
+      //   path: 'physician-show',
+      // }
     ],
   },
   {
