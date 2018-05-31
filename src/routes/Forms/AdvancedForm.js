@@ -1,19 +1,6 @@
 import React, { PureComponent } from 'react';
-import {
-  Card,
-  Button,
-  Form,
-  Icon,
-  Col,
-  Row,
-  DatePicker,
-  TimePicker,
-  Input,
-  Select,
-  Divider,
-  Popover,
-  Mention
-} from 'antd';
+import { Card, Button, Form, Icon, Col, Row, DatePicker, TimePicker, Input,
+         Select, Divider, Popover, Mention } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -160,9 +147,7 @@ class AdvancedForm extends PureComponent {
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：">
                   {form.getFieldDecorator('planAuthor', {
                     rules: [{ required: true, message: '計画作成者入力してください' }],
-                  })(
-                  <Input placeholder="请输入" />
-                  )}
+                  })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
             </Row>

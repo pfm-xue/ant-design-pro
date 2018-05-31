@@ -38,6 +38,10 @@ const planSchema = mongoose.Schema({
   // sex: Number, // 性別
   // birth: Date, // 生年月日
   // name: String, // 氏名
+  user: {
+    ref: 'User',
+    type: mongoose.Schema.Types.ObjectId,
+  },  
 
   certification: String, // 介護認定
   admin: String,  // 管理者
@@ -126,13 +130,11 @@ const userSchema = mongoose.Schema({
   phonetic: String, // ふりがな
   sex: Number, // 性別
   birth: Date, // 生年月日
-  planBook: [
-    {
+  planBook: [{
       type: mongoose.Schema.Types.ObjectId,   // 個別機能訓綶計画
       ref: 'Plan',
       index: true,
-    }
-  ],
+    }],
   image:[
     String,     // 画像
   ],
@@ -178,8 +180,10 @@ const assessmentSchema = mongoose.Schema({
   },
 });
 
-// task:アセスメント
+// task:タスク
 const taskSchema = mongoose.Schema({
+  executeTime: Date,            // 実行時間
+  arrivalTime: Date,            // 到着時間
   //    関連使用者
   task_user: {
     ref: 'User',
@@ -195,7 +199,30 @@ const taskSchema = mongoose.Schema({
     ref: 'Plan',
     type: mongoose.Schema.Types.ObjectId,
   },
-  date: Date,                   // 治療の時間
+  // 実施記録
+  recording: {
+    // 実施者
+    implement_admin: {
+      ref: 'Admin',
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    startTime: Date,　     // StartTime
+    endTime: Date,　     // EndTime
+    program: String,　       // プログラム
+  },
+  // バイタル
+  vital: {
+    vital1: String,　     // 体温
+    vital2: String,　     // 血圧
+    vital3: String,　     // 脈帕
+    spO2: String,　       // SpO2
+  },
+  // 体力測定
+  determine: {
+    determine1: String,　     // 体温
+    determine2: String,　     // 血圧
+
+  },
   delete_flag: {
     type: Boolean,
     default: false,
