@@ -219,9 +219,8 @@ const taskSchema = mongoose.Schema({
   },
   // 体力測定
   determine: {
-    determine1: String,　     // 体温
-    determine2: String,　     // 血圧
-
+    determine1: String,
+    determine2: String,
   },
   delete_flag: {
     type: Boolean,

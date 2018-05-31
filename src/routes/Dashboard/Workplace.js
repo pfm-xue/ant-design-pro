@@ -420,7 +420,7 @@ export default class Workplace extends PureComponent {
         dataIndex: 'Vital3',
         key: 'Vital3',
       },{
-        title: '',
+        title: '操作',
         render: text => <a onClick={() => this.handleModalVisible(true)}><Button size="small" icon="edit" ></Button></a>,
       }],
     },
