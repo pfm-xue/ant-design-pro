@@ -216,6 +216,10 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile1')),
     },
 
+    '/profile/plan-printing': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile2')),
+    },
+
     '/role/physician-show': {
       component: dynamicWrapper(app, ['role'], () => import('../routes/Role/BasicProfile')),
     },

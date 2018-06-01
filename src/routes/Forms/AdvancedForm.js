@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Card, Button, Form, Icon, Col, Row, DatePicker, TimePicker, Input,
-         Select, Divider, Popover, Mention } from 'antd';
+         Select, Divider, Popover, Mention, Slider } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -11,7 +11,8 @@ const { TextArea } = Input;
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
-const { toString, toContentState } = Mention;
+
+const { toContentState, getMentions } = Mention;
 
 const fieldLabels = {
   name: '仓库名',
@@ -28,31 +29,49 @@ const fieldLabels = {
   type2: '任务类型',
 };
 
-const tableData = [
-  {
-    key: '1',
-    workId: '00001',
-    name: 'John Brown',
-    department: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    workId: '00002',
-    name: 'Jim Green',
-    department: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    workId: '00003',
-    name: 'Joe Black',
-    department: 'Sidney No. 1 Lake Park',
-  },
-];
+const disorderList = {
+  0: '正常',
+  1: 'J1',
+  2: 'J2',
+  3: 'A1',
+  4: 'A2',
+  5: 'B1',
+  6: 'B2',
+  7: 'C1',
+  8: 'C2',
+};
+const dementiaList = {
+  0: '正常',
+  1: 'Ⅰ',
+  2: 'Ⅱa',
+  3: 'Ⅱb',
+  4: 'Ⅲa',
+  5: 'Ⅲb',
+  6: 'ⅣM',
+};
 
 class AdvancedForm extends PureComponent {
   state = {
     width: '100%',
   };
+
+  // test123
+  handleReset = (e) => {
+    e.preventDefault();
+    this.props.form.resetFields();
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((errors, values) => {
+      if (errors) {
+        console.log('Errors in form!!!');
+        return;
+      }
+      console.log('Submit!!!');
+      console.log(values);
+    });
+  }
+
   componentDidMount() {
     window.addEventListener('resize', this.resizeFooterToolbar);
   }
@@ -119,6 +138,9 @@ class AdvancedForm extends PureComponent {
         </span>
       );
     };
+    // test123
+    const { getFieldValue } = this.props.form;
+    console.log('>> render', getFieldValue('mention') === this.state.initValue);
 
     return (
       <PageHeaderLayout
@@ -144,11 +166,11 @@ class AdvancedForm extends PureComponent {
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：">
-                  {form.getFieldDecorator('planAuthor', {
+                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：" >
+                  {form.getFieldDecorator('mention', {
                     rules: [{ required: true, message: '計画作成者入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
+                  })(<Mention suggestions={['下口']}/>)}
+                </Form.Item>                
               </Col>
             </Row>
             <Row gutter={16}>
@@ -248,47 +270,44 @@ class AdvancedForm extends PureComponent {
                 <Form.Item wrapperCol={{ span: 20 }} label="障害老人の日常生活自立度：">
                   {getFieldDecorator('disorder', {
                     rules: [{ required: true, message: '请输入' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Slider marks={disorderList} max={8} step={null} defaultValue={0} />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item wrapperCol={{ span: 20 }} label="認知症老人の日常生活自立度：">
                   {getFieldDecorator('dementia', {
                     rules: [{ required: true, message: '请输入' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Slider marks={dementiaList} max={6} step={null} defaultValue={0} />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="病名、合併症(心疾患、吸器疾患等)：">
+                <Form.Item wrapperCol={{ span: 20 }} label="病名、合併症(心疾患、吸器疾患等)：" >
                   {form.getFieldDecorator('diseaseName', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
-                </Form.Item>
+                    rules: [{ required: true, message: '入力してください' }],
+                  })(<Mention multiLines suggestions={['生活課題']}/>)}
+                </Form.Item>                     
               </Col>
             </Row>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="運動時のリスク(血圧、不整脈、呼吸等)：">
+                <Form.Item wrapperCol={{ span: 20 }} label="運動時のリスク(血圧、不整脈、呼吸等)：" >
                   {form.getFieldDecorator('exerciseRisk', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
+                    rules: [{ required: true, message: '入力してください' }],
+                  })(<Mention multiLines suggestions={['生活課題']}/>)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="生活課題：">
+                <Form.Item wrapperCol={{ span: 20 }} label="生活課題：" >
                   {form.getFieldDecorator('lifeIssues', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
-                </Form.Item>
+                    rules: [{ required: true, message: '入力してください' }],
+                  })(<Mention multiLines suggestions={['生活課題']}/>)}
+                </Form.Item>                    
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item
-                  wrapperCol={{ span: 20 }}
-                  label="在宅環境(生活課題に関連する在宅環境課題)："
-                >
+                <Form.Item wrapperCol={{ span: 20 }} label="在宅環境(生活課題に関連する在宅環境課題)：" >
                   {form.getFieldDecorator('homeEnvironment', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<TextArea style={{ minHeight: 32 }} placeholder="请输入" rows={4} />)}
+                    rules: [{ required: true, message: '入力してください' }],
+                  })(<Mention multiLines suggestions={['生活課題']}/>)}
                 </Form.Item>
               </Col>
             </Row>
@@ -520,7 +539,7 @@ class AdvancedForm extends PureComponent {
                 </Form.Item>
               </Col>
             </Row>             
-          </Card>
+          </Card>      
         </Form>
         <FooterToolbar style={{ width: this.state.width }}>
           {getErrorInfo()}

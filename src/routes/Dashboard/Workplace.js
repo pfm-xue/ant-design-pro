@@ -386,10 +386,8 @@ export default class Workplace extends PureComponent {
       dataIndex: 'time',
       key: 'time',
       render: () => (
-        <Fragment>
-          {this.state.date}
-          <Divider type="vertical" />
-          <Button type="primary" size="small" onClick={this.toggle}>到着</Button>
+        <Fragment>          
+          {!this.state.date ? <Button type="primary" size="small" onClick={this.toggle}>未到着</Button> : this.state.date }
         </Fragment>
       ),
     },    

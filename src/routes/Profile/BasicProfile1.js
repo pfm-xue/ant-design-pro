@@ -40,39 +40,37 @@ export default class BasicProfile extends Component {
             削除
         </Button>
         <Divider type="vertical" />
-        <Button type="primary" icon="printer" >
-            プレビュー
-        </Button>
+        <Link to="/profile/plan-printing"><Button type="primary" icon="printer" >プレビュー</Button></Link>
         </Card>
         <Row>
           <Col>
             <Card style={{ marginBottom: 24 }} title="個人情報" bordered={false} >
               <Row>
                 <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                <p><b>作成日:</b>{parameter}</p>
-                <p><b>前回作成日:</b>{parameter}</p>
-                <p><b>計画作成者:</b>{parameter}</p>
-                <p><b>ふりがな:</b>{parameter}</p>
-                <p><b>性別:</b>{parameter}</p>
-                <p><b>生年月日:</b>{parameter}</p>
-                <p><b>介護認定:</b>{parameter}</p>
-                <p><b>管理者:</b>{parameter}</p>
-                <p><b>看護:</b>{parameter}</p>
-                <p><b>介護:</b>{parameter}</p>
-                <p><b>機能訓練:</b>{parameter}</p>
+                  <p><b>作成日:</b>{parameter}</p>
+                  <p><b>前回作成日:</b>{parameter}</p>
+                  <p><b>計画作成者:</b>{parameter}</p>
+                  <p><b>ふりがな:</b>{parameter}</p>
+                  <p><b>性別:</b>{parameter}</p>
+                  <p><b>生年月日:</b>{parameter}</p>
+                  <p><b>介護認定:</b>{parameter}</p>
+                  <p><b>管理者:</b>{parameter}</p>
+                  <p><b>看護:</b>{parameter}</p>
+                  <p><b>介護:</b>{parameter}</p>
+                  <p><b>機能訓練:</b>{parameter}</p>
                 </Col>
                 <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                <p><b>相談員:</b>{parameter}</p>
-                <p><b>氏名:</b>{parameter}</p>
-                <p><b>本人の希望:</b>{parameter}</p>
-                <p><b>家族の希望:</b>{parameter}</p>
-                <p><b>前回作成日:</b>{parameter}</p>
-                <p><b>計画作成者:</b>{parameter}</p>
-                <p><b>障害老人の日常生活自立度:</b>{parameter}</p>
-                <p><b>認知症老人の日常生活自立度:</b>{parameter}</p>
-                <p><b>運同時のリスク(血圧、不整脈、呼吸等):</b>{parameter}</p>
-                <p><b>生活課題:</b>{parameter}</p>
-                <p><b>在宅環境(生活課題に関連する在宅環境課題):</b>{parameter}</p>
+                  <p><b>相談員:</b>{parameter}</p>
+                  <p><b>氏名:</b>{parameter}</p>
+                  <p><b>本人の希望:</b>{parameter}</p>
+                  <p><b>家族の希望:</b>{parameter}</p>
+                  <p><b>前回作成日:</b>{parameter}</p>
+                  <p><b>計画作成者:</b>{parameter}</p>
+                  <p><b>障害老人の日常生活自立度:</b>{parameter}</p>
+                  <p><b>認知症老人の日常生活自立度:</b>{parameter}</p>
+                  <p><b>運動時のリスク(血圧、不整脈、呼吸等):</b>{parameter}</p>
+                  <p><b>生活課題:</b>{parameter}</p>
+                  <p><b>在宅環境(生活課題に関連する在宅環境課題):</b>{parameter}</p>
                 </Col>
               </Row>
             </Card>
