@@ -185,45 +185,45 @@ const menuData = [
     path: 'schedule',
     children: [
       {
-        name: '管理者スケジュール',
+        name: '管理者',
         path: 'roles',
-        children: [
-          {
-            name: '介護士',
-            path: 'admin1',
-          },
-          {
-            name: '施設内システム管理者',
-            path: 'admin2',
-          },
-          {
-            name: '看護師',
-            path: 'admin3',
-          },
-          {
-            name: '相談員',
-            path: 'admin4',
-          },
-        ],
+        // children: [
+        //   {
+        //     name: '介護士',
+        //     path: 'admin1',
+        //   },
+        //   {
+        //     name: '施設内システム管理者',
+        //     path: 'admin2',
+        //   },
+        //   {
+        //     name: '看護師',
+        //     path: 'admin3',
+        //   },
+        //   {
+        //     name: '相談員',
+        //     path: 'admin4',
+        //   },
+        // ],
       },
       {
-        name: 'ユーザースケジュール',
+        name: '使用者',
         path: 'patient',
       },
-      {
-        name: '設備スケジュール',
-        path: 'equipment',
-        children: [
-          {
-            name: '活動室',
-            path: 'activityroom',
-          },
-          {
-            name: '浴室',
-            path: 'shogiroom',
-          },
-        ],
-      },
+      // {
+      //   name: '設備スケジュール',
+      //   path: 'equipment',
+      //   children: [
+      //     {
+      //       name: '活動室',
+      //       path: 'activityroom',
+      //     },
+      //     {
+      //       name: '浴室',
+      //       path: 'shogiroom',
+      //     },
+      //   ],
+      // },
     ],
   },
 ];

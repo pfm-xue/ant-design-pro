@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
+import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker, message, Popconfirm, Upload, DatePicker } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './BasicProfile.less';
 import StandardTable from 'components/StandardTable';
 const { Description } = DescriptionList;
+import moment from 'moment';
 import { Link } from 'dva/router';
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -16,6 +17,13 @@ const { Step } = Steps;
   loading: loading.effects['profile/fetchBasic'],
 }))
 export default class BasicProfile extends Component {
+
+  state = {
+    modalVisible1: false,
+    previewVisible: false,
+    previewImage: '',
+    fileList: [],
+  };
 
   handleModalVisible1 = flag => {
     this.setState({
@@ -30,12 +38,6 @@ export default class BasicProfile extends Component {
     });
   }
 
-  state = {
-    modalVisible1: false,
-    previewVisible: false,
-    previewImage: '',
-    fileList: [],
-  };
 
   handleCancel = () => this.setState({ previewVisible: false })
 
@@ -51,7 +53,7 @@ export default class BasicProfile extends Component {
   render() {
     const { profile, loading } = this.props;
     const { basicGoods, basicProgress } = profile;
-    const { modalVisible1 } = this.state;
+    const { modalVisible1, taskTime } = this.state;
     let goodsData = [];
     if (basicGoods.length) {
       let num = 0;
@@ -65,6 +67,7 @@ export default class BasicProfile extends Component {
         amount,
       });
     }
+
     const renderContent = (value, row, index) => {
       const obj = {
         children: value,
@@ -89,7 +92,7 @@ export default class BasicProfile extends Component {
       switch (value.date()) {
         case 8:
           listData = [
-            { type: 'warning', content: '屋外歩行訓練' },
+            { type: 'warning', content: '屋外歩行訓練', adminName:'下口', userAdmin:'鈴木' },
             { type: 'success', content: '浴槽を跨ぐ練習' },
           ]; break;
         case 10:
@@ -108,55 +111,48 @@ export default class BasicProfile extends Component {
       return listData || [];
     }
 
-    function getMonthData(value) {
-      if (value.month() === 8) {
-        return 1394;
-      }
-    }
+    // function getMonthData(value) {
+    //   if (value.month() === 8) {
+    //     return 1394;
+    //   }
+    // }
     
-    function monthCellRender(value) {
-      const num = getMonthData(value);
-      return num ? (
-        <div className="notes-month">
-          <section>{num}</section>
-          <span>Backlog number</span>
-        </div>
-      ) : null;
-    }
+    // function monthCellRender(value) {
+    //   const num = getMonthData(value);
+    //   return num ? (
+    //     <div className="notes-month">
+    //       <section>{num}</section>
+    //       <span>Backlog number</span>
+    //     </div>
+    //   ) : null;
+    // }
 
     const parentMethods1 = {
       handleModalVisible1: this.handleModalVisible1,
     };
 
-    const onPrev = () => {
-      dispatch(routerRedux.push('/dashboard/workplace'));
-    };
-
-    function confirm() {
-      message.success('点击了确定');
-    }
-    
-    function cancel() {
-    }
-
     function confirm(data) {
       Modal.confirm({
         iconType: 'bars',
-        title: '詳細情報',
-        okText: '編集',
-        cancelText: '削除',
+        title: 'タスク詳細情報',
+        okText: '保存',
+        cancelText: 'キャンセル',
         maskClosable: 'false',
         content: (
-          <div>                
+          <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              {
-                data.map(item => (
-                  <li key={item.content}>
-                    <Badge status={item.type} text={item.content}>
-                    </Badge>
-                  </li>
-                ))
-              }            
+              <FormItem label="タスク実施時間">
+                {(<DatePicker defaultValue={moment(data.time, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
+              </FormItem>                         
+              <div>
+                <p>プログラム内容：</p>
+                {data.map(item => (
+                    <li>
+                      <Badge status={item.type} text={item.content}>
+                      </Badge>
+                    </li>
+                  ))}
+              </div>
             </Card>  
           </div>
         ),
@@ -171,14 +167,12 @@ export default class BasicProfile extends Component {
       return (
         <ul className="events">
           <a onClick={() => confirm(listData)} >
-          {
-            listData.map(item => (
+          {listData.map(item => (
               <li key={item.content}>
                 <Badge status={item.type} text={item.content}>
                 </Badge>
               </li>
-            ))
-          }
+            ))}
           </a>
         </ul>
       );
@@ -253,7 +247,7 @@ export default class BasicProfile extends Component {
               <br/><br/>
                 <Calendar
                   dateCellRender={dateCellRender}
-                  monthCellRender={monthCellRender}
+                  // monthCellRender={monthCellRender}
                 />
             </Card>      
         　</TabPane>

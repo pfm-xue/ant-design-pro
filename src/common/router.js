@@ -180,33 +180,25 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['role'], () => import('../routes/Role/TableList')),
     },
 
-    '/schedule/equipment/activityroom': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis')),
-    },
-
-    '/schedule/equipment/shogiroom': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis1')),
-    },
-
-    '/schedule/roles/admin1': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis2')),
-    },
-
-    '/schedule/roles/admin2': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis3')),
-    },
-
-    '/schedule/roles/admin3': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis4')),
-    },
-
-    '/schedule/roles/admin4': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis5')),
+    '/schedule/roles': {
+      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TableListAdmin')),
     },
 
     '/schedule/patient': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis6')),
+      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TableListUser')),
     },
+
+    // '/schedule/roles/admin2': {
+    //   component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis3')),
+    // },
+
+    // '/schedule/roles/admin3': {
+    //   component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis4')),
+    // },
+
+    // '/schedule/roles/admin4': {
+    //   component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis5')),
+    // },
 
     '/dashboard/assessment': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Assessment')),

@@ -49,7 +49,7 @@ export default class Analysis extends Component {
             loading={loading}
             className={styles.salesCard}
             bordered={false}
-            title="浴室のスケジュール"
+            title="介護士のスケジュール"
           >
             <Calendar
               monthStr="2018-04"

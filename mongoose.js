@@ -182,8 +182,8 @@ const assessmentSchema = mongoose.Schema({
 
 // task:タスク
 const taskSchema = mongoose.Schema({
-  executeTime: Date,            // 実行時間
-  arrivalTime: Date,            // 到着時間
+  executeTime: Date,            // タスク実行時間
+  arrivalTime: Date,            // 使用者到着時間
   //    関連使用者
   task_user: {
     ref: 'User',

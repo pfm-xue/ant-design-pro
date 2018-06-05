@@ -5,16 +5,11 @@ import { Link } from 'dva/router';
 import { Row, Col, Card, List, Avatar, Tabs, Button, Table, Divider,
          Form, Input, Modal, Checkbox, Select, TimePicker, Dropdown,
          Menu, Switch, DatePicker } from 'antd';
-
 const { TabPane } = Tabs;
-
 const FormItem = Form.Item;
-
-const { Search } = Input;
-
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-
+const { Search, TextArea } = Input;
 import styles from './Workplace.less';
+import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 const CreateForm1 = Form.create()(props => {
   const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
@@ -34,12 +29,12 @@ const CreateForm1 = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
         {form.getFieldDecorator('user', {
-          rules: [{ required: true, message: '実施者入力してください' }],
-        })(<Input placeholder="请输入" />)}
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input placeholder="実施者" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
         {form.getFieldDecorator('startTime', {
-          rules: [{ required: true, message: '请输入' }],
+          rules: [{ required: true, message: '入力してください。' }],
         })(
           <TimePicker
             placeholder='実施時間(Start)'
@@ -48,18 +43,22 @@ const CreateForm1 = Form.create()(props => {
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
         {form.getFieldDecorator('endTime', {
-          rules: [{ required: true, message: '请输入' }],
+          rules: [{ required: true, message: '入力してください。' }],
         })(
           <TimePicker
             placeholder='実施時間(End)'
             style={{ width: '100%' }}
           />)}
-    </FormItem>                         
+      </FormItem>                         
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
         {form.getFieldDecorator('program', {
-          rules: [{ required: true, message: '電話番号入力してください' }],
-        })(<Input placeholder="请输入" />)}
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input placeholder="プログラム" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="特記事項">
+        {form.getFieldDecorator('program'
+      )(<TextArea placeholder="特記事項" />)}
+      </FormItem>      
     </Modal>
   );
 });
@@ -82,27 +81,23 @@ const CreateForm = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
         {form.getFieldDecorator('user', {
-          rules: [{ required: true, message: '実施者入力してください' }],
-        })(<Input addonAfter="℃" placeholder="请输入" />)}
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input addonAfter="℃" placeholder="体温" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="血圧">
         {form.getFieldDecorator('startTime', {
-          rules: [{ required: true, message: '请输入' }],
-        })(
-          <TimePicker
-            placeholder='実施時間(Start)'
-            style={{ width: '100%' }}
-          />)}
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input placeholder="血圧" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="脈帕">
         {form.getFieldDecorator('endTime', {
-          rules: [{ required: true, message: '请输入' }],
-        })(<Input placeholder="请输入" />)}
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input placeholder="脈帕" />)}
     </FormItem>                         
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="SpO2">
         {form.getFieldDecorator('program', {
-          rules: [{ required: true, message: '電話番号入力してください' }],
-        })(<Input placeholder="请输入" />)}
+          rules: [{ required: true, message: '入力してください' }],
+        })(<Input placeholder="SpO2" />)}
       </FormItem>
     </Modal>
   );
@@ -386,7 +381,7 @@ export default class Workplace extends PureComponent {
       dataIndex: 'time',
       key: 'time',
       render: () => (
-        <Fragment>          
+        <Fragment>
           {!this.state.date ? <Button type="primary" size="small" onClick={this.toggle}>未到着</Button> : this.state.date }
         </Fragment>
       ),

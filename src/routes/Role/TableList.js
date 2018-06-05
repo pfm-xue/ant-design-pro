@@ -299,6 +299,7 @@ export default class TableList extends PureComponent {
 
   render() {
     const { rule: { data }, loading } = this.props;
+
     const { selectedRows, modalVisible, modalVisible1 } = this.state;
 
     const columns = [
@@ -359,8 +360,8 @@ export default class TableList extends PureComponent {
               loading={loading}
               data={data}
               columns={columns}
-              onSelectRow={this.handleSelectRows}
-              onChange={this.handleStandardTableChange}
+              // onSelectRow={this.handleSelectRows}
+              // onChange={this.handleStandardTableChange}
             />
           </div>
         </Card>
