@@ -110,10 +110,10 @@ export default class TableForm extends PureComponent {
   render() {
     const columns = [
       {
-        title: '成员姓名',
+        title: 'プログラム内容',
         dataIndex: 'name',
         key: 'name',
-        width: '20%',
+        width: '35%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -122,7 +122,7 @@ export default class TableForm extends PureComponent {
                 autoFocus
                 onChange={e => this.handleFieldChange(e, 'name', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="成员姓名"
+                placeholder="プログラム内容"
               />
             );
           }
@@ -130,10 +130,10 @@ export default class TableForm extends PureComponent {
         },
       },
       {
-        title: '工号',
+        title: '留意点',
         dataIndex: 'workId',
         key: 'workId',
-        width: '20%',
+        width: '15%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -141,7 +141,7 @@ export default class TableForm extends PureComponent {
                 value={text}
                 onChange={e => this.handleFieldChange(e, 'workId', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="工号"
+                placeholder="留意点"
               />
             );
           }
@@ -149,10 +149,10 @@ export default class TableForm extends PureComponent {
         },
       },
       {
-        title: '所属部门',
+        title: '頻度',
         dataIndex: 'department',
         key: 'department',
-        width: '40%',
+        width: '10%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -160,13 +160,51 @@ export default class TableForm extends PureComponent {
                 value={text}
                 onChange={e => this.handleFieldChange(e, 'department', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="所属部门"
+                placeholder="頻度"
               />
             );
           }
           return text;
         },
       },
+      {
+        title: '時間',
+        dataIndex: 'department',
+        key: 'department',
+        width: '10%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                onChange={e => this.handleFieldChange(e, 'department', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="時間"
+              />
+            );
+          }
+          return text;
+        },
+      },
+      {
+        title: '主な実施者',
+        dataIndex: 'department',
+        key: 'department',
+        width: '15%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                onChange={e => this.handleFieldChange(e, 'department', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="主な実施者"
+              />
+            );
+          }
+          return text;
+        },
+      },             
       {
         title: '操作',
         key: 'action',
@@ -178,31 +216,31 @@ export default class TableForm extends PureComponent {
             if (record.isNew) {
               return (
                 <span>
-                  <a onClick={e => this.saveRow(e, record.key)}>添加</a>
-                  <Divider type="vertical" />
-                  <Popconfirm title="是否要删除此行？" onConfirm={() => this.remove(record.key)}>
-                    <a>删除</a>
+                  {/* <a onClick={e => this.saveRow(e, record.key)}>添加</a>
+                  <Divider type="vertical" /> */}
+                  <Popconfirm title="これを削除しますか？" onConfirm={() => this.remove(record.key)}>
+                    <a>削除</a>
                   </Popconfirm>
                 </span>
               );
             }
-            return (
-              <span>
-                <a onClick={e => this.saveRow(e, record.key)}>保存</a>
-                <Divider type="vertical" />
-                <a onClick={e => this.cancel(e, record.key)}>取消</a>
-              </span>
-            );
+            // return (
+            //   <span>
+            //     <a onClick={e => this.saveRow(e, record.key)}>保存</a>
+            //     <Divider type="vertical" />
+            //     <a onClick={e => this.cancel(e, record.key)}>取消</a>
+            //   </span>
+            // );
           }
-          return (
-            <span>
-              <a onClick={e => this.toggleEditable(e, record.key)}>编辑</a>
-              <Divider type="vertical" />
-              <Popconfirm title="是否要删除此行？" onConfirm={() => this.remove(record.key)}>
-                <a>删除</a>
-              </Popconfirm>
-            </span>
-          );
+          // return (
+          //   <span>
+          //     <a onClick={e => this.toggleEditable(e, record.key)}>编辑</a>
+          //     <Divider type="vertical" />
+          //     <Popconfirm title="是否要删除此行？" onConfirm={() => this.remove(record.key)}>
+          //       <a>删除</a>
+          //     </Popconfirm>
+          //   </span>
+          // );
         },
       },
     ];
@@ -224,7 +262,7 @@ export default class TableForm extends PureComponent {
           onClick={this.newMember}
           icon="plus"
         >
-          新增成员
+          プログラム
         </Button>
       </Fragment>
     );

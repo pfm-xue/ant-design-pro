@@ -232,9 +232,35 @@ export default class Workplace extends PureComponent {
     });
   }
 
-  toggle = () => {
+  toggle = (record) => {
+    const number = record.key;
+    const newData = this.state.data;
+    const index = newData.findIndex(item => number === item.key);
+    const item = newData[index];
+    item.time = moment(new Date()).format('YYYY-MM-DD HH:mm');
     this.setState({
-      date: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+      data : newData,
+    });
+  }
+
+  save(form, key) {
+    form.validateFields((error, row) => {
+      if (error) {
+        return;
+      }
+      const newData = [...this.state.data];
+      const index = newData.findIndex(item => key === item.key);
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, {
+          ...item,
+          ...row,
+        });
+        this.setState({ data: newData, editingKey: '' });
+      } else {
+        newData.push(data);
+        this.setState({ data: newData, editingKey: '' });
+      }
     });
   }
 
@@ -354,8 +380,6 @@ export default class Workplace extends PureComponent {
       </div>
     );
 
-    const dateFormat = 'YYYY-MM-DD HH:mm';
-
     const menu = (
       <Menu>
         <Menu.Item key="new"><Link to="/dashboard/assessment" >初回</Link></Menu.Item>
@@ -380,9 +404,17 @@ export default class Workplace extends PureComponent {
       title: '到着時間',
       dataIndex: 'time',
       key: 'time',
-      render: () => (
+      filters: [{
+        text: '未到着',
+        value: '未到着',
+      },{
+        text: '到着',
+        value: '到着',
+      }],
+      onFilter: (value, record) => record.vitality.indexOf(value) === 0,         
+      render: (text, record) => (
         <Fragment>
-          {!this.state.date ? <Button type="primary" size="small" onClick={this.toggle}>未到着</Button> : this.state.date }
+          {!text ? <Button type="primary" size="small" onClick={() => this.toggle(record)}>未到着</Button> : text }
         </Fragment>
       ),
     },    
@@ -396,6 +428,11 @@ export default class Workplace extends PureComponent {
       title: '実施記録',
       dataIndex: 'record',
       key: 'record',
+      render: (text, record) => (
+        <Fragment>
+          {!text ? <Button type="primary" size="small" onClick={() => this.toggle(record)}>未到着</Button> : text }
+        </Fragment>
+      ),      
       render: text => <a onClick={() => this.handleModalVisible1(true)}>{text}</a>,
     },
     {
