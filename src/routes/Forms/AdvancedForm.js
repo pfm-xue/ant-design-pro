@@ -473,7 +473,7 @@ class AdvancedForm extends PureComponent {
         <FooterToolbar style={{ width: this.state.width }}>
           {getErrorInfo()}
           <Button type="primary" onClick={validate} loading={submitting}>
-            提交
+            保存
           </Button>
           <Divider type="vertical" />
           <Link to="/profile/basic">

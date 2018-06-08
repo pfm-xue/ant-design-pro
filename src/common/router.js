@@ -177,7 +177,7 @@ export const getRouterData = app => {
     },
 
     '/role/physician-role': {
-      component: dynamicWrapper(app, ['role'], () => import('../routes/Role/TableList')),
+      component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleList')),
     },
 
     '/schedule/roles': {

@@ -31,18 +31,23 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
-        {form.getFieldDecorator('id', {
+      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
+        {form.getFieldDecorator('adminId', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
-      </FormItem>
+      </FormItem> */}
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名前">
-        {form.getFieldDecorator('name', {
+        {form.getFieldDecorator('adminName', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Email">
+        {form.getFieldDecorator('email', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>      
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
-        {form.getFieldDecorator('phone', {
+        {form.getFieldDecorator('telephoneNumber', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
@@ -51,10 +56,10 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">介護士</Option>
-            <Option value="1">施設内システム管理者</Option>
-            <Option value="2">看護師</Option>
-            <Option value="3">相談員</Option>
+            <Option value="介護士">介護士</Option>
+            <Option value="施設内システム管理者1">施設内システム管理者</Option>
+            <Option value="看護師">看護師</Option>
+            <Option value="相談員">相談員</Option>
           </Select>
         )}
       </FormItem>
@@ -64,6 +69,9 @@ const CreateForm = Form.create()(props => {
 
 const CreateForm1 = Form.create()(props => {
   const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
+
+
+
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -78,30 +86,35 @@ const CreateForm1 = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible1()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
-        {form.getFieldDecorator('id', {
-          rules: [{ required: true, message: '管理者ID入力してください' }],
+      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
+        {form.getFieldDecorator('adminId', {
+          rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
-      </FormItem>
+      </FormItem> */}
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名前">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '名前入力してください' }],
+        {form.getFieldDecorator('adminName', {
+          rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Email">
+        {form.getFieldDecorator('email', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input placeholder="请输入" />)}
+      </FormItem>      
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
-        {form.getFieldDecorator('phone', {
-          rules: [{ required: true, message: '電話番号入力してください' }],
+        {form.getFieldDecorator('telephoneNumber', {
+          rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="role">
         {form.getFieldDecorator('role', {
-          rules: [{ required: true, message: 'roleを選択してください' }],
+          rules: [{ required: true, message: 'Please input some description...' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">介護士</Option>
-            <Option value="1">施設内システム管理者</Option>
-            <Option value="2">看護師</Option>
-            <Option value="3">相談員</Option>
+            <Option value="介護士">介護士</Option>
+            <Option value="施設内システム管理者1">施設内システム管理者</Option>
+            <Option value="看護師">看護師</Option>
+            <Option value="相談員">相談員</Option>
           </Select>
         )}
       </FormItem>
@@ -109,12 +122,12 @@ const CreateForm1 = Form.create()(props => {
   );
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ role, loading }) => ({
+  role,
+  loading: loading.models.role,
 }))
 @Form.create()
-export default class TableList extends PureComponent {
+export default class RoleList extends PureComponent {
   state = {
     modalVisible1: false,
     modalVisible: false,
@@ -126,7 +139,7 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'role/fetch',
     });
   }
 
@@ -151,7 +164,7 @@ export default class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'role/fetch',
       payload: params,
     });
   };
@@ -163,7 +176,7 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'role/fetch',
       payload: {},
     });
   };
@@ -183,7 +196,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'role/remove',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -223,7 +236,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'role/fetch',
         payload: values,
       });
     });
@@ -243,10 +256,9 @@ export default class TableList extends PureComponent {
 
   handleAdd = fields => {
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'role/add',
       payload: {
-        description: fields.desc,
-        id: fields.id,
+        fields,
       },
     });
 
@@ -270,10 +282,10 @@ export default class TableList extends PureComponent {
             <FormItem label="role">
               {getFieldDecorator('role')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">介護士</Option>
-                  <Option value="1">施設内システム管理者</Option>
-                  <Option value="2">看護師</Option>
-                  <Option value="3">相談員</Option>
+                  <Option value="介護士">介護士</Option>
+                  <Option value="施設内システム管理者">施設内システム管理者</Option>
+                  <Option value="看護師">看護師</Option>
+                  <Option value="相談員">相談員</Option>
                 </Select>
               )}
             </FormItem>
@@ -298,32 +310,92 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { role: { data }, loading } = this.props;
 
     const { selectedRows, modalVisible, modalVisible1 } = this.state;
 
+
+
+
+    function confirm(record) {
+      Modal.confirm({
+        iconType: 'bars',
+        title: '管理者情報変更',
+        okText: '保存',
+        cancelText: 'キャンセル',
+        maskClosable: 'false',
+        content: (
+          <div>
+            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+              {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
+                {form.getFieldDecorator('adminId', {
+                  rules: [{ required: true, message: 'Please input some description...' }],
+                })(<Input placeholder="请输入" />)}
+              </FormItem> */}
+              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名前">
+                {form.getFieldDecorator('adminName', {
+                  rules: [{ required: true, message: 'Please input some description...' }],
+                })(<Input placeholder="请输入" />)}
+              </FormItem>
+              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Email">
+                {form.getFieldDecorator('email', {
+                  rules: [{ required: true, message: 'Please input some description...' }],
+                })(<Input placeholder="请输入" />)}
+              </FormItem>      
+              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
+                {form.getFieldDecorator('telephoneNumber', {
+                  rules: [{ required: true, message: 'Please input some description...' }],
+                })(<Input placeholder="请输入" />)}
+              </FormItem>
+              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="role">
+                {form.getFieldDecorator('role', {
+                  rules: [{ required: true, message: 'Please input some description...' }],
+                })(
+                  <Select placeholder="请选择" style={{ width: '100%' }}>
+                    <Option value="介護士">介護士</Option>
+                    <Option value="施設内システム管理者1">施設内システム管理者</Option>
+                    <Option value="看護師">看護師</Option>
+                    <Option value="相談員">相談員</Option>
+                  </Select>
+                )}
+              </FormItem>
+            </Card>  
+          </div>
+        ),
+        onOk() {
+        },
+        onCancel() {
+        },
+      });
+    }
+
     const columns = [
-      {
-        title: '管理者ID',
-        dataIndex: 'no',
-      },
+      // {
+      //   title: '管理者ID',
+      //   dataIndex: 'adminId',
+      // },
       {
         title: '名前',
-        dataIndex: 'owner',
-      },
-      {
-        title: '電話番号',
-        dataIndex: 'phone',
+        dataIndex: 'adminName',
       },
       {
         title: 'role',
         dataIndex: 'role',
       },
       {
+        title: '電話番号',
+        dataIndex: 'telephoneNumber',
+      },
+      {
+        title: 'Email',
+        dataIndex: 'email',
+      },      
+      {
         title: '操作',
-        render: () => (
+        render: (record) => (
           <Fragment>
-            <Button type="primary" onClick={() => this.handleModalVisible1(true)}>
+            {/* <Button type="primary" onClick={() => this.handleModalVisible1(true)}> */}
+            <Button type="primary" onClick={() => confirm(record)}>
               編集
             </Button>
             <Divider type="vertical" />

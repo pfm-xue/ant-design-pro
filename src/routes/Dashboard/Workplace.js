@@ -118,6 +118,7 @@ export default class Workplace extends PureComponent {
     date: '',
     data: [{
       key: '1',
+      date: '2018-06-06',
       name: '鈴木',
       record: 　'実施',
       Vital1: '36.8℃',
@@ -128,6 +129,7 @@ export default class Workplace extends PureComponent {
       Visits: 　'実施',
     },{
       key: '2',
+      date: '2018-06-07',
       name: '佐々木',
       record: 　'未実施',
       Vital1: '',
@@ -137,6 +139,7 @@ export default class Workplace extends PureComponent {
       Visits: 　'未実施',
     },{
       key: '3',
+      date: '2018-06-07',
       name: '下口 敏輝',
       record: 　'未実施',
       Vital1: '',
@@ -146,6 +149,7 @@ export default class Workplace extends PureComponent {
       Visits: 　'未実施',
     },{
       key: '4',
+      date: '2018-06-08',
       name: '鈴木 直哉',
       record: 　'未実施',
       Vital1: '',
@@ -155,6 +159,7 @@ export default class Workplace extends PureComponent {
       Visits: 　'未実施',
     },{
       key: '5',
+      date: '2018-06-08',
       name: ' 岡崎 宏典',
       record: 　'未実施',
       Vital1: '',
@@ -264,9 +269,11 @@ export default class Workplace extends PureComponent {
     });
   }
 
-  yesterday = () => {
+  dayDate = () => {
+
     this.setState({
       data:[{
+        date: '2018-06-07',
         key: '1',
         name: '鈴木',
         record: 　'実施',
@@ -280,57 +287,57 @@ export default class Workplace extends PureComponent {
     });
   }
 
-  today = () => {
-    this.setState({
-      data:[{
-        key: '2',
-        name: '佐々木',
-        record: 　'未実施',
-        Vital1: '',
-        Vital2: '',
-        Vital3: '',
-        time: '',
-        vitality: '未実施',
-        Visits: 　'未実施',
-      },{
-        key: '3',
-        name: '下口 敏輝',
-        record: 　'未実施',
-        Vital1: '',
-        Vital2: '',
-        Vital3: '',
-        time: '',
-        vitality: '未実施',
-        Visits: 　'未実施',
-      }],
-    });
-  }
+  // today = () => {
+  //   this.setState({
+  //     data:[{
+  //       key: '2',
+  //       name: '佐々木',
+  //       record: 　'未実施',
+  //       Vital1: '',
+  //       Vital2: '',
+  //       Vital3: '',
+  //       time: '',
+  //       vitality: '未実施',
+  //       Visits: 　'未実施',
+  //     },{
+  //       key: '3',
+  //       name: '下口 敏輝',
+  //       record: 　'未実施',
+  //       Vital1: '',
+  //       Vital2: '',
+  //       Vital3: '',
+  //       time: '',
+  //       vitality: '未実施',
+  //       Visits: 　'未実施',
+  //     }],
+  //   });
+  // }
 
-  tomorrow = () => {
-    this.setState({
-      data:[{
-        key: '4',
-        name: '鈴木 直哉',
-        record: 　'未実施',
-        Vital1: '',
-        Vital2: '',
-        Vital3: '',
-        time: '',
-        vitality: '未実施',
-        Visits: 　'未実施',
-      },{
-        key: '5',
-        name: ' 岡崎 宏典',
-        record: 　'未実施',
-        Vital1: '',
-        Vital2: '',
-        Vital3: '',
-        time: '',
-        vitality: '未実施',
-        Visits: 　'未実施',
-      }],
-    });
-  }
+  // tomorrow = () => {
+  //   this.setState({
+  //     data:[{
+  //       key: '4',
+  //       name: '鈴木 直哉',
+  //       record: 　'未実施',
+  //       Vital1: '',
+  //       Vital2: '',
+  //       Vital3: '',
+  //       time: '',
+  //       vitality: '未実施',
+  //       Visits: 　'未実施',
+  //     },{
+  //       key: '5',
+  //       name: ' 岡崎 宏典',
+  //       record: 　'未実施',
+  //       Vital1: '',
+  //       Vital2: '',
+  //       Vital3: '',
+  //       time: '',
+  //       vitality: '未実施',
+  //       Visits: 　'未実施',
+  //     }],
+  //   });
+  // }
 
   render() {
     const {
@@ -386,13 +393,13 @@ export default class Workplace extends PureComponent {
         <Menu.Item key="update"><Link to="/dashboard/assessment" >更新</Link></Menu.Item>
       </Menu>
     );
-    const dateList = (
-      <Menu>
-        <Menu.Item key="yesterday" onClick={this.yesterday}>昨日</Menu.Item>
-        <Menu.Item key="today" onClick={this.today}>今日</Menu.Item>
-        <Menu.Item key="tomorrow" onClick={this.tomorrow}>明日</Menu.Item>
-      </Menu>
-    );    
+    // const dateList = (
+    //   <Menu>
+    //     <Menu.Item key="yesterday" onClick={this.yesterday}>昨日</Menu.Item>
+    //     <Menu.Item key="today" onClick={this.today}>今日</Menu.Item>
+    //     <Menu.Item key="tomorrow" onClick={this.tomorrow}>明日</Menu.Item>
+    //   </Menu>
+    // );    
 
     const columns = [{
       title: '利用',
@@ -500,9 +507,24 @@ export default class Workplace extends PureComponent {
               {/*アセスメント*/}
               <TabPane tab="アセスメント" key="assessment">
                 <div>
-                  <Dropdown overlay={dateList} placement="bottomRight">
                     <Button type="primary" >時間(予定)</Button>
-                  </Dropdown>
+                    <Divider type="vertical" />
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                      onChange={this.dayDate}
+                      dateRender={(current) => {
+                        const style = {};
+                        if (current.date() === 1) {
+                          style.border = '1px solid #1890ff';
+                          style.borderRadius = '50%';
+                        }
+                        return (
+                          <div className="ant-calendar-date" style={style}>
+                            {current.date()}
+                          </div>
+                        );
+                      }}
+                    />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
                   <Table dataSource={this.state.data} columns={columns} />
@@ -511,9 +533,24 @@ export default class Workplace extends PureComponent {
               {/*計画書*/}
               <TabPane tab="計画書" key="plan">
                 <div>
-                  <Dropdown overlay={dateList} placement="bottomRight">
-                    <Button type="primary" >時間(予定)</Button>
-                  </Dropdown>
+                  <Button type="primary" >時間(予定)</Button>
+                    <Divider type="vertical" />
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                      onChange={this.dayDate}
+                      dateRender={(current) => {
+                        const style = {};
+                        if (current.date() === 1) {
+                          style.border = '1px solid #1890ff';
+                          style.borderRadius = '50%';
+                        }
+                        return (
+                          <div className="ant-calendar-date" style={style}>
+                            {current.date()}
+                          </div>
+                        );
+                      }}
+                    />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
                   <Table dataSource={this.state.data} columns={columns} />
@@ -522,9 +559,24 @@ export default class Workplace extends PureComponent {
               {/*実施記録*/}
               <TabPane tab="実施記録" key="record">
                 <div>
-                  <Dropdown overlay={dateList} placement="bottomRight">
-                    <Button type="primary" >時間(予定)</Button>
-                  </Dropdown>
+                  <Button type="primary" >時間(予定)</Button>
+                    <Divider type="vertical" />
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                      onChange={this.dayDate}
+                      dateRender={(current) => {
+                        const style = {};
+                        if (current.date() === 1) {
+                          style.border = '1px solid #1890ff';
+                          style.borderRadius = '50%';
+                        }
+                        return (
+                          <div className="ant-calendar-date" style={style}>
+                            {current.date()}
+                          </div>
+                        );
+                      }}
+                    />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
                   <Table dataSource={this.state.data} columns={columns} />

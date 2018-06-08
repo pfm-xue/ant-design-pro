@@ -13,6 +13,14 @@ export async function queryRule(params) {
   return request(`/api/rule?${stringify(params)}`);
 }
 
+// http://localhost:3001/mp/admin/?page=1
+
+// /api/rule?${stringify(params)}
+
+export async function queryRole(params) {
+  return request(`http://localhost:3001/mp/admin/?page=1`);
+}
+
 export async function removeRule(params) {
   return request('/api/rule', {
     method: 'POST',
@@ -25,6 +33,17 @@ export async function removeRule(params) {
      
 export async function addRule(params) {
   return request('/api/rule', {
+    method: 'POST',
+    body: params,
+    // body: {
+    //   ...params,
+    //   method: 'post',
+    // },
+  });
+}
+
+export async function addRole(params) {
+  return request('http://localhost:3001/mp/admin/', {
     method: 'POST',
     body: {
       ...params,
