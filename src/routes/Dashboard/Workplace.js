@@ -13,6 +13,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 const CreateForm1 = Form.create()(props => {
   const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
+
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -20,13 +21,15 @@ const CreateForm1 = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+  
   return (
     <Modal
       title="実施記録基本情報"
       visible={modalVisible1}
       onOk={okHandle}
       onCancel={() => handleModalVisible1()}
-    >
+    >    
+            
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
         {form.getFieldDecorator('user', {
           rules: [{ required: true, message: '入力してください。' }],
@@ -65,6 +68,8 @@ const CreateForm1 = Form.create()(props => {
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  
+  
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -72,6 +77,7 @@ const CreateForm = Form.create()(props => {
       handleAdd(fieldsValue);
     });
   };
+
   return (
     <Modal
       title="バイタル情報"
@@ -79,37 +85,53 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
-        {form.getFieldDecorator('user', {
+
+
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実行時間">
+        {form.getFieldDecorator('executeTime', {
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input type="Date" placeholder="実行時間" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="到着時間">
+        {form.getFieldDecorator('arrivalTime', {
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input type="Date" placeholder="到着時間" />)}
+      </FormItem>
+
+
+      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
+        {form.getFieldDecorator('vital.vital1', {
           rules: [{ required: true, message: '入力してください。' }],
         })(<Input addonAfter="℃" placeholder="体温" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="血圧">
-        {form.getFieldDecorator('startTime', {
+        {form.getFieldDecorator('vital.vital2', {
           rules: [{ required: true, message: '入力してください。' }],
         })(<Input placeholder="血圧" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="脈帕">
-        {form.getFieldDecorator('endTime', {
+        {form.getFieldDecorator('vital.vital3', {
           rules: [{ required: true, message: '入力してください。' }],
         })(<Input placeholder="脈帕" />)}
     </FormItem>                         
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="SpO2">
-        {form.getFieldDecorator('program', {
+        {form.getFieldDecorator('vital.spO2', {
           rules: [{ required: true, message: '入力してください' }],
         })(<Input placeholder="SpO2" />)}
-      </FormItem>
+      </FormItem> */}
     </Modal>
   );
 });
 
-@connect(({ project, activities, chart, loading }) => ({
-  project,
-  activities,
-  chart,
-  projectLoading: loading.effects['project/fetchNotice'],
-  activitiesLoading: loading.effects['activities/fetchList'],
+@connect(({ task, loading }) => ({
+  // project,
+  // activities,
+  // chart,
+  task,
+  loading: loading.models.task,
+  // activitiesLoading: loading.effects['activities/fetchList'],
 }))
+@Form.create()
 export default class Workplace extends PureComponent {
 
   state = {
@@ -184,16 +206,33 @@ export default class Workplace extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'project/fetchNotice',
-    });
-    dispatch({
-      type: 'activities/fetchList',
-    });
-    dispatch({
-      type: 'chart/fetch',
-    });
+    // dispatch({
+    //   type: 'project/fetchNotice',
+    // });
+    // dispatch({
+    //   type: 'activities/fetchList',
+    // });
+    // dispatch({
+    //   type: 'chart/fetch',
+    // });
+    // dispatch({
+    //   type: 'task/fetch',
+    // });    
   }
+
+  handleAdd = fields => {
+    this.props.dispatch({
+      type: 'task/add',
+      payload: {
+        fields,
+      },
+    });
+
+    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
+    });
+  };
 
   componentWillUnmount() {
     const { dispatch } = this.props;
@@ -269,85 +308,15 @@ export default class Workplace extends PureComponent {
     });
   }
 
-  dayDate = () => {
-
-    this.setState({
-      data:[{
-        date: '2018-06-07',
-        key: '1',
-        name: '鈴木',
-        record: 　'実施',
-        Vital1: '36.8℃',
-        Vital2: '126/66',
-        Vital3: '68',
-        time: '2018-05-29 13:00',
-        vitality: '実施',
-        Visits: 　'実施',
-      }],
-    });
-  }
-
-  // today = () => {
-  //   this.setState({
-  //     data:[{
-  //       key: '2',
-  //       name: '佐々木',
-  //       record: 　'未実施',
-  //       Vital1: '',
-  //       Vital2: '',
-  //       Vital3: '',
-  //       time: '',
-  //       vitality: '未実施',
-  //       Visits: 　'未実施',
-  //     },{
-  //       key: '3',
-  //       name: '下口 敏輝',
-  //       record: 　'未実施',
-  //       Vital1: '',
-  //       Vital2: '',
-  //       Vital3: '',
-  //       time: '',
-  //       vitality: '未実施',
-  //       Visits: 　'未実施',
-  //     }],
-  //   });
-  // }
-
-  // tomorrow = () => {
-  //   this.setState({
-  //     data:[{
-  //       key: '4',
-  //       name: '鈴木 直哉',
-  //       record: 　'未実施',
-  //       Vital1: '',
-  //       Vital2: '',
-  //       Vital3: '',
-  //       time: '',
-  //       vitality: '未実施',
-  //       Visits: 　'未実施',
-  //     },{
-  //       key: '5',
-  //       name: ' 岡崎 宏典',
-  //       record: 　'未実施',
-  //       Vital1: '',
-  //       Vital2: '',
-  //       Vital3: '',
-  //       time: '',
-  //       vitality: '未実施',
-  //       Visits: 　'未実施',
-  //     }],
-  //   });
-  // }
-
   render() {
     const {
-      project: { notice },
-      projectLoading,
-      activitiesLoading,
+      task: { date },
+      // projectLoading,
+      // activitiesLoading,
       // chart: { radarData },
     } = this.props;
 
-    const { modalVisible1, modalVisible, date } = this.state;
+    const { modalVisible1, modalVisible } = this.state;
 
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
@@ -393,13 +362,6 @@ export default class Workplace extends PureComponent {
         <Menu.Item key="update"><Link to="/dashboard/assessment" >更新</Link></Menu.Item>
       </Menu>
     );
-    // const dateList = (
-    //   <Menu>
-    //     <Menu.Item key="yesterday" onClick={this.yesterday}>昨日</Menu.Item>
-    //     <Menu.Item key="today" onClick={this.today}>今日</Menu.Item>
-    //     <Menu.Item key="tomorrow" onClick={this.tomorrow}>明日</Menu.Item>
-    //   </Menu>
-    // );    
 
     const columns = [{
       title: '利用',

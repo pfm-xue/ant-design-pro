@@ -31,11 +31,11 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
         {form.getFieldDecorator('adminId', {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
-      </FormItem> */}
+      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名前">
         {form.getFieldDecorator('adminName', {
           rules: [{ required: true, message: 'Please input some description...' }],
@@ -69,9 +69,6 @@ const CreateForm = Form.create()(props => {
 
 const CreateForm1 = Form.create()(props => {
   const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
-
-
-
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -143,31 +140,31 @@ export default class RoleList extends PureComponent {
     });
   }
 
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
+  // handleStandardTableChange = (pagination, filtersArg, sorter) => {
+  //   const { dispatch } = this.props;
+  //   const { formValues } = this.state;
 
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
+  //   const filters = Object.keys(filtersArg).reduce((obj, key) => {
+  //     const newObj = { ...obj };
+  //     newObj[key] = getValue(filtersArg[key]);
+  //     return newObj;
+  //   }, {});
 
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
+  //   const params = {
+  //     currentPage: pagination.current,
+  //     pageSize: pagination.pageSize,
+  //     ...formValues,
+  //     ...filters,
+  //   };
+  //   if (sorter.field) {
+  //     params.sorter = `${sorter.field}_${sorter.order}`;
+  //   }
 
-    dispatch({
-      type: 'role/fetch',
-      payload: params,
-    });
-  };
+  //   dispatch({
+  //     type: 'role/fetch',
+  //     payload: params,
+  //   });
+  // };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -181,42 +178,42 @@ export default class RoleList extends PureComponent {
     });
   };
 
-  toggleForm = () => {
-    this.setState({
-      expandForm: !this.state.expandForm,
-    });
-  };
+  // toggleForm = () => {
+  //   this.setState({
+  //     expandForm: !this.state.expandForm,
+  //   });
+  // };
 
-  handleMenuClick = e => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
+  // handleMenuClick = e => {
+  //   const { dispatch } = this.props;
+  //   const { selectedRows } = this.state;
 
-    if (!selectedRows) return;
+  //   if (!selectedRows) return;
 
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'role/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
-        });
-        break;
-      default:
-        break;
-    }
-  };
+  //   switch (e.key) {
+  //     case 'remove':
+  //       dispatch({
+  //         type: 'role/remove',
+  //         payload: {
+  //           no: selectedRows.map(row => row.no).join(','),
+  //         },
+  //         callback: () => {
+  //           this.setState({
+  //             selectedRows: [],
+  //           });
+  //         },
+  //       });
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  handleSelectRows = rows => {
-    this.setState({
-      selectedRows: rows,
-    });
-  };
+  // handleSelectRows = rows => {
+  //   this.setState({
+  //     selectedRows: rows,
+  //   });
+  // };
 
   handleSearch = e => {
     e.preventDefault();
@@ -314,61 +311,6 @@ export default class RoleList extends PureComponent {
 
     const { selectedRows, modalVisible, modalVisible1 } = this.state;
 
-
-
-
-    function confirm(record) {
-      Modal.confirm({
-        iconType: 'bars',
-        title: '管理者情報変更',
-        okText: '保存',
-        cancelText: 'キャンセル',
-        maskClosable: 'false',
-        content: (
-          <div>
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者ID">
-                {form.getFieldDecorator('adminId', {
-                  rules: [{ required: true, message: 'Please input some description...' }],
-                })(<Input placeholder="请输入" />)}
-              </FormItem> */}
-              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名前">
-                {form.getFieldDecorator('adminName', {
-                  rules: [{ required: true, message: 'Please input some description...' }],
-                })(<Input placeholder="请输入" />)}
-              </FormItem>
-              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Email">
-                {form.getFieldDecorator('email', {
-                  rules: [{ required: true, message: 'Please input some description...' }],
-                })(<Input placeholder="请输入" />)}
-              </FormItem>      
-              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
-                {form.getFieldDecorator('telephoneNumber', {
-                  rules: [{ required: true, message: 'Please input some description...' }],
-                })(<Input placeholder="请输入" />)}
-              </FormItem>
-              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="role">
-                {form.getFieldDecorator('role', {
-                  rules: [{ required: true, message: 'Please input some description...' }],
-                })(
-                  <Select placeholder="请选择" style={{ width: '100%' }}>
-                    <Option value="介護士">介護士</Option>
-                    <Option value="施設内システム管理者1">施設内システム管理者</Option>
-                    <Option value="看護師">看護師</Option>
-                    <Option value="相談員">相談員</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Card>  
-          </div>
-        ),
-        onOk() {
-        },
-        onCancel() {
-        },
-      });
-    }
-
     const columns = [
       // {
       //   title: '管理者ID',
@@ -394,8 +336,7 @@ export default class RoleList extends PureComponent {
         title: '操作',
         render: (record) => (
           <Fragment>
-            {/* <Button type="primary" onClick={() => this.handleModalVisible1(true)}> */}
-            <Button type="primary" onClick={() => confirm(record)}>
+            <Button type="primary" onClick={() => this.handleModalVisible1(true)}>
               編集
             </Button>
             <Divider type="vertical" />

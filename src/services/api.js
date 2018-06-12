@@ -21,6 +21,14 @@ export async function queryRole(params) {
   return request(`http://localhost:3001/mp/admin/?page=1`);
 }
 
+export async function queryTask(params) {
+  return request(`http://localhost:3001/mp/task/?page=1`);
+}
+
+export async function queryUser(params) {
+  return request(`http://localhost:3001/mp/user/?page=1`);
+}
+
 export async function removeRule(params) {
   return request('/api/rule', {
     method: 'POST',
@@ -42,8 +50,28 @@ export async function addRule(params) {
   });
 }
 
+export async function addUser(params) {
+  return request('http://localhost:3001/mp/user/', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 export async function addRole(params) {
   return request('http://localhost:3001/mp/admin/', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function addTask(params) {
+  return request('http://localhost:3001/mp/task/', {
     method: 'POST',
     body: {
       ...params,

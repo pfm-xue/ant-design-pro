@@ -1,4 +1,5 @@
-import { queryRole, removeRule, addRole } from '../services/api';
+// import { queryRole, removeRole, addRole } from '../services/api';
+import { queryRole, addRole } from '../services/api';
 
 export default {
   namespace: 'role',
@@ -27,7 +28,7 @@ export default {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRule, payload);
+      const response = yield call(removeRole, payload);
       yield put({
         type: 'save',
         payload: response,

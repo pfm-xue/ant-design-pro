@@ -1,7 +1,8 @@
-import { queryUser, addUser } from '../services/api';
+// import { queryTask, addTask, removeTask } from '../services/api';
+import { queryTask, addTask } from '../services/api';
 
 export default {
-  namespace: 'user',
+  namespace: 'task',
 
   state: {
     data: {
@@ -12,14 +13,14 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryUser, payload);
+      const response = yield call(queryTask, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addUser, payload);
+      const response = yield call(addTask, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -27,7 +28,7 @@ export default {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeUser, payload);
+      const response = yield call(removeTask, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -35,7 +36,6 @@ export default {
       if (callback) callback();
     },
   },
-
 
   reducers: {
     save(state, action) {

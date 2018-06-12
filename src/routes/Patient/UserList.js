@@ -106,12 +106,12 @@ const CreateForm1 = Form.create()(props => {
   );
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
+@connect(({user, loading }) => ({
+  user,
   loading: loading.models.rule,
 }))
 @Form.create()
-export default class TableList extends PureComponent {
+export default class UserList extends PureComponent {
   state = {
     modalVisible1: false,
     modalVisible: false,
@@ -123,35 +123,35 @@ export default class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'user/fetch',
     });
   }
 
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
+  // handleStandardTableChange = (pagination, filtersArg, sorter) => {
+  //   const { dispatch } = this.props;
+  //   const { formValues } = this.state;
 
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
+  //   const filters = Object.keys(filtersArg).reduce((obj, key) => {
+  //     const newObj = { ...obj };
+  //     newObj[key] = getValue(filtersArg[key]);
+  //     return newObj;
+  //   }, {});
 
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
+  //   const params = {
+  //     currentPage: pagination.current,
+  //     pageSize: pagination.pageSize,
+  //     ...formValues,
+  //     ...filters,
+  //   };
+  //   if (sorter.field) {
+  //     params.sorter = `${sorter.field}_${sorter.order}`;
+  //   }
 
-    dispatch({
-      type: 'rule/fetch',
-      payload: params,
-    });
-  };
+  //   dispatch({
+  //     type: 'user/fetch',
+  //     payload: params,
+  //   });
+  // };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -160,16 +160,16 @@ export default class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'user/fetch',
       payload: {},
     });
   };
 
-  toggleForm = () => {
-    this.setState({
-      expandForm: !this.state.expandForm,
-    });
-  };
+  // toggleForm = () => {
+  //   this.setState({
+  //     expandForm: !this.state.expandForm,
+  //   });
+  // };
 
   handleMenuClick = e => {
     const { dispatch } = this.props;
@@ -180,7 +180,7 @@ export default class TableList extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'user/remove',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -214,7 +214,7 @@ export default class TableList extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'user/fetch',
         payload: values,
       });
     });
@@ -233,11 +233,11 @@ export default class TableList extends PureComponent {
   };
 
   handleAdd = fields => {
-    this.props.dispatch({
-      type: 'rule/add',
+    const { dispatch } = this.props;    
+    dispatch({
+      type: 'user/add',
       payload: {
-        description: fields.desc,
-        no: fields.no,
+        fields,
       },
     });
 
@@ -287,21 +287,25 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { user: { data }, loading } = this.props;
     const { selectedRows, modalVisible, modalVisible1, ImageUpload, MakePlan } = this.state;
 
     const columns = [
       {
         title: '利用者氏名',
-        dataIndex: 'owner',
+        dataIndex: 'name',
+      },
+      {
+        title: 'ふりがな',
+        dataIndex: 'phonetic',
       },
       {
         title: '生年月日',
-        dataIndex: 'birthday',
+        dataIndex: 'birth',
       },
       {
         title: '性別',
-        dataIndex: 'six',
+        dataIndex: 'sex',
       },
       {
         title: '操作',

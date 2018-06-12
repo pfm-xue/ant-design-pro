@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
+import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Select, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './BasicProfile.less';
@@ -10,31 +10,80 @@ import { Link } from 'dva/router';
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
 const { Step } = Steps;
+const getValue = obj =>
+  Object.keys(obj)
+    .map(key => obj[key])
+    .join(',');
 
-@connect(({ profile, loading }) => ({
-  profile,
-  loading: loading.effects['profile/fetchBasic'],
-}))
-export default class BasicProfile extends Component {
-
-  handleModalVisible1 = flag => {
-    this.setState({
-      modalVisible1: !!flag,
+const CreateForm = Form.create()(props => {
+  const { modalVisible, form, handleAddTask, handleModalVisible } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAddTask(fieldsValue);
     });
+  };
+  return (
+    <Modal
+      title="管理者登録"
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実行時間">
+        {form.getFieldDecorator('executeTime', {
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input type="Date" placeholder="実行時間" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="到着時間">
+        {form.getFieldDecorator('arrivalTime', {
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input type="Date" placeholder="到着時間" />)}
+      </FormItem>
+    </Modal>
+  );
+});
+
+@connect(({ task, loading }) => ({
+  task,
+  loading: loading.models.task,
+}))
+@Form.create()
+export default class BasicProfile extends PureComponent {
+  state = {
+    modalVisible1: false,
+    modalVisible: false,
+    expandForm: false,
+    selectedRows: [],
+    formValues: {},
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'profile/fetchBasic',
+      type: 'task/fetch',
     });
   }
 
-  state = {
-    modalVisible1: false,
-    previewVisible: false,
-    previewImage: '',
-    fileList: [],
+  handleModalVisible = flag => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+  };
+
+  handleAddTask = fields => {
+    this.props.dispatch({
+      type: 'task/add',
+      payload: {
+        fields,
+      },
+    });
+
+    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
+    });
   };
 
   handleCancel = () => this.setState({ previewVisible: false })
@@ -49,32 +98,8 @@ export default class BasicProfile extends Component {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { profile, loading } = this.props;
-    const { basicGoods, basicProgress } = profile;
-    const { modalVisible1 } = this.state;
-    let goodsData = [];
-    if (basicGoods.length) {
-      let num = 0;
-      let amount = 0;
-      basicGoods.forEach(item => {
-        num += Number(item.num);
-        amount += Number(item.amount);
-      });
-      goodsData = basicGoods.concat({
-        num,
-        amount,
-      });
-    }
-    const renderContent = (value, row, index) => {
-      const obj = {
-        children: value,
-        props: {},
-      };
-      if (index === basicGoods.length) {
-        obj.props.colSpan = 0;
-      }
-      return obj;
-    };
+    const { task, loading } = this.props;
+    const { modalVisible } = this.state;
 
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
@@ -124,53 +149,53 @@ export default class BasicProfile extends Component {
       ) : null;
     }
 
-    const parentMethods1 = {
-      handleModalVisible1: this.handleModalVisible1,
+    const parentMethods = {
+      handleModalVisible: this.handleModalVisible,
     };
 
     const onPrev = () => {
       dispatch(routerRedux.push('/dashboard/workplace'));
     };
 
-    function confirm() {
-      message.success('点击了确定');
-    }
+    // function confirm() {
+    //   message.success('点击了确定');
+    // }
     
-    function cancel() {
-    }
+    // function cancel() {
+    // }
 
-    function confirm(data) {
-      Modal.confirm({
-        iconType: 'bars',
-        title: '詳細情報',
-        okText: '編集',
-        cancelText: '削除',
-        maskClosable: 'false',
-        content: (
-          <div>                
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              {
-                data.map(item => (
-                  <li key={item.content}>
-                    <Badge status={item.type} text={item.content}>
-                    </Badge>
-                  </li>
-                ))
-              }            
-            </Card>  
-          </div>
-        ),
-        onOk() {
-        },
-        onCancel() {
-        },
-      });
-    }
+    // function confirm(data) {
+    //   Modal.confirm({
+    //     iconType: 'bars',
+    //     title: '詳細情報',
+    //     okText: '編集',
+    //     cancelText: '削除',
+    //     maskClosable: 'false',
+    //     content: (
+    //       <div>                
+    //         <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+    //           {
+    //             data.map(item => (
+    //               <li key={item.content}>
+    //                 <Badge status={item.type} text={item.content}>
+    //                 </Badge>
+    //               </li>
+    //             ))
+    //           }            
+    //         </Card>  
+    //       </div>
+    //     ),
+    //     onOk() {
+    //     },
+    //     onCancel() {
+    //     },
+    //   });
+    // }
     function dateCellRender(value) {
       const listData = getListData(value);
       return (
         <ul className="events">
-          <a onClick={() => confirm(listData)} >
+          {/* <a onClick={() => confirm(listData)} > */}
           {
             listData.map(item => (
               <li key={item.content}>
@@ -179,59 +204,10 @@ export default class BasicProfile extends Component {
               </li>
             ))
           }
-          </a>
+          {/* </a> */}
         </ul>
       );
     }
-
-    const CreateForm1 = Form.create()(props => {
-      const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
-      const okHandle = () => {
-        form.validateFields((err, fieldsValue) => {
-          if (err) return;
-          form.resetFields();
-          handleAdd(fieldsValue);
-        });
-      };
-      return (
-        <Modal
-          title="実施記録基本情報"
-          visible={modalVisible1}
-          onOk={okHandle}
-          onCancel={() => handleModalVisible1()}
-        >
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
-            {form.getFieldDecorator('user', {
-              rules: [{ required: true, message: '実施者入力してください' }],
-            })(<Input placeholder="请输入" />)}
-          </FormItem>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
-            {form.getFieldDecorator('startTime', {
-              rules: [{ required: true, message: '请输入' }],
-            })(
-              <TimePicker
-                placeholder='実施時間(Start)'
-                style={{ width: '100%' }}
-              />
-              )}
-          </FormItem>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
-            {form.getFieldDecorator('endTime', {
-              rules: [{ required: true, message: '请输入' }],
-            })(
-              <TimePicker
-                placeholder='実施時間(End)'
-                style={{ width: '100%' }}
-              />)}
-        </FormItem>                         
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
-            {form.getFieldDecorator('program', {
-              rules: [{ required: true, message: '電話番号入力してください' }],
-            })(<Input placeholder="请输入" />)}
-          </FormItem>
-        </Modal>
-      );
-    });
   
     return (
       <PageHeaderLayout title="管理者詳細情報">
@@ -248,7 +224,7 @@ export default class BasicProfile extends Component {
             {/*スケジュール*/}
             <TabPane tab="スケジュール" key="assessment">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible1(true)} >新規</Button>
+                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)} >新規</Button>
                 <br/><br/>
                   <Calendar
                     dateCellRender={dateCellRender}
@@ -275,7 +251,7 @@ export default class BasicProfile extends Component {
             </TabPane>
           </Tabs>
         </Card>
-        <CreateForm1 {...parentMethods1} modalVisible1={modalVisible1} />
+        <CreateForm {...parentMethods} modalVisible={modalVisible} />
       </PageHeaderLayout>
     );
   }

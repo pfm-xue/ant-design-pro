@@ -79,7 +79,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
     },
     '/dashboard/workplace': {
-      component: dynamicWrapper(app, ['project', 'activities', 'chart'], () =>
+      component: dynamicWrapper(app, ['project', 'activities', 'chart', 'task'], () =>
         import('../routes/Dashboard/Workplace')
       ),
       // hideInBreadcrumb: true,
@@ -129,7 +129,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
     },
     '/profile/basic': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile')),
+      component: dynamicWrapper(app, ['profile', 'user'], () => import('../routes/Profile/UserShow')),
     },
     '/profile/advanced': {
       component: dynamicWrapper(app, ['profile'], () =>
@@ -173,8 +173,14 @@ export const getRouterData = app => {
     // },
 
     '/patient/list-patient': {
-      component: dynamicWrapper(app, ['patient'], () => import('../routes/Patient/TableList')),
+      component: dynamicWrapper(app, ['patient'], () => import('../routes/Patient/UserList')),
     },
+
+
+    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    '/patient/list-patientNew': {
+      component: dynamicWrapper(app, ['patient'], () => import('../routes/Profile/UserListNew')),
+    },    
 
     '/role/physician-role': {
       component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleList')),

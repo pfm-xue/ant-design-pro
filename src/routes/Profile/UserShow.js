@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker, message, Popconfirm, Upload, DatePicker } from 'antd';
 import DescriptionList from 'components/DescriptionList';
@@ -12,11 +12,47 @@ const FormItem = Form.Item;
 const { TabPane } = Tabs;
 const { Step } = Steps;
 
-@connect(({ profile, loading }) => ({
+const CreateForm1 = Form.create()(props => {
+  const { modalVisible1, form, handleModalVisible1 } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="タスク新規"
+      okText="保存"
+      cancelText="キャンセル"          
+      visible={modalVisible1}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible1()}
+    >
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実行時間">
+        {form.getFieldDecorator('executeTime', {
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input type="Date" placeholder="実行時間" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="到着時間">
+        {form.getFieldDecorator('arrivalTime', {
+          rules: [{ required: true, message: '入力してください。' }],
+        })(<Input type="Date" placeholder="到着時間" />)}
+      </FormItem>
+
+      
+    </Modal>
+  );
+});
+
+@connect(({ task, profile,  loading }) => ({
   profile,
+  task,
   loading: loading.effects['profile/fetchBasic'],
 }))
-export default class BasicProfile extends Component {
+@Form.create()
+export default class UserShow extends PureComponent {
 
   state = {
     modalVisible1: false,
@@ -38,6 +74,20 @@ export default class BasicProfile extends Component {
     });
   }
 
+  handleAdd = fields => {
+    this.props.dispatch({
+      type: 'task/add',
+      payload: {
+        fields,
+      },
+    });
+
+    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
+    });
+  };
+
 
   handleCancel = () => this.setState({ previewVisible: false })
 
@@ -51,7 +101,7 @@ export default class BasicProfile extends Component {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { profile, loading } = this.props;
+    const { profile, loading, } = this.props;
     const { basicGoods, basicProgress } = profile;
     const { modalVisible1, taskTime } = this.state;
     let goodsData = [];
@@ -111,23 +161,8 @@ export default class BasicProfile extends Component {
       return listData || [];
     }
 
-    // function getMonthData(value) {
-    //   if (value.month() === 8) {
-    //     return 1394;
-    //   }
-    // }
-    
-    // function monthCellRender(value) {
-    //   const num = getMonthData(value);
-    //   return num ? (
-    //     <div className="notes-month">
-    //       <section>{num}</section>
-    //       <span>Backlog number</span>
-    //     </div>
-    //   ) : null;
-    // }
-
     const parentMethods1 = {
+      handleAdd: this.handleAdd,
       handleModalVisible1: this.handleModalVisible1,
     };
 
@@ -177,55 +212,6 @@ export default class BasicProfile extends Component {
         </ul>
       );
     }
-
-    const CreateForm1 = Form.create()(props => {
-      const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
-      const okHandle = () => {
-        form.validateFields((err, fieldsValue) => {
-          if (err) return;
-          form.resetFields();
-          handleAdd(fieldsValue);
-        });
-      };
-      return (
-        <Modal
-          title="実施記録基本情報"
-          visible={modalVisible1}
-          onOk={okHandle}
-          onCancel={() => handleModalVisible1()}
-        >
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
-            {form.getFieldDecorator('user', {
-              rules: [{ required: true, message: '実施者入力してください' }],
-            })(<Input placeholder="请输入" />)}
-          </FormItem>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
-            {form.getFieldDecorator('startTime', {
-              rules: [{ required: true, message: '请输入' }],
-            })(
-              <TimePicker
-                placeholder='実施時間(Start)'
-                style={{ width: '100%' }}
-              />
-              )}
-          </FormItem>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
-            {form.getFieldDecorator('endTime', {
-              rules: [{ required: true, message: '请输入' }],
-            })(
-              <TimePicker
-                placeholder='実施時間(End)'
-                style={{ width: '100%' }}
-              />)}
-        </FormItem>                         
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
-            {form.getFieldDecorator('program', {
-              rules: [{ required: true, message: '電話番号入力してください' }],
-            })(<Input placeholder="请输入" />)}
-          </FormItem>
-        </Modal>
-      );
-    });
   
     return (
       <PageHeaderLayout title="使用者詳細情報">
