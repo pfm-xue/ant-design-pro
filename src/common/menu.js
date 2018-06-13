@@ -177,10 +177,10 @@ const menuData = [
         name: '利用者一覧',
         path: 'list-patient',
       },
-      {
-        name: '利用者一覧new',
-        path: 'list-patientNew',
-      },
+      // {
+      //   name: '利用者一覧new',
+      //   path: 'list-patientNew',
+      // },
     ],
   },
   {

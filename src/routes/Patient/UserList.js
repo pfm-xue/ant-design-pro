@@ -9,10 +9,7 @@ import styles from './TableList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const getValue = obj =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
+
 
 // 利用者 新建
 const CreateForm = Form.create()(props => {
@@ -108,7 +105,7 @@ const CreateForm1 = Form.create()(props => {
 
 @connect(({user, loading }) => ({
   user,
-  loading: loading.models.rule,
+  loading: loading.models.user,
 }))
 @Form.create()
 export default class UserList extends PureComponent {
@@ -288,8 +285,7 @@ export default class UserList extends PureComponent {
 
   render() {
     const { user: { data }, loading } = this.props;
-    const { selectedRows, modalVisible, modalVisible1, ImageUpload, MakePlan } = this.state;
-
+    const { modalVisible, modalVisible1 } = this.state;
     const columns = [
       {
         title: '利用者氏名',
@@ -309,13 +305,13 @@ export default class UserList extends PureComponent {
       },
       {
         title: '操作',
-        render: () => (
+        render: (record) => (
           <Fragment>
             <Button type="primary" onClick={() => this.handleModalVisible1(true)}>
               編集
             </Button>
             <Divider type="vertical" />
-            <Link to="/profile/basic" className={styles.logo} key="logo">
+            <Link to={"/profile/basic/" + record._id} className={styles.logo} key="logo">
               <Button>详细 </Button>
             </Link>
           </Fragment>

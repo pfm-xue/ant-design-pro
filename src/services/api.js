@@ -13,20 +13,28 @@ export async function queryRule(params) {
   return request(`/api/rule?${stringify(params)}`);
 }
 
-// http://localhost:3001/mp/admin/?page=1
-
-// /api/rule?${stringify(params)}
-
-export async function queryRole(params) {
+export async function queryRole() {
   return request(`http://localhost:3001/mp/admin/?page=1`);
 }
 
-export async function queryTask(params) {
+export async function queryTask() {
   return request(`http://localhost:3001/mp/task/?page=1`);
 }
 
-export async function queryUser(params) {
+export async function queryUser() {
   return request(`http://localhost:3001/mp/user/?page=1`);
+}
+
+export async function showUser(params) {
+  return request(`http://localhost:3001/mp/user/${params}`);
+}
+
+export async function queryTaskUser(params) {
+  return request(`http://localhost:3001/mp/task/${params}`);
+}
+
+export async function userShow(params) {
+  return request(`http://localhost:3001/mp/user/${params}`);
 }
 
 export async function removeRule(params) {

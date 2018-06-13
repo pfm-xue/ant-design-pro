@@ -1,5 +1,5 @@
 // import { queryTask, addTask, removeTask } from '../services/api';
-import { queryTask, addTask } from '../services/api';
+import { queryTask, addTask, showTask, queryTaskUser } from '../services/api';
 
 export default {
   namespace: 'task',
@@ -19,6 +19,13 @@ export default {
         payload: response,
       });
     },
+    *user({ payload }, { call, put }) {
+      const response = yield call(queryTaskUser, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },       
     *add({ payload, callback }, { call, put }) {
       const response = yield call(addTask, payload);
       yield put({

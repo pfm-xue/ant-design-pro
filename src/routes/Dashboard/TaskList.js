@@ -10,6 +10,7 @@ const FormItem = Form.Item;
 const { Search, TextArea } = Input;
 import styles from './Workplace.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import StandardTable from 'components/StandardTable';
 
 const CreateForm1 = Form.create()(props => {
   const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
@@ -85,21 +86,7 @@ const CreateForm = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-
-
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実行時間">
-        {form.getFieldDecorator('executeTime', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input type="Date" placeholder="実行時間" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="到着時間">
-        {form.getFieldDecorator('arrivalTime', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input type="Date" placeholder="到着時間" />)}
-      </FormItem>
-
-
-      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
         {form.getFieldDecorator('vital.vital1', {
           rules: [{ required: true, message: '入力してください。' }],
         })(<Input addonAfter="℃" placeholder="体温" />)}
@@ -118,78 +105,21 @@ const CreateForm = Form.create()(props => {
         {form.getFieldDecorator('vital.spO2', {
           rules: [{ required: true, message: '入力してください' }],
         })(<Input placeholder="SpO2" />)}
-      </FormItem> */}
+      </FormItem>
     </Modal>
   );
 });
 
 @connect(({ task, loading }) => ({
-  // project,
-  // activities,
-  // chart,
   task,
   loading: loading.models.task,
-  // activitiesLoading: loading.effects['activities/fetchList'],
 }))
 @Form.create()
-export default class Workplace extends PureComponent {
+export default class TaskList extends PureComponent {
 
   state = {
     modalVisible1: false,
     modalVisible: false,
-    date: '',
-    data: [{
-      key: '1',
-      date: '2018-06-06',
-      name: '鈴木',
-      record: 　'実施',
-      Vital1: '36.8℃',
-      Vital2: '126/66',
-      Vital3: '68',
-      time: '2018-05-29 13:00',
-      vitality: '実施',
-      Visits: 　'実施',
-    },{
-      key: '2',
-      date: '2018-06-07',
-      name: '佐々木',
-      record: 　'未実施',
-      Vital1: '',
-      Vital2: '',
-      Vital3: '',
-      vitality: '未実施',
-      Visits: 　'未実施',
-    },{
-      key: '3',
-      date: '2018-06-07',
-      name: '下口 敏輝',
-      record: 　'未実施',
-      Vital1: '',
-      Vital2: '',
-      Vital3: '',
-      vitality: '未実施',
-      Visits: 　'未実施',
-    },{
-      key: '4',
-      date: '2018-06-08',
-      name: '鈴木 直哉',
-      record: 　'未実施',
-      Vital1: '',
-      Vital2: '',
-      Vital3: '',
-      vitality: '未実施',
-      Visits: 　'未実施',
-    },{
-      key: '5',
-      date: '2018-06-08',
-      name: ' 岡崎 宏典',
-      record: 　'未実施',
-      Vital1: '',
-      Vital2: '',
-      Vital3: '',
-      vitality: '未実施',
-      Visits: 　'未実施',
-    }],
   };
 
   handleModalVisible1 = flag => {
@@ -206,18 +136,9 @@ export default class Workplace extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'project/fetchNotice',
-    // });
-    // dispatch({
-    //   type: 'activities/fetchList',
-    // });
-    // dispatch({
-    //   type: 'chart/fetch',
-    // });
-    // dispatch({
-    //   type: 'task/fetch',
-    // });    
+    dispatch({
+      type: 'task/fetch',
+    });    
   }
 
   handleAdd = fields => {
@@ -237,7 +158,7 @@ export default class Workplace extends PureComponent {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'chart/clear',
+      type: 'task/clear',
     });
   }
 
@@ -282,9 +203,12 @@ export default class Workplace extends PureComponent {
     const index = newData.findIndex(item => number === item.key);
     const item = newData[index];
     item.time = moment(new Date()).format('YYYY-MM-DD HH:mm');
-    this.setState({
-      data : newData,
-    });
+    // this.props.dispatch({
+    //   type: 'task/add',
+    //   payload: {
+    //     fields,
+    //   },
+    // });
   }
 
   save(form, key) {
@@ -309,13 +233,7 @@ export default class Workplace extends PureComponent {
   }
 
   render() {
-    const {
-      task: { date },
-      // projectLoading,
-      // activitiesLoading,
-      // chart: { radarData },
-    } = this.props;
-
+    // const { task: { date } } = this.props;
     const { modalVisible1, modalVisible } = this.state;
 
     const pageHeaderContent = (
@@ -371,8 +289,8 @@ export default class Workplace extends PureComponent {
     },
     {
       title: '到着時間',
-      dataIndex: 'time',
-      key: 'time',
+      dataIndex: 'arrivalTime',
+      key: 'arrivalTime',
       filters: [{
         text: '未到着',
         value: '未到着',
@@ -383,41 +301,40 @@ export default class Workplace extends PureComponent {
       onFilter: (value, record) => record.vitality.indexOf(value) === 0,         
       render: (text, record) => (
         <Fragment>
-          {!text ? <Button type="primary" size="small" onClick={() => this.toggle(record)}>未到着</Button> : text }
+          {!text ? <Button type="primary" size="small" onClick={() => this.toggle(record)}>未到着</Button> : moment(text).format('YYYY-MM-DD HH:mm') }
         </Fragment>
       ),
     },    
     {
       title: '利用者氏名',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <Link to="/profile/basic">{text}</Link>,
+      dataIndex: 'task_user.name',
+      key: 'task_user.name',
+      render: (text, record) => (
+        <Fragment>
+          <Link to={"/profile/basic/" + record.task_user._id }>{text}</Link>
+        </Fragment>
+      ),      
     },
     {
       title: '実施記録',
-      dataIndex: 'record',
-      key: 'record',
-      render: (text, record) => (
-        <Fragment>
-          {!text ? <Button type="primary" size="small" onClick={() => this.toggle(record)}>未到着</Button> : text }
-        </Fragment>
-      ),      
+      dataIndex: 'recording',
+      key: 'recording',   
       render: text => <a onClick={() => this.handleModalVisible1(true)}>{text}</a>,
     },
     {
       title: 'バイタル',
       children: [{
         title: '体温',
-        dataIndex: 'Vital1',
-        key: 'Vital1',
+        dataIndex: 'vital.vital1',
+        key: 'vital.vital1',
       },{
         title: '血圧',
-        dataIndex: 'Vital2',
-        key: 'Vital2',
+        dataIndex: 'vital.vital2',
+        key: 'vital.vital2',
       },{
         title: '脈帕',
-        dataIndex: 'Vital3',
-        key: 'Vital3',
+        dataIndex: 'vital.vital3',
+        key: 'vital.vital3',
       },{
         title: '操作',
         render: text => <a onClick={() => this.handleModalVisible(true)}><Button size="small" icon="edit" ></Button></a>,
@@ -425,21 +342,23 @@ export default class Workplace extends PureComponent {
     },
     {
       title: '体力測定',
-      dataIndex: 'vitality',
-      key: 'vitality',
-      filters: [{
-        text: '未実施',
-        value: '未実施',
-      }, {
-        text: '実施',
-        value: '実施',
-      }],
-      onFilter: (value, record) => record.vitality.indexOf(value) === 0,    
+      dataIndex: 'determine',
+      key: 'determine',
+      render: (text) => (
+        <Fragment>
+          {!text ? "未実施" : "実施" }
+        </Fragment>
+      ),
     },
     {
       title: '居宅訪問',
       dataIndex: 'Visits',
       key: 'Visits',
+      render: (text) => (
+        <Fragment>
+          {!text ? "未実施" : "実施" }
+        </Fragment>
+      ),      
     },
     {
       title: '操作',
@@ -453,10 +372,12 @@ export default class Workplace extends PureComponent {
     }];
 
     const parentMethods1 = {
+      handleAdd: this.handleAdd,
       handleModalVisible1: this.handleModalVisible1,
     };
 
     const parentMethods = {
+      handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -489,7 +410,15 @@ export default class Workplace extends PureComponent {
                     />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
-                  <Table dataSource={this.state.data} columns={columns} />
+                  <Table dataSource={this.props.task.data.list} columns={columns} />
+                  {/* <StandardTable
+                    selectedRows=''
+                    loading={loading}
+                    data={data}
+                    columns={columns}
+                    // onSelectRow={this.handleSelectRows}
+                    // onChange={this.handleStandardTableChange}
+                  />                   */}
                 </div>
               </TabPane>
               {/*計画書*/}
@@ -515,7 +444,7 @@ export default class Workplace extends PureComponent {
                     />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
-                  <Table dataSource={this.state.data} columns={columns} />
+                  <Table dataSource={this.props.task.data.list} columns={columns} />
                 </div>
               </TabPane>
               {/*実施記録*/}
@@ -541,7 +470,7 @@ export default class Workplace extends PureComponent {
                     />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
-                  <Table dataSource={this.state.data} columns={columns} />
+                  <Table dataSource={this.props.task.data.list} columns={columns} />
                 </div>
               </TabPane>
               </Tabs>
