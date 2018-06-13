@@ -1,11 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { Row, Col, Card, Form, Input, Select, Button, Modal, message, Divider } from 'antd';
 import { Link } from 'dva/router';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-import styles from './TableList.less';
+import styles from './UserList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -298,6 +299,11 @@ export default class UserList extends PureComponent {
       {
         title: '生年月日',
         dataIndex: 'birth',
+        render: (text) => (
+          <Fragment>
+          {moment(text).format('YYYY-MM-DD')}
+          </Fragment>
+        ),        
       },
       {
         title: '性別',

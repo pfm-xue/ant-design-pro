@@ -10,7 +10,6 @@ const FormItem = Form.Item;
 const { Search, TextArea } = Input;
 import styles from './Workplace.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import StandardTable from 'components/StandardTable';
 
 const CreateForm1 = Form.create()(props => {
   const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
@@ -337,7 +336,11 @@ export default class TaskList extends PureComponent {
         key: 'vital.vital3',
       },{
         title: '操作',
-        render: text => <a onClick={() => this.handleModalVisible(true)}><Button size="small" icon="edit" ></Button></a>,
+        render: (text, record) => (
+          <Fragment>
+            <a onClick={() => this.handleModalVisible(true)}><Button size="small" icon="edit" ></Button></a>
+          </Fragment>
+        ),
       }],
     },
     {
@@ -411,14 +414,6 @@ export default class TaskList extends PureComponent {
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
                   <Table dataSource={this.props.task.data.list} columns={columns} />
-                  {/* <StandardTable
-                    selectedRows=''
-                    loading={loading}
-                    data={data}
-                    columns={columns}
-                    // onSelectRow={this.handleSelectRows}
-                    // onChange={this.handleStandardTableChange}
-                  />                   */}
                 </div>
               </TabPane>
               {/*計画書*/}

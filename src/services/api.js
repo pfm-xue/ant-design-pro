@@ -58,6 +58,16 @@ export async function addRule(params) {
   });
 }
 
+export async function addAssessment(params) {
+  return request('http://localhost:3001/mp/assessment/', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 export async function addUser(params) {
   return request('http://localhost:3001/mp/user/', {
     method: 'POST',
