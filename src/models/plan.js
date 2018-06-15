@@ -1,11 +1,11 @@
-// import { queryRole, removeRole, addRole } from '../services/api';
-import { queryRole, addRole, roleShow } from '../services/api';
+// import { queryPlan, removePlan, addPlan } from '../services/api';
+import { queryPlan, addPlan } from '../services/api';
 
 export default {
-  namespace: 'role',
+  namespace: 'plan',
 
   state: {
-    data: {
+    planData: {
       list: [],
       pagination: {},
     },
@@ -13,30 +13,22 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryRole, payload);
+      const response = yield call(queryPlan, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addRole, payload);
+      const response = yield call(addPlan, payload);
       yield put({
         type: 'save',
         payload: response,
       });
       if (callback) callback();
     },
-    *show({ payload, callback }, { call, put }) {
-      const response = yield call(roleShow, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },    
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRole, payload);
+      const response = yield call(removePlan, payload);
       yield put({
         type: 'save',
         payload: response,

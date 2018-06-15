@@ -45,9 +45,9 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-@connect(({ task, loading }) => ({
+@connect(({ task, role, loading }) => ({
+  role,
   task,
-  loading: loading.models.task,
 }))
 @Form.create()
 export default class BasicProfile extends PureComponent {
@@ -64,6 +64,10 @@ export default class BasicProfile extends PureComponent {
     dispatch({
       type: 'task/fetch',
     });
+    dispatch({
+      type: 'role/show',
+      payload: this.props.match.params.id,
+    });    
   }
 
   handleModalVisible = flag => {
@@ -98,7 +102,7 @@ export default class BasicProfile extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { task, loading } = this.props;
+    const { task, loading, role: {data} } = this.props;
     const { modalVisible } = this.state;
 
     const { previewVisible, previewImage, fileList } = this.state;
@@ -213,10 +217,10 @@ export default class BasicProfile extends PureComponent {
       <PageHeaderLayout title="管理者詳細情報">
         <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false} >
           <DescriptionList size="large" title="" style={{ marginBottom: 32 }}>
-            <Description term="管理者氏名">曲丽丽</Description>
-            <Description term="電話番号">15541188563</Description>
-            <Description term="性別">女</Description>
+            {/* <Description term="名前">{data.list[0].adminName}</Description> */}
             <Description term="role">介護士、看護師</Description>
+            <Description term="電話番号">15541188563</Description>
+            <Description term="Email">女</Description>
           </DescriptionList>
         </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >

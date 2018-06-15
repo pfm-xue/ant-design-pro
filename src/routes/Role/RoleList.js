@@ -109,7 +109,7 @@ const CreateForm1 = Form.create()(props => {
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
             <Option value="介護士">介護士</Option>
-            <Option value="施設内システム管理者1">施設内システム管理者</Option>
+            <Option value="施設内システム管理者">施設内システム管理者</Option>
             <Option value="看護師">看護師</Option>
             <Option value="相談員">相談員</Option>
           </Select>
@@ -340,7 +340,7 @@ export default class RoleList extends PureComponent {
               編集
             </Button>
             <Divider type="vertical" />
-            <Link to="/role/physician-show">
+            <Link to={"/role/physician-show/" + record._id}>
               <Button>详细 </Button>
             </Link>            
           </Fragment>

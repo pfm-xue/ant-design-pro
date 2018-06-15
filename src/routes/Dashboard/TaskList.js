@@ -297,7 +297,7 @@ export default class TaskList extends PureComponent {
         text: '到着',
         value: '到着',
       }],
-      onFilter: (value, record) => record.vitality.indexOf(value) === 0,         
+      onFilter: (value, record) => record.arrivalTime.indexOf(value) === null,         
       render: (text, record) => (
         <Fragment>
           {!text ? <Button type="primary" size="small" onClick={() => this.toggle(record)}>未到着</Button> : moment(text).format('YYYY-MM-DD HH:mm') }

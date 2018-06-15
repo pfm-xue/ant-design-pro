@@ -105,7 +105,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
     },
     '/form/advanced-form': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
+      component: dynamicWrapper(app, ['form', 'plan'], () => import('../routes/Forms/AdvancedForm')),
     },
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
@@ -129,7 +129,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
     },
     '/profile/basic/:id': {
-      component: dynamicWrapper(app, ['profile', 'user', 'show'], () => import('../routes/Profile/UserShow')),
+      component: dynamicWrapper(app, ['user','show','plan','profile'], () => import('../routes/Profile/UserShow')),
     },
     '/profile/advanced': {
       component: dynamicWrapper(app, ['profile'], () =>
@@ -218,8 +218,8 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile2')),
     },
 
-    '/role/physician-show': {
-      component: dynamicWrapper(app, ['role'], () => import('../routes/Role/BasicProfile')),
+    '/role/physician-show/:id': {
+      component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleShow')),
     },
   };
   // Get name from ./menu.js or just set it in the router data.

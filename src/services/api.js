@@ -21,6 +21,10 @@ export async function queryTask() {
   return request(`http://localhost:3001/mp/task/?page=1`);
 }
 
+export async function queryPlan() {
+  return request(`http://localhost:3001/mp/plan/?page=1`);
+}
+
 export async function queryUser() {
   return request(`http://localhost:3001/mp/user/?page=1`);
 }
@@ -35,6 +39,10 @@ export async function queryTaskUser(params) {
 
 export async function userShow(params) {
   return request(`http://localhost:3001/mp/user/${params}`);
+}
+
+export async function roleShow(params) {
+  return request(`http://localhost:3001/mp/admin/${params}`);
 }
 
 export async function removeRule(params) {
@@ -60,6 +68,16 @@ export async function addRule(params) {
 
 export async function addAssessment(params) {
   return request('http://localhost:3001/mp/assessment/', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function addPlan(params) {
+  return request('http://localhost:3001/mp/plan/', {
     method: 'POST',
     body: {
       ...params,

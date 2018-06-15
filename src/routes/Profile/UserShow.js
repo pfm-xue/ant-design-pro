@@ -50,9 +50,11 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-@connect(({ user, task }) => ({
+@connect(({ user, task, plan, loading }) => ({
   task,
   user,
+  plan,
+  loading: loading.models.user,
 }))
 @Form.create()
 export default class UserShow extends PureComponent {
@@ -66,13 +68,16 @@ export default class UserShow extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'user/show',
-      payload: this.props.match.params.id,
-    });
+    // dispatch({
+    //   type: 'user/show',
+    //   payload: this.props.match.params.id,
+    // });
     dispatch({
       type: 'task/fetch',
-    });    
+    });
+    dispatch({
+      type: 'plan/fetch',
+    });      
   }
 
   handleFormReset = () => {
@@ -142,7 +147,11 @@ export default class UserShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { user: { data }, task } = this.props;
+    const { 
+      // user: { data }, 
+      task,
+      plan: { planData}, 
+      loading } = this.props;
 
     const { modalVisible, fileList, previewVisible, previewImage } = this.state;
 
@@ -159,39 +168,28 @@ export default class UserShow extends PureComponent {
     };
 
     function dateCellRender(value) {
-      // const list = task.data.list;
-      // for (var i=0;i<31;i++) {
-      //   const executeTime = list[0].executeTime;
-      //   if (moment(executeTime).format('YYYY-MM-DD') === moment(value._d).format('YYYY-MM-DD') ) {
-      //     return (
-      //       <ul className="events">
-      //         {/* <a onClick={() => confirm(listData)} > */}
-      //         {/* {listData.map(item => (
-      //             <li key={item.content}>
-      //               <Badge status={item.type} text={item.content}>
-      //               </Badge>
-      //             </li>
-      //           ))} */}
-      //         {/* </a> */}
-      //         <div>{moment(value._d).format('YYYY-MM-DD')}</div>;
-      //       </ul>
-      //     );
-      //   }
-      // }
+      const list = task.data.list;
+      list.map(item => {
+        const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
+        const valueTime = moment(value._d).format('YYYY-MM-DD');
+        if ( executeTime === valueTime ) {
+          return <div>{moment(value._d).format('YYYY-MM-DD')}</div>;
+        }
+      });      
     }
 
     return (
       <PageHeaderLayout title="使用者詳細情報">
-          <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
-              {/* <DescriptionList size="large" title="" style={{ marginBottom: 32 }}>
+          {/* <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
+              <DescriptionList loading={loading} size="large" title="" style={{ marginBottom: 32 }}>
                 <p><Description term="利用者氏名">{data.list[0].name}</Description></p>
                 <p><Description term="ふりがな">{data.list[0].phonetic}</Description></p>
                 <p><Description term="生年月日">{moment(data.list[0].birth).format('YYYY-MM-DD')}</Description></p>
                 <p><Description term="性別">{data.list[0].sex}</Description></p>
                 <p><Description term="電話番号">1234567893215</Description></p>
                 <p><Description term="住所">东京都江戸川区江戸川（1～3丁目、4丁目1～14番）</Description></p>
-              </DescriptionList> */}
-          </Card>
+              </DescriptionList>
+          </Card> */}
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
          <Tabs>         
           {/*スケジュール*/}
@@ -213,12 +211,7 @@ export default class UserShow extends PureComponent {
               </Link>
               <br/><br/>
                 <Steps direction="vertical" >
-                  <Step title="2018-07-01" description='藤野和宏  第六次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/profile/plan-show" ><Icon type="edit" /></Link>}/>
-                  <Step title="2018-04-01" description='藤野和宏  第五次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                  <Step title="2018-01-01" description='藤野和宏  第四次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                  <Step title="2017-09-01" description='第三次生成計画書。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>                
-                  <Step title="2017-06-01" description='第二次生成計画書。 -- 冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
-                  <Step title="2017-03-01" description='計画書が初めて作成する。 -- 藤野和宏、冈本柊人' icon={<Link to="/dashboard/monitor" ><Icon type="edit" /></Link>}/>
+                {planData.list.map(item => <Step title={item.createDate} description={item.planAuthor} icon={<Link to={"/profile/plan-show/" + item._id} ><Icon type="edit" /></Link>}/>)}
                 </Steps>
             </Card>
             </TabPane>

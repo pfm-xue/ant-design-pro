@@ -1,17 +1,13 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Form, Icon, Col, Row, DatePicker, TimePicker, Input,
-         Select, Divider, Popover, Mention, Slider } from 'antd';
+import { Card, Button, Form, Icon, Col, Row, Input,
+         Select, Divider, Popover, Slider } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TableForm from './TableForm';
 import styles from './style.less';
 import { Link } from 'dva/router';
-const { TextArea } = Input;
 const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { toContentState, getMentions } = Mention;
-
 const tableData = [];
 
 const disorderList = {
@@ -35,27 +31,15 @@ const dementiaList = {
   6: 'ⅣM',
 };
 
-class AdvancedForm extends PureComponent {
+@connect(({ plan, loading }) => ({
+  plan,
+  submitting: loading.effects['form/submitAdvancedForm'],  
+}))
+@Form.create()
+export default class AdvancedForm extends PureComponent {
   state = {
     width: '100%',
   };
-
-  // test123
-  handleReset = (e) => {
-    e.preventDefault();
-    this.props.form.resetFields();
-  }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((errors, values) => {
-      if (errors) {
-        console.log('Errors in form!!!');
-        return;
-      }
-      console.log('Submit!!!');
-      console.log(values);
-    });
-  }
 
   componentDidMount() {
     window.addEventListener('resize', this.resizeFooterToolbar);
@@ -78,8 +62,10 @@ class AdvancedForm extends PureComponent {
         if (!error) {
           // submit the values
           dispatch({
-            type: 'form/submitAdvancedForm',
-            payload: values,
+            type: 'plan/add',
+            payload: {
+              planData: values,
+            },            
           });
         }
       });
@@ -122,9 +108,8 @@ class AdvancedForm extends PureComponent {
         </span>
       );
     };
-    // test123
+
     const { getFieldValue } = this.props.form;
-    console.log('>> render', getFieldValue('mention') === this.state.initValue);
 
     return (
       <PageHeaderLayout
@@ -151,13 +136,13 @@ class AdvancedForm extends PureComponent {
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：" >
-                  {form.getFieldDecorator('mention', {
+                  {form.getFieldDecorator('planAuthor', {
                     rules: [{ required: true, message: '計画作成者入力してください' }],
-                  })(<Mention suggestions={['下口']}/>)}
+                  })(<Input placeholder="请输入"/>)}
                 </Form.Item>                
               </Col>
             </Row>
-            <Row gutter={16}>
+            {/* <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな：">
                   {form.getFieldDecorator('phonetic', {
@@ -179,7 +164,7 @@ class AdvancedForm extends PureComponent {
                   })(<Input type="Date" placeholder="请输入" />)}
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護認定：">
@@ -228,11 +213,11 @@ class AdvancedForm extends PureComponent {
             </Row>
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="氏名：">
+                {/* <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="氏名：">
                   {form.getFieldDecorator('name', {
                     rules: [{ required: true, message: '氏名入力してください' }],
                   })(<Input placeholder="请输入" />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="本人の希望：">
@@ -268,7 +253,7 @@ class AdvancedForm extends PureComponent {
                 <Form.Item wrapperCol={{ span: 20 }} label="病名、合併症(心疾患、吸器疾患等)：" >
                   {form.getFieldDecorator('diseaseName', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Mention multiLines suggestions={['生活課題']}/>)}
+                  })(<Input placeholder="请输入" />)}
                 </Form.Item>                     
               </Col>
             </Row>
@@ -277,21 +262,21 @@ class AdvancedForm extends PureComponent {
                 <Form.Item wrapperCol={{ span: 20 }} label="運動時のリスク(血圧、不整脈、呼吸等)：" >
                   {form.getFieldDecorator('exerciseRisk', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Mention multiLines suggestions={['生活課題']}/>)}
+                  })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item wrapperCol={{ span: 20 }} label="生活課題：" >
                   {form.getFieldDecorator('lifeIssues', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Mention multiLines suggestions={['生活課題']}/>)}
+                  })(<Input placeholder="请输入" />)}
                 </Form.Item>                    
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item wrapperCol={{ span: 20 }} label="在宅環境(生活課題に関連する在宅環境課題)：" >
                   {form.getFieldDecorator('homeEnvironment', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Mention multiLines suggestions={['生活課題']}/>)}
+                  })(<Input placeholder="请输入" />)}
                 </Form.Item>
               </Col>
             </Row>
@@ -300,27 +285,27 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
-                  {form.getFieldDecorator('longTermGoals', {
+                  {form.getFieldDecorator('additionalTraining.longTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input type="Date" placeholder="長期目標" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item>
+                {/* <Form.Item>
                   {getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('longTermGoalsDegree', {
+                  {form.getFieldDecorator('additionalTraining.longTermGoalsDegree', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(
                     <Select placeholder="逹成度">
-                      <Option value="xiao">逹成</Option>
-                      <Option value="mao">一部</Option>
-                      <Option value="mao">未逹</Option>
+                      <Option value="逹成">逹成</Option>
+                      <Option value="一部">一部</Option>
+                      <Option value="未逹">未逹</Option>
                     </Select>
                   )}
                 </Form.Item>
@@ -329,27 +314,27 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
-                  {form.getFieldDecorator('shortTermGoals', {
+                  {form.getFieldDecorator('additionalTraining.shortTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input type="Date" placeholder="短期目標" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item>
+                {/* <Form.Item>
                   {getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('shortTermGoalsDegree', {
+                  {form.getFieldDecorator('additionalTraining.shortTermGoalsDegree', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
                   })(
                     <Select placeholder="逹成度">
-                      <Option value="xiao">逹成</Option>
-                      <Option value="mao">一部</Option>
-                      <Option value="mao">未逹</Option>
+                      <Option value="逹成">逹成</Option>
+                      <Option value="一部">一部</Option>
+                      <Option value="未逹">未逹</Option>
                     </Select>
                   )}
                 </Form.Item>
@@ -368,11 +353,11 @@ class AdvancedForm extends PureComponent {
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
-                  {form.getFieldDecorator('programAdded', {
+                {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('additionalTraining.enum', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input placeholder="请输入" />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
             </Row> 
         </Card>
@@ -380,27 +365,27 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
-                  {form.getFieldDecorator('longTermGoals', {
+                  {form.getFieldDecorator('planTow.longTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input type="Date" placeholder="長期目標" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item>
+                {/* <Form.Item>
                   {form.getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('longTermGoalsDegree', {
+                  {form.getFieldDecorator('planTow.longTermGoalsDegree', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(
                     <Select placeholder="逹成度">
-                      <Option value="xiao">逹成</Option>
-                      <Option value="mao">一部</Option>
-                      <Option value="mao">未逹</Option>
+                      <Option value="逹成">逹成</Option>
+                      <Option value="一部">一部</Option>
+                      <Option value="未逹">未逹</Option>
                     </Select>
                   )}
                 </Form.Item>
@@ -409,27 +394,27 @@ class AdvancedForm extends PureComponent {
             <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
-                  {form.getFieldDecorator('shortTermGoals', {
+                  {form.getFieldDecorator('planTow.shortTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input type="Date" placeholder="短期目標" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item>
+                {/* <Form.Item>
                   {form.getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('shortTermGoalsDegree', {
+                  {form.getFieldDecorator('planTow.shortTermGoalsDegree', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(
                     <Select placeholder="逹成度">
-                      <Option value="xiao">逹成</Option>
-                      <Option value="mao">一部</Option>
-                      <Option value="mao">未逹</Option>
+                      <Option value="逹成">逹成</Option>
+                      <Option value="一部">一部</Option>
+                      <Option value="未逹">未逹</Option>
                     </Select>
                   )}
                 </Form.Item>
@@ -448,11 +433,11 @@ class AdvancedForm extends PureComponent {
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
-                  {form.getFieldDecorator('programPlan', {
+                {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('planTow.enum', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input placeholder="请输入" />)}
-                </Form.Item>
+                </Form.Item> */}
               </Col>
             </Row>             
           </Card>
@@ -460,9 +445,9 @@ class AdvancedForm extends PureComponent {
           <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
               <Form.Item wrapperCol={{ span: 20 }} label="特記事項" >
-                  {form.getFieldDecorator('lifeIssues', {
+                  {form.getFieldDecorator('specialNotes', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Mention multiLines suggestions={['特記事項']}/>)}
+                  })(<Input placeholder="请输入" />)}
                 </Form.Item>                 
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
@@ -476,7 +461,7 @@ class AdvancedForm extends PureComponent {
             保存
           </Button>
           <Divider type="vertical" />
-          <Link to="/profile/basic">
+          <Link to="/patient/list-patient">
             <Button>キャンセル</Button>
           </Link>
         </FooterToolbar>
@@ -484,8 +469,3 @@ class AdvancedForm extends PureComponent {
     );
   }
 }
-
-export default connect(({ global, loading }) => ({
-  collapsed: global.collapsed,
-  submitting: loading.effects['form/submitAdvancedForm'],
-}))(Form.create()(AdvancedForm));
