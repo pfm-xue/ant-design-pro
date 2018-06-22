@@ -36,7 +36,7 @@ export default class PlanShow extends PureComponent {
     return parameter && (
       <PageHeaderLayout title="個別機能訓綶計画詳細情報">
         <Card style={{ marginBottom: 24 }} title="操作" bordered={false} >
-        <Link to="/form/advanced-form"><Button type="primary" icon="edit" >編集</Button></Link>
+        <Link to={"/form/plan-edit/" + parameter[0]._id }><Button type="primary" icon="edit" >編集</Button></Link>
         <Divider type="vertical" />
         <Popconfirm title="これを削除しますか？">
           <Button icon="delete" type="danger">消除</Button>

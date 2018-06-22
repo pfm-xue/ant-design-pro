@@ -126,6 +126,11 @@ export default class RoleShow extends PureComponent {
         okText: '保存',
         cancelText: 'キャンセル',
         maskClosable: 'false',
+        onOk() {
+          this.handleAddTask(data);
+        },
+        onCancel() {
+        },        
         content: (
           <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
@@ -141,15 +146,6 @@ export default class RoleShow extends PureComponent {
             </Card>  
           </div>
         ),
-        onOk() {
-          // const data = {
-          //   _id: data._id,
-          //   executeTime1: data.executeTime,
-          // };
-          // this.handleAdd(data);
-        },
-        onCancel() {
-        },
       });
     }
 
