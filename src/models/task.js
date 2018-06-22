@@ -33,7 +33,7 @@ export default {
         payload: response,
       });
       if (callback) callback();
-    },
+    },  
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(removeTask, payload);
       yield put({

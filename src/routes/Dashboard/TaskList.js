@@ -75,6 +75,7 @@ export default class TaskList extends PureComponent {
 
     this.setState({
       modalVisible: false,
+      modalVisible1: false,
     });
   };
 
@@ -160,7 +161,7 @@ export default class TaskList extends PureComponent {
     const { modalVisible1, modalVisible, data } = this.state;
 
     const CreateForm1 = Form.create()(props => {
-      const { modalVisible1, form, handleModalVisible1 } = props;
+      const { modalVisible1, form } = props;
     
       const okHandle = () => {
         form.validateFields((err, fieldsValue) => {
@@ -176,17 +177,21 @@ export default class TaskList extends PureComponent {
           visible={modalVisible1}
           onOk={okHandle}
           onCancel={() => this.handleCancel()}
-        >    
-                
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
-            {form.getFieldDecorator('recording.implement_admin', {
-              initialValue:data.task_admin.adminName,
+        >
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
+            {form.getFieldDecorator('_id', {
+              initialValue:data._id,
               rules: [{ required: true, message: '入力してください。' }],
-            })(<Input placeholder="実施者" />)}
+            })(<Input disabled />)}
           </FormItem>
+          {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
+            {form.getFieldDecorator('recording.implement_admin', {
+              initialValue:data.task_admin._id,
+              rules: [{ required: true, message: '入力してください。' }],
+            })(<Input disabled placeholder="実施者" />)}
+          </FormItem> */}
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
             {form.getFieldDecorator('recording.startTime', {
-              rules: [{ required: true, message: '入力してください。' }],
             })(
               <TimePicker
                 defaultValue={moment(data.recording.startTime, 'HH:mm:ss')}
@@ -196,7 +201,6 @@ export default class TaskList extends PureComponent {
           </FormItem>
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
             {form.getFieldDecorator('recording.endTime', {
-              rules: [{ required: true, message: '入力してください。' }],
             })(
               <TimePicker
               defaultValue={moment(data.recording.endTime, 'HH:mm:ss')}
@@ -207,7 +211,6 @@ export default class TaskList extends PureComponent {
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
             {form.getFieldDecorator('recording.program', {
               initialValue:data.recording.program,
-              rules: [{ required: true, message: '入力してください。' }],
             })(<Input placeholder="プログラム" />)}
           </FormItem>
           {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="特記事項">
@@ -237,33 +240,29 @@ export default class TaskList extends PureComponent {
           onCancel={() => this.handleCancel()}
         >
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
-            {form.getFieldDecorator('vital.vital1', {
+            {form.getFieldDecorator('_id', {
               initialValue:data._id,
               rules: [{ required: true, message: '入力してください。' }],
-            })(<Input/>)}
+            })(<Input disabled />)}
           </FormItem>        
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
             {form.getFieldDecorator('vital.vital1', {
               initialValue:data.vital.vital1,
-              rules: [{ required: true, message: '入力してください。' }],
             })(<Input addonAfter="℃" placeholder="体温" />)}
           </FormItem>
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="血圧">
             {form.getFieldDecorator('vital.vital2', {
               initialValue:data.vital.vital2,
-              rules: [{ required: true, message: '入力してください。' }],
             })(<Input placeholder="血圧" />)}
           </FormItem>
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="脈帕">
             {form.getFieldDecorator('vital.vital3', {
               initialValue:data.vital.vital3,
-              rules: [{ required: true, message: '入力してください。' }],
             })(<Input placeholder="脈帕" />)}
         </FormItem>                         
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="SpO2">
             {form.getFieldDecorator('vital.spO2', {
               initialValue:data.vital.spO2,
-              rules: [{ required: true, message: '入力してください' }],
             })(<Input placeholder="SpO2" />)}
           </FormItem>
         </Modal>

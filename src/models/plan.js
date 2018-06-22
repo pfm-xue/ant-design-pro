@@ -1,11 +1,10 @@
-// import { queryPlan, removePlan, addPlan } from '../services/api';
-import { queryPlan, addPlan } from '../services/api';
+import { queryPlan, addPlan, showPlan } from '../services/api';
 
 export default {
   namespace: 'plan',
 
   state: {
-    planData: {
+    data: {
       list: [],
       pagination: {},
     },
@@ -27,6 +26,13 @@ export default {
       });
       if (callback) callback();
     },
+    *show({ payload }, { call, put }) {
+      const response = yield call(showPlan, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },     
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(removePlan, payload);
       yield put({

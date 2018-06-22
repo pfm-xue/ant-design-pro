@@ -210,8 +210,8 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Assessment')),
     },
 
-    '/profile/plan-show': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile1')),
+    '/profile/plan-show/:id': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/PlanShow')),
     },
 
     '/profile/plan-printing': {

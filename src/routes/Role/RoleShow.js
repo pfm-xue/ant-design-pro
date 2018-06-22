@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Select, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
+import { Card, DatePicker, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Select, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './BasicProfile.less';
@@ -119,6 +119,40 @@ export default class RoleShow extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
+    function confirm(data) {
+      Modal.confirm({
+        iconType: 'bars',
+        title: 'タスク詳細情報',
+        okText: '保存',
+        cancelText: 'キャンセル',
+        maskClosable: 'false',
+        content: (
+          <div>
+            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+              <FormItem label="タスク予定時間">
+                {(<DatePicker defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
+              </FormItem>                         
+              <div>
+                <ul className="events">
+                    <li>利用者氏名：{data.task_user.name}</li>
+                    <li>管理者氏名：{data.task_admin.adminName}</li>
+                </ul>
+              </div>
+            </Card>  
+          </div>
+        ),
+        onOk() {
+          // const data = {
+          //   _id: data._id,
+          //   executeTime1: data.executeTime,
+          // };
+          // this.handleAdd(data);
+        },
+        onCancel() {
+        },
+      });
+    }
+
     function getListData(value) {
       const list = task.data.list;
       let data;
@@ -139,8 +173,10 @@ export default class RoleShow extends PureComponent {
       } else {
         return (
           <ul className="events">
-            <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
-            <li>利用者氏名：{list.task_user.name}</li>
+            <a onClick={() => confirm(list)} >
+              <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
+              <li>利用者氏名：{list.task_user.name}</li>
+            </a>
           </ul>
         );
       }

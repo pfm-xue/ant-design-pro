@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Row, Col, Card, Form, Input, Select, Button, Modal, message, Divider } from 'antd';
+import { Row, Col, Card, Form, Input, Select, Button, Modal, DatePicker, Popconfirm, Divider } from 'antd';
 import { Link } from 'dva/router';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -36,7 +36,6 @@ const CreateForm = Form.create()(props => {
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
         {form.getFieldDecorator('phonetic', {
-          rules: [{ required: true, message: '氏名入力してください' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>      
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
@@ -49,57 +48,19 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '性別を選択してください' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">男</Option>
-            <Option value="1">女</Option>
+            <Option value="男">男</Option>
+            <Option value="女">女</Option>
           </Select>
         )}
-      </FormItem> 
-    </Modal>
-  );
-});
-
-// 利用者 编辑
-const CreateForm1 = Form.create()(props => {
-  const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="利用者情報変更"
-      visible={modalVisible1}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible1()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '氏名入力してください' }],
-        })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
-        {form.getFieldDecorator('phonetic', {
-          rules: [{ required: true, message: '氏名入力してください' }],
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
+            {form.getFieldDecorator('telephoneNumber', {
+            })(<Input placeholder="请输入" />)}
+      </FormItem>      
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アドレス">
+        {form.getFieldDecorator('address', {
         })(<Input placeholder="请输入" />)}
       </FormItem>      
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
-        {form.getFieldDecorator('birth', {
-          rules: [{ required: true, message: '生年月日を選択してください' }],
-        })(<Input type="Date" placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
-        {form.getFieldDecorator('sex', {
-          rules: [{ required: true, message: '性別を選択してください' }],
-        })(
-          <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">男</Option>
-            <Option value="1">女</Option>
-          </Select>
-        )}
-      </FormItem> 
     </Modal>
   );
 });
@@ -116,6 +77,7 @@ export default class UserList extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
+    userData: '',
   };
 
   componentDidMount() {
@@ -124,32 +86,6 @@ export default class UserList extends PureComponent {
       type: 'user/fetch',
     });
   }
-
-  // handleStandardTableChange = (pagination, filtersArg, sorter) => {
-  //   const { dispatch } = this.props;
-  //   const { formValues } = this.state;
-
-  //   const filters = Object.keys(filtersArg).reduce((obj, key) => {
-  //     const newObj = { ...obj };
-  //     newObj[key] = getValue(filtersArg[key]);
-  //     return newObj;
-  //   }, {});
-
-  //   const params = {
-  //     currentPage: pagination.current,
-  //     pageSize: pagination.pageSize,
-  //     ...formValues,
-  //     ...filters,
-  //   };
-  //   if (sorter.field) {
-  //     params.sorter = `${sorter.field}_${sorter.order}`;
-  //   }
-
-  //   dispatch({
-  //     type: 'user/fetch',
-  //     payload: params,
-  //   });
-  // };
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -162,12 +98,6 @@ export default class UserList extends PureComponent {
       payload: {},
     });
   };
-
-  // toggleForm = () => {
-  //   this.setState({
-  //     expandForm: !this.state.expandForm,
-  //   });
-  // };
 
   handleMenuClick = e => {
     const { dispatch } = this.props;
@@ -224,11 +154,18 @@ export default class UserList extends PureComponent {
     });
   };
 
-  handleModalVisible1 = flag => {
+  handleModalVisible1 = (record) => {
     this.setState({
-      modalVisible1: !!flag,
+      modalVisible1: true,
+      userData: record,
     });
   };
+
+  handleCancel = () => {
+    this.setState({
+      modalVisible1: false,
+    });
+  }
 
   handleAdd = fields => {
     const { dispatch } = this.props;    
@@ -238,10 +175,9 @@ export default class UserList extends PureComponent {
         fields,
       },
     });
-
-    message.success('添加成功');
     this.setState({
       modalVisible: false,
+      modalVisible1: false,      
     });
   };
 
@@ -259,8 +195,8 @@ export default class UserList extends PureComponent {
             <FormItem label="性別">
               {getFieldDecorator('no')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">男</Option>
-                  <Option value="1">女</Option>
+                  <Option value="男">男</Option>
+                  <Option value="女">女</Option>
                 </Select>
               )}
             </FormItem>
@@ -286,7 +222,69 @@ export default class UserList extends PureComponent {
 
   render() {
     const { user: { data }, loading } = this.props;
-    const { modalVisible, modalVisible1 } = this.state;
+    const { modalVisible, modalVisible1, userData } = this.state;
+
+    // 利用者 编辑
+    const CreateForm1 = Form.create()(props => {
+      const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
+      const okHandle = () => {
+        form.validateFields((err, fieldsValue) => {
+          if (err) return;
+          form.resetFields();
+          handleAdd(fieldsValue);
+        });
+      };
+      return userData && (
+        <Modal
+          title="利用者情報変更"
+          visible={modalVisible1}
+          onOk={okHandle}
+          onCancel={() => this.handleCancel()}
+        >
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
+            {form.getFieldDecorator('_id', {
+              initialValue:userData._id,
+              rules: [{ required: true, message: 'Please input some description...' }],
+            })(<Input disabled placeholder="请输入" />)}
+          </FormItem>         
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
+            {form.getFieldDecorator('name', {
+              initialValue:userData.name,
+            })(<Input placeholder="请输入" />)}
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
+            {form.getFieldDecorator('phonetic', {
+              initialValue:userData.phonetic,
+            })(<Input placeholder="请输入" />)}
+          </FormItem>      
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
+            {form.getFieldDecorator('birth', {
+            })(<DatePicker defaultValue={moment(userData.birth, 'YYYY-MM-DD')}/>)}
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
+            {form.getFieldDecorator('sex', {
+              initialValue:userData.sex,
+            })(
+              <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Option value="男">男</Option>
+                <Option value="女">女</Option>
+              </Select>
+            )}
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
+            {form.getFieldDecorator('telephoneNumber', {
+              initialValue:userData.telephoneNumber,
+            })(<Input placeholder="请输入" />)}
+          </FormItem>      
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アドレス">
+            {form.getFieldDecorator('address', {
+              initialValue:userData.address,
+            })(<Input placeholder="请输入" />)}
+          </FormItem>          
+        </Modal>
+      );
+    });
+
     const columns = [
       {
         title: '利用者氏名',
@@ -310,10 +308,18 @@ export default class UserList extends PureComponent {
         dataIndex: 'sex',
       },
       {
+        title: '電話番号',
+        dataIndex: 'telephoneNumber',
+      },
+      {
+        title: 'アドレス',
+        dataIndex: 'address',
+      },            
+      {
         title: '操作',
         render: (record) => (
           <Fragment>
-            <Button type="primary" onClick={() => this.handleModalVisible1(true)}>
+            <Button type="primary" onClick={() => this.handleModalVisible1(record)}>
               編集
             </Button>
             <Divider type="vertical" />
@@ -343,6 +349,9 @@ export default class UserList extends PureComponent {
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建
               </Button>
+              <Popconfirm title="これを削除しますか？">
+                <Button icon="delete" type="danger">消除</Button>
+              </Popconfirm>              
             </div>
             <StandardTable
               selectedRows=''

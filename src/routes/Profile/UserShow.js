@@ -1,6 +1,6 @@
 import React, { PureComponent, } from 'react';
 import { connect } from 'dva';
-import { Card, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, Upload } from 'antd';
+import { Card, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, Upload, DatePicker } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { Link } from 'dva/router';
@@ -93,30 +93,6 @@ export default class UserShow extends PureComponent {
     });
   };
 
-  handleSearch = e => {
-    e.preventDefault();
-
-    const { dispatch, form } = this.props;
-
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-      };
-
-      this.setState({
-        formValues: values,
-      });
-
-      dispatch({
-        type: 'user/fetch',
-        payload: values,
-      });
-    });
-  };
-
   handleModalVisible = flag => {
     this.setState({
       modalVisible: !!flag,
@@ -148,8 +124,7 @@ export default class UserShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    // plan: { planData},
-    const { user: { data }, userLoading, task, taskLoading, plan: { planData}, planLoading  } = this.props;
+    const { user: { data }, userLoading, task, taskLoading, plan, planLoading  } = this.props;
 
     const { modalVisible, fileList, previewVisible, previewImage } = this.state;
 
@@ -164,6 +139,40 @@ export default class UserShow extends PureComponent {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
+
+    function confirm(data) {
+      Modal.confirm({
+        iconType: 'bars',
+        title: 'タスク詳細情報',
+        okText: '保存',
+        cancelText: 'キャンセル',
+        maskClosable: 'false',
+        content: (
+          <div>
+            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+              <FormItem label="タスク予定時間">
+                {(<DatePicker defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
+              </FormItem>                         
+              <div>
+                <ul className="events">
+                    <li>利用者氏名：{data.task_user.name}</li>
+                    <li>管理者氏名：{data.task_admin.adminName}</li>
+                </ul>
+              </div>
+            </Card>  
+          </div>
+        ),
+        onOk() {
+          // const data = {
+          //   _id: data._id,
+          //   executeTime1: data.executeTime,
+          // };
+          // this.handleAdd(data);
+        },
+        onCancel() {
+        },
+      });
+    }
 
     function getListData(value) {
       const list = task.data.list;
@@ -185,8 +194,10 @@ export default class UserShow extends PureComponent {
       } else {
         return (
           <ul className="events">
-            <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
-            <li>利用者氏名：{list.task_user.name}</li>
+            <a onClick={() => confirm(list)} >
+              <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
+              <li>利用者氏名：{list.task_user.name}</li>
+            </a>
           </ul>
         );
       }
@@ -199,9 +210,9 @@ export default class UserShow extends PureComponent {
                 <Description term="利用者氏名">{data.list[0].name}</Description>
                 <Description term="ふりがな">{data.list[0].phonetic}</Description>
                 <Description term="生年月日">{moment(data.list[0].birth).format('YYYY-MM-DD')}</Description>
-                <Description term="性別">女</Description>
-                <Description term="電話番号">1234567893215</Description>
-                <Description term="住所">东京都江戸川区江戸川（1～3丁目、4丁目1～14番）</Description>
+                <Description term="性別">{data.list[0].sex}</Description>
+                <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
+                <Description term="住所">{data.list[0].address}</Description>
               </DescriptionList>
           </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
@@ -225,7 +236,7 @@ export default class UserShow extends PureComponent {
               </Link>
               <br/><br/>
                 <Steps loading={planLoading} direction="vertical" >
-                {planData.list.map(item => <Step title={item.createDate} description={item.planAuthor} icon={<Link to={"/profile/plan-show/" + item._id} ><Icon type="edit" /></Link>}/>)}
+                {plan.data.list.map(item => <Step title={moment(item.createDate).format('YYYY-MM-DD')} description={item.planAuthor} icon={<Link to={"/profile/plan-show/" + item._id} ><Icon type="edit" /></Link>}/>)}
                 </Steps>
             </Card>
             </TabPane>
