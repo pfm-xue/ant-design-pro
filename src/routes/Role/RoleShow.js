@@ -7,13 +7,11 @@ import styles from './BasicProfile.less';
 import StandardTable from 'components/StandardTable';
 const { Description } = DescriptionList;
 import { Link } from 'dva/router';
+import moment from 'moment';
+
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
 const { Step } = Steps;
-const getValue = obj =>
-  Object.keys(obj)
-    .map(key => obj[key])
-    .join(',');
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAddTask, handleModalVisible } = props;
@@ -48,9 +46,11 @@ const CreateForm = Form.create()(props => {
 @connect(({ task, role, loading }) => ({
   role,
   task,
+  roleLoading: loading.models.user,
+  taskLoading: loading.models.task,
 }))
 @Form.create()
-export default class BasicProfile extends PureComponent {
+export default class RoleShow extends PureComponent {
   state = {
     modalVisible1: false,
     modalVisible: false,
@@ -62,12 +62,12 @@ export default class BasicProfile extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'task/fetch',
-    });
-    dispatch({
       type: 'role/show',
       payload: this.props.match.params.id,
     });    
+    dispatch({
+      type: 'task/fetch',
+    });
   }
 
   handleModalVisible = flag => {
@@ -102,10 +102,11 @@ export default class BasicProfile extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { task, loading, role: {data} } = this.props;
+    const { task, roleLoading, role: {data} } = this.props;
     const { modalVisible } = this.state;
 
     const { previewVisible, previewImage, fileList } = this.state;
+    
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -113,115 +114,47 @@ export default class BasicProfile extends PureComponent {
       </div>
     );
 
-    function getListData(value) {
-      let listData;
-      switch (value.date()) {
-        case 1:
-          listData = [
-            { type: 'warning', content: '屋外歩行訓練' },
-            { type: 'success', content: '浴槽を跨ぐ練習' },
-          ]; break;
-        case 2:
-          listData = [
-            { type: 'warning', content: '屋外歩行訓練' },
-            { type: 'success', content: '浴槽を跨ぐ練習' },
-            { type: 'error', content: '下肢筋力訓練' },
-          ]; break;
-        case 30:
-          listData = [
-            { type: 'warning', content: '屋外歩行訓練' },
-            { type: 'success', content: '浴槽を跨ぐ練習' },
-          ]; break;
-        default:
-      }
-      return listData || [];
-    }
-
-    function getMonthData(value) {
-      if (value.month() === 8) {
-        return 1394;
-      }
-    }
-    
-    function monthCellRender(value) {
-      const num = getMonthData(value);
-      return num ? (
-        <div className="notes-month">
-          <section>{num}</section>
-          <span>Backlog number</span>
-        </div>
-      ) : null;
-    }
-
     const parentMethods = {
+      handleAddTask: this.handleAddTask,
       handleModalVisible: this.handleModalVisible,
     };
 
-    const onPrev = () => {
-      dispatch(routerRedux.push('/dashboard/workplace'));
-    };
+    function getListData(value) {
+      const list = task.data.list;
+      let data;
+      list.map(item => {
+        const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
+        const valueTime = moment(value._d).format('YYYY-MM-DD');
+        if ( executeTime === valueTime ) {
+          data = item;
+        }
+      }) 
+      return data;
+    }
 
-    // function confirm() {
-    //   message.success('点击了确定');
-    // }
-    
-    // function cancel() {
-    // }
-
-    // function confirm(data) {
-    //   Modal.confirm({
-    //     iconType: 'bars',
-    //     title: '詳細情報',
-    //     okText: '編集',
-    //     cancelText: '削除',
-    //     maskClosable: 'false',
-    //     content: (
-    //       <div>                
-    //         <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-    //           {
-    //             data.map(item => (
-    //               <li key={item.content}>
-    //                 <Badge status={item.type} text={item.content}>
-    //                 </Badge>
-    //               </li>
-    //             ))
-    //           }            
-    //         </Card>  
-    //       </div>
-    //     ),
-    //     onOk() {
-    //     },
-    //     onCancel() {
-    //     },
-    //   });
-    // }
     function dateCellRender(value) {
-      const listData = getListData(value);
-      return (
-        <ul className="events">
-          {/* <a onClick={() => confirm(listData)} > */}
-          {
-            listData.map(item => (
-              <li key={item.content}>
-                <Badge status={item.type} text={item.content}>
-                </Badge>
-              </li>
-            ))
-          }
-          {/* </a> */}
-        </ul>
-      );
+      const list = getListData(value);
+      if(typeof(list) === "undefined"){
+        return <div></div>;
+      } else {
+        return (
+          <ul className="events">
+            <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
+            <li>利用者氏名：{list.task_user.name}</li>
+          </ul>
+        );
+      }
     }
   
-    return (
+    return data && (
       <PageHeaderLayout title="管理者詳細情報">
         <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false} >
-          <DescriptionList size="large" title="" style={{ marginBottom: 32 }}>
-            {/* <Description term="名前">{data.list[0].adminName}</Description> */}
-            <Description term="role">介護士、看護師</Description>
-            <Description term="電話番号">15541188563</Description>
-            <Description term="Email">女</Description>
-          </DescriptionList>
+          <DescriptionList loading={roleLoading} size="large" title="" style={{ marginBottom: 32 }}>
+              {/* <Description term="名前">{data.list[0].adminName}</Description>
+              <Description term="role">{data.list[0].role}</Description>
+              <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
+              <Description term="Email">{data.list[0].email}</Description> */}
+          </DescriptionList>          
         </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
           <Tabs>         
@@ -232,7 +165,6 @@ export default class BasicProfile extends PureComponent {
                 <br/><br/>
                   <Calendar
                     dateCellRender={dateCellRender}
-                    monthCellRender={monthCellRender}
                   />
               </Card>      
           　</TabPane>

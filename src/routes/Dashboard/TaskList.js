@@ -11,104 +11,6 @@ const { Search, TextArea } = Input;
 import styles from './Workplace.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-const CreateForm1 = Form.create()(props => {
-  const { modalVisible1, form, handleAdd, handleModalVisible1 } = props;
-
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-  
-  return (
-    <Modal
-      title="実施記録基本情報"
-      visible={modalVisible1}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible1()}
-    >    
-            
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
-        {form.getFieldDecorator('user', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="実施者" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
-        {form.getFieldDecorator('startTime', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(
-          <TimePicker
-            placeholder='実施時間(Start)'
-            style={{ width: '100%' }}
-          />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
-        {form.getFieldDecorator('endTime', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(
-          <TimePicker
-            placeholder='実施時間(End)'
-            style={{ width: '100%' }}
-          />)}
-      </FormItem>                         
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
-        {form.getFieldDecorator('program', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="プログラム" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="特記事項">
-        {form.getFieldDecorator('program'
-      )(<TextArea placeholder="特記事項" />)}
-      </FormItem>      
-    </Modal>
-  );
-});
-
-const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
-  
-  
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-
-  return (
-    <Modal
-      title="バイタル情報"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
-        {form.getFieldDecorator('vital.vital1', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input addonAfter="℃" placeholder="体温" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="血圧">
-        {form.getFieldDecorator('vital.vital2', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="血圧" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="脈帕">
-        {form.getFieldDecorator('vital.vital3', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="脈帕" />)}
-    </FormItem>                         
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="SpO2">
-        {form.getFieldDecorator('vital.spO2', {
-          rules: [{ required: true, message: '入力してください' }],
-        })(<Input placeholder="SpO2" />)}
-      </FormItem>
-    </Modal>
-  );
-});
-
 @connect(({ task, loading }) => ({
   task,
   loading: loading.models.task,
@@ -119,19 +21,29 @@ export default class TaskList extends PureComponent {
   state = {
     modalVisible1: false,
     modalVisible: false,
+    data: '',
   };
 
-  handleModalVisible1 = flag => {
+  handleModalVisible1 = (record) => {
     this.setState({
-      modalVisible1: !!flag,
+      modalVisible1: true,
+      data: record,
     });
   };
 
-  handleModalVisible = flag => {
+  handleModalVisible = (record) => {
     this.setState({
-      modalVisible: !!flag,
+      modalVisible: true,
+      data: record,
     });
   };
+
+  handleCancel = () => {
+    this.setState({
+      modalVisible: false,
+      modalVisible1: false,
+    });
+  }
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -148,7 +60,19 @@ export default class TaskList extends PureComponent {
       },
     });
 
-    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
+    });
+  };
+
+  handleEdit = fields => {
+    this.props.dispatch({
+      type: 'task/add',
+      payload: {
+        fields,
+      },
+    });
+
     this.setState({
       modalVisible: false,
     });
@@ -233,7 +157,118 @@ export default class TaskList extends PureComponent {
 
   render() {
     // const { task: { date } } = this.props;
-    const { modalVisible1, modalVisible } = this.state;
+    const { modalVisible1, modalVisible, data } = this.state;
+
+    const CreateForm1 = Form.create()(props => {
+      const { modalVisible1, form, handleModalVisible1 } = props;
+    
+      const okHandle = () => {
+        form.validateFields((err, fieldsValue) => {
+          if (err) return;
+          form.resetFields();
+          this.handleEdit(fieldsValue);
+        });
+      };
+      
+      return data && (
+        <Modal
+          title="実施記録基本情報"
+          visible={modalVisible1}
+          onOk={okHandle}
+          onCancel={() => this.handleCancel()}
+        >    
+                
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
+            {form.getFieldDecorator('recording.implement_admin', {
+              initialValue:data.task_admin.adminName,
+              rules: [{ required: true, message: '入力してください。' }],
+            })(<Input placeholder="実施者" />)}
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
+            {form.getFieldDecorator('recording.startTime', {
+              rules: [{ required: true, message: '入力してください。' }],
+            })(
+              <TimePicker
+                defaultValue={moment(data.recording.startTime, 'HH:mm:ss')}
+                placeholder='実施時間(Start)'
+                style={{ width: '100%' }}
+              />)}
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
+            {form.getFieldDecorator('recording.endTime', {
+              rules: [{ required: true, message: '入力してください。' }],
+            })(
+              <TimePicker
+              defaultValue={moment(data.recording.endTime, 'HH:mm:ss')}
+                placeholder='実施時間(End)'
+                style={{ width: '100%' }}
+              />)}
+          </FormItem>                         
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
+            {form.getFieldDecorator('recording.program', {
+              initialValue:data.recording.program,
+              rules: [{ required: true, message: '入力してください。' }],
+            })(<Input placeholder="プログラム" />)}
+          </FormItem>
+          {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="特記事項">
+            {form.getFieldDecorator('program'
+          )(<TextArea placeholder="特記事項" />)}
+          </FormItem>       */}
+        </Modal>
+      );
+    });
+
+    const CreateForm = Form.create()(props => {
+      const { modalVisible, form } = props;
+            
+      const okHandle = () => {
+        form.validateFields((err, fieldsValue) => {
+          if (err) return;
+          form.resetFields();
+          this.handleEdit(fieldsValue);
+        });
+      };
+    
+      return data && (
+        <Modal
+          title="バイタル情報"
+          visible={modalVisible}
+          onOk={okHandle}
+          onCancel={() => this.handleCancel()}
+        >
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
+            {form.getFieldDecorator('vital.vital1', {
+              initialValue:data._id,
+              rules: [{ required: true, message: '入力してください。' }],
+            })(<Input/>)}
+          </FormItem>        
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
+            {form.getFieldDecorator('vital.vital1', {
+              initialValue:data.vital.vital1,
+              rules: [{ required: true, message: '入力してください。' }],
+            })(<Input addonAfter="℃" placeholder="体温" />)}
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="血圧">
+            {form.getFieldDecorator('vital.vital2', {
+              initialValue:data.vital.vital2,
+              rules: [{ required: true, message: '入力してください。' }],
+            })(<Input placeholder="血圧" />)}
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="脈帕">
+            {form.getFieldDecorator('vital.vital3', {
+              initialValue:data.vital.vital3,
+              rules: [{ required: true, message: '入力してください。' }],
+            })(<Input placeholder="脈帕" />)}
+        </FormItem>                         
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="SpO2">
+            {form.getFieldDecorator('vital.spO2', {
+              initialValue:data.vital.spO2,
+              rules: [{ required: true, message: '入力してください' }],
+            })(<Input placeholder="SpO2" />)}
+          </FormItem>
+        </Modal>
+      );
+    });
 
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
@@ -280,12 +315,13 @@ export default class TaskList extends PureComponent {
       </Menu>
     );
 
-    const columns = [{
-      title: '利用',
-      render: () => (
-          <Checkbox></Checkbox>
-      ),
-    },
+    const columns = [
+    // {
+    //   title: '利用',
+    //   render: () => (
+    //       <Checkbox></Checkbox>
+    //   ),
+    // },
     {
       title: '到着時間',
       dataIndex: 'arrivalTime',
@@ -310,15 +346,20 @@ export default class TaskList extends PureComponent {
       key: 'task_user.name',
       render: (text, record) => (
         <Fragment>
-          <Link to={"/profile/basic/" + record.task_user._id }>{text}</Link>
+          <Link to={"/profile/basic/" + record.task_user._id}>{text}</Link>
         </Fragment>
       ),      
     },
     {
       title: '実施記録',
       dataIndex: 'recording',
-      key: 'recording',   
-      render: text => <a onClick={() => this.handleModalVisible1(true)}>{text}</a>,
+      key: 'recording',
+      render: (text, record) => (
+        <Fragment>
+          {/* {!text.startTime ? <a type="primary" size="small" onClick={() => this.handleModalVisible1(record)}>未実施</a> : <a type="primary" size="small" onClick={() => this.handleModalVisible1(record)}>実施終了</a> } */}
+          <a onClick={() => this.handleModalVisible1(record)}>実施記録</a>
+        </Fragment>
+      ),
     },
     {
       title: 'バイタル',
@@ -338,7 +379,7 @@ export default class TaskList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.handleModalVisible(true)}><Button size="small" icon="edit" ></Button></a>
+            <a onClick={() => this.handleModalVisible(record)}><Button size="small" icon="edit" ></Button></a>
           </Fragment>
         ),
       }],

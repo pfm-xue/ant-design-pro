@@ -1,12 +1,11 @@
 import React, { PureComponent, } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, message, Upload } from 'antd';
+import { Card, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, Upload } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { Link } from 'dva/router';
 import styles from './TableList.less';
 import moment from 'moment';
-import {_} from 'lodash';
 
 const { Description } = DescriptionList;
 const { TabPane } = Tabs;
@@ -54,7 +53,9 @@ const CreateForm = Form.create()(props => {
   task,
   user,
   plan,
-  loading: loading.models.user,
+  userLoading: loading.models.user,
+  taskLoading: loading.models.task,
+  planLoading: loading.models.plan,
 }))
 @Form.create()
 export default class UserShow extends PureComponent {
@@ -68,12 +69,12 @@ export default class UserShow extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'user/show',
-    //   payload: this.props.match.params.id,
-    // });
     dispatch({
       type: 'task/fetch',
+    });
+    dispatch({
+      type: 'user/show',
+      payload: this.props.match.params.id,
     });
     dispatch({
       type: 'plan/fetch',
@@ -147,11 +148,8 @@ export default class UserShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { 
-      // user: { data }, 
-      task,
-      plan: { planData}, 
-      loading } = this.props;
+    // plan: { planData},
+    const { user: { data }, userLoading, task, taskLoading, plan: { planData}, planLoading  } = this.props;
 
     const { modalVisible, fileList, previewVisible, previewImage } = this.state;
 
@@ -167,29 +165,45 @@ export default class UserShow extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
-    function dateCellRender(value) {
+    function getListData(value) {
       const list = task.data.list;
+      let data;
       list.map(item => {
         const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
         const valueTime = moment(value._d).format('YYYY-MM-DD');
         if ( executeTime === valueTime ) {
-          return <div>{moment(value._d).format('YYYY-MM-DD')}</div>;
+          data = item;
         }
-      });      
+      }) 
+      return data;
+    }
+
+    function dateCellRender(value) {
+      const list = getListData(value);
+      if(typeof(list) === "undefined"){
+        return <div></div>;
+      } else {
+        return (
+          <ul className="events">
+            <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
+            <li>利用者氏名：{list.task_user.name}</li>
+          </ul>
+        );
+      }
     }
 
     return (
       <PageHeaderLayout title="使用者詳細情報">
-          {/* <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
-              <DescriptionList loading={loading} size="large" title="" style={{ marginBottom: 32 }}>
-                <p><Description term="利用者氏名">{data.list[0].name}</Description></p>
-                <p><Description term="ふりがな">{data.list[0].phonetic}</Description></p>
-                <p><Description term="生年月日">{moment(data.list[0].birth).format('YYYY-MM-DD')}</Description></p>
-                <p><Description term="性別">{data.list[0].sex}</Description></p>
-                <p><Description term="電話番号">1234567893215</Description></p>
-                <p><Description term="住所">东京都江戸川区江戸川（1～3丁目、4丁目1～14番）</Description></p>
+          <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
+              <DescriptionList loading={userLoading} size="large" title="" style={{ marginBottom: 32 }}>
+                <Description term="利用者氏名">{data.list[0].name}</Description>
+                <Description term="ふりがな">{data.list[0].phonetic}</Description>
+                <Description term="生年月日">{moment(data.list[0].birth).format('YYYY-MM-DD')}</Description>
+                <Description term="性別">女</Description>
+                <Description term="電話番号">1234567893215</Description>
+                <Description term="住所">东京都江戸川区江戸川（1～3丁目、4丁目1～14番）</Description>
               </DescriptionList>
-          </Card> */}
+          </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
          <Tabs>         
           {/*スケジュール*/}
@@ -199,7 +213,7 @@ export default class UserShow extends PureComponent {
               <br/><br/>
                 <Calendar
                   dateCellRender={dateCellRender}
-                  // monthCellRender={monthCellRender}
+                  loading={taskLoading}
                 />
             </Card>      
         　</TabPane>
@@ -210,7 +224,7 @@ export default class UserShow extends PureComponent {
                 <Button type="primary" icon="plus">新規</Button>
               </Link>
               <br/><br/>
-                <Steps direction="vertical" >
+                <Steps loading={planLoading} direction="vertical" >
                 {planData.list.map(item => <Step title={item.createDate} description={item.planAuthor} icon={<Link to={"/profile/plan-show/" + item._id} ><Icon type="edit" /></Link>}/>)}
                 </Steps>
             </Card>
