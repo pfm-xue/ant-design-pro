@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TableForm from './TableForm';
-import styles from './style.less';
+import styles from './PlanAdd.less';
 import { Link } from 'dva/router';
 const { Option } = Select;
 const tableData = [];
@@ -36,7 +36,7 @@ const dementiaList = {
   submitting: loading.effects['form/submitAdvancedForm'],  
 }))
 @Form.create()
-export default class AdvancedForm extends PureComponent {
+export default class PlanAdd extends PureComponent {
   state = {
     width: '100%',
   };

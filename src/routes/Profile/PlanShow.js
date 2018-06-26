@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker, message, Popconfirm, Row, Col } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './BasicProfile.less';
+import styles from './PlanShow.less';
 import moment from 'moment';
 import StandardTable from 'components/StandardTable';
 import { Link } from 'dva/router';

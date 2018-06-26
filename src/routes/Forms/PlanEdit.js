@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TableForm from './TableForm';
-import styles from './style.less';
+import styles from './PlanEdit.less';
 import { Link } from 'dva/router';
 const { Option } = Select;
 const tableData = [];
@@ -36,7 +36,7 @@ const dementiaList = {
   planLoading: loading.models.plan, 
 }))
 @Form.create()
-export default class AdvancedForm extends PureComponent {
+export default class PlanEdit extends PureComponent {
   state = {
     width: '100%',
   };
@@ -498,9 +498,11 @@ export default class AdvancedForm extends PureComponent {
         </Form>
         <FooterToolbar style={{ width: this.state.width }}>
           {getErrorInfo()}
+          <Link to="/patient/list-patient">
           <Button type="primary" onClick={validate} loading={submitting}>
             保存
           </Button>
+          </Link>
           <Divider type="vertical" />
           <Link to="/patient/list-patient">
             <Button>キャンセル</Button>

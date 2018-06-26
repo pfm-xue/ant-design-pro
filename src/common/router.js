@@ -218,7 +218,7 @@ export const getRouterData = app => {
     },
 
     '/profile/plan-printing': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile2')),
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/PlanPreview')),
     },
 
     '/role/physician-show/:id': {

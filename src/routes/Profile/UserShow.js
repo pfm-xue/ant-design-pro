@@ -4,7 +4,7 @@ import { Card, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, Upload, 
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { Link } from 'dva/router';
-import styles from './TableList.less';
+import styles from './UserShow.less';
 import moment from 'moment';
 
 const { Description } = DescriptionList;
@@ -124,9 +124,9 @@ export default class UserShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { user: { data }, userLoading, task, taskLoading, plan, planLoading  } = this.props;
-
+    const { user: { data }, userLoading, task, taskLoading, plan, planLoading, dispatch } = this.props;
     const { modalVisible, fileList, previewVisible, previewImage } = this.state;
+    let scheduleTime = '';
 
     const uploadButton = (
       <div>
@@ -140,6 +140,22 @@ export default class UserShow extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
+    function editData (data) {
+      data.executeTime = scheduleTime._d;
+      dispatch({
+        type: 'task/add',
+        payload: {
+          fields: data,
+        },
+      });
+    }
+
+    function dateChange (data) {
+      const time = data;
+      scheduleTime = time;
+    }
+
+
     function confirm(data) {
       Modal.confirm({
         iconType: 'bars',
@@ -147,11 +163,14 @@ export default class UserShow extends PureComponent {
         okText: '保存',
         cancelText: 'キャンセル',
         maskClosable: 'false',
+        onOk() {
+          editData(data);
+        },
         content: (
           <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
               <FormItem label="タスク予定時間">
-                {(<DatePicker defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
+                {(<DatePicker onChange={dateChange} defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
               </FormItem>                         
               <div>
                 <ul className="events">
@@ -162,15 +181,6 @@ export default class UserShow extends PureComponent {
             </Card>  
           </div>
         ),
-        onOk() {
-          // const data = {
-          //   _id: data._id,
-          //   executeTime1: data.executeTime,
-          // };
-          // this.handleAdd(data);
-        },
-        onCancel() {
-        },
       });
     }
 

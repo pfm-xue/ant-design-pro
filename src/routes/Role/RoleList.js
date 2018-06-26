@@ -6,7 +6,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import { Link } from 'dva/router';
 
-import styles from './TableList.less';
+import styles from './RoleList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;

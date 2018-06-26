@@ -1,19 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Badge, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, TimePicker, message, Popconfirm, Row, Col } from 'antd';
-import DescriptionList from 'components/DescriptionList';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './BasicProfile.less';
-import StandardTable from 'components/StandardTable';
-const { Description } = DescriptionList;
-import { Link } from 'dva/router';
-const FormItem = Form.Item;
+import { Card, Row, Col } from 'antd';
+import styles from './PlanPreview.less';
 
-@connect(({ profile, loading }) => ({
-  profile,
-  loading: loading.effects['profile/fetchBasic'],
+@connect(({ plan, loading }) => ({
+  plan,
+  planLoading: loading.models.plan,
 }))
-export default class BasicProfile extends Component {
+@Form.create()
+export default class PlanPreview extends Component {
 
   state = {
     modalVisible1: false,
@@ -22,8 +17,9 @@ export default class BasicProfile extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'profile/fetchBasic',
-    });
+      type: 'plan/show',
+      payload: this.props.match.params.id,
+    });     
   }
 
   render() {

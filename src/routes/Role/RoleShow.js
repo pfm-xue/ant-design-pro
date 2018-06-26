@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Card, DatePicker, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Select, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './BasicProfile.less';
+import styles from './RoleShow.less';
 import StandardTable from 'components/StandardTable';
 const { Description } = DescriptionList;
 import { Link } from 'dva/router';
@@ -102,11 +102,10 @@ export default class RoleShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { task, roleLoading, role: {data} } = this.props;
-    const { modalVisible } = this.state;
+    const { task, roleLoading, role: {data}, dispatch } = this.props;
+    const { previewVisible, previewImage, fileList, modalVisible } = this.state;
+    let scheduleTime = '';
 
-    const { previewVisible, previewImage, fileList } = this.state;
-    
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -119,6 +118,21 @@ export default class RoleShow extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
+    function editData (data) {
+      data.executeTime = scheduleTime._d;
+      dispatch({
+        type: 'task/add',
+        payload: {
+          fields: data,
+        },
+      });
+    }
+
+    function dateChange (data) {
+      const time = data;
+      scheduleTime = time;
+    }
+
     function confirm(data) {
       Modal.confirm({
         iconType: 'bars',
@@ -127,15 +141,13 @@ export default class RoleShow extends PureComponent {
         cancelText: 'キャンセル',
         maskClosable: 'false',
         onOk() {
-          this.handleAddTask(data);
-        },
-        onCancel() {
-        },        
+          editData(data);
+        },     
         content: (
           <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
               <FormItem label="タスク予定時間">
-                {(<DatePicker defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
+                {(<DatePicker onChange={dateChange} defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
               </FormItem>                         
               <div>
                 <ul className="events">
@@ -178,14 +190,14 @@ export default class RoleShow extends PureComponent {
       }
     }
   
-    return data && (
+    return (
       <PageHeaderLayout title="管理者詳細情報">
         <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false} >
           <DescriptionList loading={roleLoading} size="large" title="" style={{ marginBottom: 32 }}>
-              {/* <Description term="名前">{data.list[0].adminName}</Description>
+              <Description term="名前">{data.list[0].adminName}</Description>
               <Description term="role">{data.list[0].role}</Description>
               <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
-              <Description term="Email">{data.list[0].email}</Description> */}
+              <Description term="Email">{data.list[0].email}</Description>
           </DescriptionList>          
         </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
