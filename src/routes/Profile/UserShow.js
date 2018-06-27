@@ -216,6 +216,7 @@ export default class UserShow extends PureComponent {
     return (
       <PageHeaderLayout title="使用者詳細情報">
           <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
+            { data.list &&
               <DescriptionList loading={userLoading} size="large" title="" style={{ marginBottom: 32 }}>
                 <Description term="利用者氏名">{data.list[0].name}</Description>
                 <Description term="ふりがな">{data.list[0].phonetic}</Description>
@@ -224,6 +225,7 @@ export default class UserShow extends PureComponent {
                 <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
                 <Description term="住所">{data.list[0].address}</Description>
               </DescriptionList>
+            }
           </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
          <Tabs>         

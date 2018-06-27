@@ -1,17 +1,14 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, DatePicker, Table, Divider, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Select, Input, TimePicker, message, Popconfirm, Upload } from 'antd';
+import { Card, DatePicker, Tabs, Button, Calendar, Icon, Form, Modal,  Input,  message, Upload } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './RoleShow.less';
-import StandardTable from 'components/StandardTable';
 const { Description } = DescriptionList;
-import { Link } from 'dva/router';
 import moment from 'moment';
-
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
-const { Step } = Steps;
+import styles from './RoleShow.less';
+import { Link } from 'dva/router';
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAddTask, handleModalVisible } = props;
@@ -189,16 +186,18 @@ export default class RoleShow extends PureComponent {
         );
       }
     }
-  
+
     return (
       <PageHeaderLayout title="管理者詳細情報">
         <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false} >
           <DescriptionList loading={roleLoading} size="large" title="" style={{ marginBottom: 32 }}>
               <Description term="名前">{data.list[0].adminName}</Description>
+              <Description term="職務">{data.list[0].post}</Description>
               <Description term="role">{data.list[0].role}</Description>
               <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
               <Description term="Email">{data.list[0].email}</Description>
-          </DescriptionList>          
+              <Description term="アドレス">{data.list[0].address}</Description>
+          </DescriptionList>
         </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
           <Tabs>         

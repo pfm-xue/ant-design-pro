@@ -2,13 +2,11 @@ import React, { PureComponent, Fragment } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Row, Col, Card, List, Avatar, Tabs, Button, Table, Divider,
-         Form, Input, Modal, Checkbox, Select, TimePicker, Dropdown,
-         Menu, Switch, DatePicker } from 'antd';
+import { Row, Col, Card, List, Avatar, Tabs, Button, Table, Divider, Form, Input, Modal, TimePicker, Dropdown, Menu, DatePicker } from 'antd';
 const { TabPane } = Tabs;
 const FormItem = Form.Item;
-const { Search, TextArea } = Input;
-import styles from './Workplace.less';
+const { Search } = Input;
+import styles from './TaskList.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 @connect(({ task, loading }) => ({
@@ -77,6 +75,7 @@ export default class TaskList extends PureComponent {
       modalVisible: false,
       modalVisible1: false,
     });
+    location.reload();
   };
 
   componentWillUnmount() {
@@ -122,17 +121,15 @@ export default class TaskList extends PureComponent {
   }
 
   toggle = (record) => {
-    const number = record.key;
-    const newData = this.state.data;
-    const index = newData.findIndex(item => number === item.key);
-    const item = newData[index];
-    item.time = moment(new Date()).format('YYYY-MM-DD HH:mm');
-    // this.props.dispatch({
-    //   type: 'task/add',
-    //   payload: {
-    //     fields,
-    //   },
-    // });
+    const time = moment(new Date()).format('YYYY-MM-DD HH:mm');
+    record.arrivalTime = time;
+    this.props.dispatch({
+      type: 'task/add',
+      payload: {
+        fields: record,
+      },
+    });
+    location.reload();
   }
 
   save(form, key) {
@@ -157,7 +154,7 @@ export default class TaskList extends PureComponent {
   }
 
   render() {
-    // const { task: { date } } = this.props;
+    const { task } = this.props;
     const { modalVisible1, modalVisible, data } = this.state;
 
     const CreateForm1 = Form.create()(props => {
@@ -353,7 +350,7 @@ export default class TaskList extends PureComponent {
       title: '実施記録',
       dataIndex: 'recording',
       key: 'recording',
-      render: (text, record) => (
+      render: (record) => (
         <Fragment>
           {/* {!text.startTime ? <a type="primary" size="small" onClick={() => this.handleModalVisible1(record)}>未実施</a> : <a type="primary" size="small" onClick={() => this.handleModalVisible1(record)}>実施終了</a> } */}
           <a onClick={() => this.handleModalVisible1(record)}>実施記録</a>
@@ -376,7 +373,7 @@ export default class TaskList extends PureComponent {
         key: 'vital.vital3',
       },{
         title: '操作',
-        render: (text, record) => (
+        render: (record) => (
           <Fragment>
             <a onClick={() => this.handleModalVisible(record)}><Button size="small" icon="edit" ></Button></a>
           </Fragment>
@@ -424,6 +421,28 @@ export default class TaskList extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
+    function dataSource (value) {
+      let taskList = [];
+      // let taskData = ;
+      if ( value !== "" && typeof(value) !== "undefined" ) {
+        task.data.list.map(item => {
+          const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
+          const valueTime = moment(value._d).format('YYYY-MM-DD');
+          if ( executeTime === valueTime ) {
+            taskList.push(item);
+          }
+        }) 
+      } else {
+        taskList = task.data.list;
+      }
+      return taskList;
+    }
+
+    function dateChange (value) {
+      const time = value;
+      dataSource(time);
+    }
+
     return (
       <PageHeaderLayout content={pageHeaderContent} extraContent={extraContent}>
         <Row gutter={24}>
@@ -437,7 +456,7 @@ export default class TaskList extends PureComponent {
                     <Divider type="vertical" />
                     <DatePicker
                       defaultValue={moment(new Date(), 'YYYY-MM-DD')}
-                      onChange={this.dayDate}
+                      onChange={dateChange}
                       dateRender={(current) => {
                         const style = {};
                         if (current.date() === 1) {
@@ -453,7 +472,7 @@ export default class TaskList extends PureComponent {
                     />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
-                  <Table dataSource={this.props.task.data.list} columns={columns} />
+                  <Table dataSource={dataSource()} columns={columns} />
                 </div>
               </TabPane>
               {/*計画書*/}
@@ -479,7 +498,7 @@ export default class TaskList extends PureComponent {
                     />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
-                  <Table dataSource={this.props.task.data.list} columns={columns} />
+                  <Table dataSource={dataSource()} columns={columns} />
                 </div>
               </TabPane>
               {/*実施記録*/}
@@ -505,7 +524,7 @@ export default class TaskList extends PureComponent {
                     />
                   {/* <Divider type="vertical" />
                   <Button type="primary" >全員</Button> */}
-                  <Table dataSource={this.props.task.data.list} columns={columns} />
+                  <Table dataSource={dataSource()} columns={columns} />
                 </div>
               </TabPane>
               </Tabs>

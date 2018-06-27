@@ -208,7 +208,7 @@ export default class TableForm extends PureComponent {
       {
         title: '操作',
         key: 'action',
-        render: (text, record) => {
+        render: ( record ) => {
           if (!!record.editable && this.state.loading) {
             return null;
           }
@@ -216,35 +216,16 @@ export default class TableForm extends PureComponent {
             if (record.isNew) {
               return (
                 <span>
-                  {/* <a onClick={e => this.saveRow(e, record.key)}>添加</a>
-                  <Divider type="vertical" /> */}
                   <Popconfirm title="これを削除しますか？" onConfirm={() => this.remove(record.key)}>
                     <a>削除</a>
                   </Popconfirm>
                 </span>
               );
             }
-            // return (
-            //   <span>
-            //     <a onClick={e => this.saveRow(e, record.key)}>保存</a>
-            //     <Divider type="vertical" />
-            //     <a onClick={e => this.cancel(e, record.key)}>取消</a>
-            //   </span>
-            // );
           }
-          // return (
-          //   <span>
-          //     <a onClick={e => this.toggleEditable(e, record.key)}>编辑</a>
-          //     <Divider type="vertical" />
-          //     <Popconfirm title="是否要删除此行？" onConfirm={() => this.remove(record.key)}>
-          //       <a>删除</a>
-          //     </Popconfirm>
-          //   </span>
-          // );
         },
       },
     ];
-
     return (
       <Fragment>
         <Table
