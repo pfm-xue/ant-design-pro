@@ -124,7 +124,7 @@ export default class UserShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { user: { data }, userLoading, task, taskLoading, plan, planLoading, dispatch } = this.props;
+    const { user: { data }, userLoading, task, taskLoading, plan, planLoading, dispatch, match } = this.props;
     const { modalVisible, fileList, previewVisible, previewImage } = this.state;
     let scheduleTime = '';
 
@@ -141,13 +141,15 @@ export default class UserShow extends PureComponent {
     };
 
     function editData (data) {
-      data.executeTime = scheduleTime._d;
-      dispatch({
-        type: 'task/add',
-        payload: {
-          fields: data,
-        },
-      });
+      if (scheduleTime !== "") {
+        data.executeTime = scheduleTime._d;
+        dispatch({
+          type: 'task/add',
+          payload: {
+            fields: data,
+          },
+        });
+      }
     }
 
     function dateChange (data) {
@@ -186,11 +188,12 @@ export default class UserShow extends PureComponent {
 
     function getListData(value) {
       const list = task.data.list;
+      const id = match.params.id;
       let data;
       list.map(item => {
         const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
         const valueTime = moment(value._d).format('YYYY-MM-DD');
-        if ( executeTime === valueTime ) {
+        if ( executeTime === valueTime && item.task_user._id === id ) {
           data = item;
         }
       }) 
@@ -207,6 +210,7 @@ export default class UserShow extends PureComponent {
             <a onClick={() => confirm(list)} >
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
+              <li>管理者：{list.task_admin.adminName}</li>
             </a>
           </ul>
         );
@@ -214,8 +218,8 @@ export default class UserShow extends PureComponent {
     }
 
     return (
-      <PageHeaderLayout title="使用者詳細情報">
-          <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
+      <PageHeaderLayout title="利用者詳細情報">
+          <Card style={{ marginBottom: 24 }} title="利用者情報" bordered={false} >
             { data.list &&
               <DescriptionList loading={userLoading} size="large" title="" style={{ marginBottom: 32 }}>
                 <Description term="利用者氏名">{data.list[0].name}</Description>

@@ -190,18 +190,22 @@ export default class TaskList extends PureComponent {
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
             {form.getFieldDecorator('recording.startTime', {
             })(
-              <TimePicker
-                defaultValue={moment(data.recording.startTime, 'HH:mm:ss')}
+              <DatePicker
+                defaultValue={moment(data.recording.startTime, 'YYYY-MM-DD HH:mm:ss')}
                 placeholder='実施時間(Start)'
+                format="YYYY-MM-DD HH:mm:ss"
+                showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                 style={{ width: '100%' }}
               />)}
           </FormItem>
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
             {form.getFieldDecorator('recording.endTime', {
             })(
-              <TimePicker
-              defaultValue={moment(data.recording.endTime, 'HH:mm:ss')}
+              <DatePicker
+              defaultValue={moment(data.recording.endTime, 'YYYY-MM-DD HH:mm:ss')}
                 placeholder='実施時間(End)'
+                format="YYYY-MM-DD HH:mm:ss"
+                showTime          
                 style={{ width: '100%' }}
               />)}
           </FormItem>                         
@@ -322,14 +326,14 @@ export default class TaskList extends PureComponent {
       title: '到着時間',
       dataIndex: 'arrivalTime',
       key: 'arrivalTime',
-      filters: [{
-        text: '未到着',
-        value: '未到着',
-      },{
-        text: '到着',
-        value: '到着',
-      }],
-      onFilter: (value, record) => record.arrivalTime.indexOf(value) === null,         
+      // filters: [{
+      //   text: '未到着',
+      //   value: '未到着',
+      // },{
+      //   text: '到着',
+      //   value: '到着',
+      // }],
+      // onFilter: (value, record) => record.arrivalTime.indexOf(value) === null,         
       render: (text, record) => (
         <Fragment>
           {!text ? <Button type="primary" size="small" onClick={() => this.toggle(record)}>未到着</Button> : moment(text).format('YYYY-MM-DD HH:mm') }
@@ -342,7 +346,7 @@ export default class TaskList extends PureComponent {
       key: 'task_user.name',
       render: (text, record) => (
         <Fragment>
-          <Link to={"/profile/basic/" + record.task_user._id}>{text}</Link>
+          <Link to={"/patient/show-patient/" + record.task_user._id}>{text}</Link>
         </Fragment>
       ),      
     },
@@ -350,7 +354,7 @@ export default class TaskList extends PureComponent {
       title: '実施記録',
       dataIndex: 'recording',
       key: 'recording',
-      render: (record) => (
+      render: (text, record) => (
         <Fragment>
           {/* {!text.startTime ? <a type="primary" size="small" onClick={() => this.handleModalVisible1(record)}>未実施</a> : <a type="primary" size="small" onClick={() => this.handleModalVisible1(record)}>実施終了</a> } */}
           <a onClick={() => this.handleModalVisible1(record)}>実施記録</a>

@@ -1,32 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Button,
-  Card,
-  InputNumber,
-  Radio,
-  Icon,
-  Tooltip,
-  Slider,
-  Row,
-  Col,
-  Divider,
-} from 'antd';
+  Form, Input, Button, Card, Radio, Row, Col, Divider } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import FooterToolbar from 'components/FooterToolbar';
+import { Link } from 'dva/router';
+const FormItem = Form.Item;
 import styles from './style.less';
 
-import FooterToolbar from 'components/FooterToolbar';
-
-const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
-
-import { Link } from 'dva/router';
 
 @connect(({ assessment, loading }) => ({
   assessment,

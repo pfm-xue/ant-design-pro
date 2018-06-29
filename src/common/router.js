@@ -131,9 +131,9 @@ export const getRouterData = app => {
     '/list/search/articles': {
       component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
     },
-    '/profile/basic/:id': {
-      component: dynamicWrapper(app, ['user','show','plan','profile'], () => import('../routes/Profile/UserShow')),
-    },
+    // '/profile/basic/:id': {
+    //   component: dynamicWrapper(app, ['user','show','plan','profile'], () => import('../routes/Profile/UserShow')),
+    // },
     '/profile/advanced': {
       component: dynamicWrapper(app, ['profile'], () =>
         import('../routes/Profile/AdvancedProfile')
@@ -178,7 +178,9 @@ export const getRouterData = app => {
     '/patient/list-patient': {
       component: dynamicWrapper(app, ['patient'], () => import('../routes/Patient/UserList')),
     },
-
+    '/patient/show-patient/:id': {
+      component: dynamicWrapper(app, ['patient','user','show','plan'], () => import('../routes/Patient/UserShow')),
+    },
 
     // // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // '/patient/list-patientNew': {
@@ -188,6 +190,9 @@ export const getRouterData = app => {
     '/role/physician-role': {
       component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleList')),
     },
+    '/role/physician-show/:id': {
+      component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleShow')),
+    },    
 
     '/schedule/roles': {
       component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TableListAdmin')),
@@ -221,9 +226,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/PlanPreview')),
     },
 
-    '/role/physician-show/:id': {
-      component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleShow')),
-    },
+
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

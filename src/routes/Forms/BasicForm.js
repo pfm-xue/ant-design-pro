@@ -105,7 +105,9 @@ export default class BasicForms extends PureComponent {
               <Button type="primary" htmlType="submit" loading={submitting}>
                 保存
               </Button>
-              <Link to="/profile/basic">
+              <Link 
+                // to="/profile/basic"
+              >
                 <Button style={{ marginLeft: 8 }}>キャンセル</Button>
               </Link>
             </FormItem>

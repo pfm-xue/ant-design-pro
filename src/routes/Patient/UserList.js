@@ -323,7 +323,7 @@ export default class UserList extends PureComponent {
               編集
             </Button>
             <Divider type="vertical" />
-            <Link to={"/profile/basic/" + record._id} className={styles.logo} key="logo">
+            <Link to={"/patient/show-patient/" + record._id} className={styles.logo} key="logo">
               <Button>详细 </Button>
             </Link>
           </Fragment>

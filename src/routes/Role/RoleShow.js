@@ -99,7 +99,7 @@ export default class RoleShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList })
 
   render() {
-    const { task, roleLoading, role: {data}, dispatch } = this.props;
+    const { task, roleLoading, role: {data}, dispatch, match } = this.props;
     const { previewVisible, previewImage, fileList, modalVisible } = this.state;
     let scheduleTime = '';
 
@@ -160,11 +160,12 @@ export default class RoleShow extends PureComponent {
 
     function getListData(value) {
       const list = task.data.list;
+      const id = match.params.id;
       let data;
       list.map(item => {
         const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
         const valueTime = moment(value._d).format('YYYY-MM-DD');
-        if ( executeTime === valueTime ) {
+        if ( executeTime === valueTime && item.task_admin._id === id ) {
           data = item;
         }
       }) 
@@ -181,6 +182,7 @@ export default class RoleShow extends PureComponent {
             <a onClick={() => confirm(list)} >
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
+              <li>管理者：{list.task_admin.adminName}</li>
             </a>
           </ul>
         );
