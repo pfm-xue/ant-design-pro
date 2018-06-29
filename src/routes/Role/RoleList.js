@@ -37,6 +37,16 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: 'Please input some description...' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="パスワード">
+        {form.getFieldDecorator('password', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input type="password"  placeholder="请输入" />)}
+      </FormItem>
+      {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="パスワードの確認">
+        {form.getFieldDecorator('password', {
+          rules: [{ required: true, message: 'Please input some description...' }],
+        })(<Input type="password"  placeholder="请输入" />)}
+      </FormItem> */}
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Email">
         {form.getFieldDecorator('email', {
           rules: [{ required: true, message: 'Please input some description...' }],
