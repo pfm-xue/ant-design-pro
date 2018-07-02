@@ -14,9 +14,11 @@ const getValue = obj =>
     .map(key => obj[key])
     .join(',');
 
-@connect(({ rule, loading }) => ({
+@connect(({ rule, task, loading }) => ({
   rule,
+  task,
   loading: loading.models.rule,
+  taskLoading: loading.models.task,
 }))
 @Form.create()
 export default class TableListUser extends PureComponent {
@@ -24,48 +26,17 @@ export default class TableListUser extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
-    time: '',
   };
-
-  onSelect = (value) => {
-    this.setState({
-      value,
-      time: value,
-    });
-  }
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'rule/fetch',
     });
-  }
-
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = { ...obj };
-      newObj[key] = getValue(filtersArg[key]);
-      return newObj;
-    }, {});
-
-    const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    };
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
-    }
-
     dispatch({
-      type: 'rule/fetch',
-      payload: params,
-    });
-  };
+      type: 'task/fetch',
+    });      
+  }
 
   handleFormReset = () => {
     const { form, dispatch } = this.props;
@@ -77,37 +48,6 @@ export default class TableListUser extends PureComponent {
       type: 'rule/fetch',
       payload: {},
     });
-  };
-
-  toggleForm = () => {
-    this.setState({
-      expandForm: !this.state.expandForm,
-    });
-  };
-
-  handleMenuClick = e => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
-
-    if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
-        });
-        break;
-      default:
-        break;
-    }
   };
 
   handleSearch = e => {
@@ -131,21 +71,6 @@ export default class TableListUser extends PureComponent {
         type: 'rule/fetch',
         payload: values,
       });
-    });
-  };
-
-  handleAdd = fields => {
-    this.props.dispatch({
-      type: 'rule/add',
-      payload: {
-        description: fields.desc,
-        no: fields.no,
-      },
-    });
-
-    message.success('添加成功');
-    this.setState({
-      modalVisible: false,
     });
   };
 
@@ -189,31 +114,23 @@ export default class TableListUser extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
-    const { selectedRows, modalVisible, time } = this.state;
+    const { task, dispatch} = this.props;
+    let scheduleTime = '';
+
     
-    function getListData(value) {
-      let listData;
-      switch (value.date()) {
-        case 8:
-          listData = [
-            { type: 'warning', content: '屋外歩行訓練', adminName:'下口', userAdmin:'鈴木' },
-            { type: 'success', content: '浴槽を跨ぐ練習' },
-          ]; break;
-        case 10:
-          listData = [
-            { type: 'warning', content: '屋外歩行訓練' },
-            { type: 'success', content: '浴槽を跨ぐ練習' },
-            { type: 'error', content: '下肢筋力訓練' },
-          ]; break;
-        case 15:
-          listData = [
-            { type: 'warning', content: '屋外歩行訓練' },
-            { type: 'success', content: '浴槽を跨ぐ練習' },
-          ]; break;
-        default:
-      }
-      return listData || [];
+    function editData (data) {
+      data.executeTime = scheduleTime._d;
+      dispatch({
+        type: 'task/add',
+        payload: {
+          fields: data,
+        },
+      });
+    }
+
+    function dateChange (data) {
+      const time = data;
+      scheduleTime = time;
     }
 
     function confirm(data) {
@@ -223,45 +140,55 @@ export default class TableListUser extends PureComponent {
         okText: '保存',
         cancelText: 'キャンセル',
         maskClosable: 'false',
+        onOk() {
+          editData(data);
+        },     
         content: (
           <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <FormItem label="タスク実施時間">
-                {(<DatePicker defaultValue={moment(time, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
+              <FormItem label="タスク予定時間">
+                {(<DatePicker onChange={dateChange} defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
               </FormItem>                         
               <div>
-                <p>プログラム内容：</p>
-                {data.map(item => (
-                    <li>
-                      <Badge status={item.type} text={item.content}>
-                      </Badge>
-                    </li>
-                  ))}
+                <ul className="events">
+                    <li>利用者氏名：{data.task_user.name}</li>
+                    <li>管理者氏名：{data.task_admin.adminName}</li>
+                </ul>
               </div>
             </Card>  
           </div>
         ),
-        onOk() {
-        },
-        onCancel() {
-        },
       });
     }
 
+    function getListData(value) {
+      const list = task.data.list;
+      let data;
+      list.map(item => {
+        const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
+        const valueTime = moment(value._d).format('YYYY-MM-DD');
+        if ( executeTime === valueTime ) {
+          data = item;
+        }
+      }) 
+      return data;
+    }
+
     function dateCellRender(value) {
-      const listData = getListData(value);
-      return (
-        <ul className="events">
-          <a onClick={() => confirm(listData)} >
-          {listData.map(item => (
-              <li key={item.content}>
-                <Badge status={item.type} text={item.content}>
-                </Badge>
-              </li>
-            ))}
-          </a>
-        </ul>
-      );
+      const list = getListData(value);
+      if(typeof(list) === "undefined"){
+        return <div></div>;
+      } else {
+        return (
+          <ul className="events">
+            <a onClick={() => confirm(list)} >
+              <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
+              <li>利用者氏名：{list.task_user.name}</li>
+              <li>管理者：{list.task_admin.adminName}</li>
+            </a>
+          </ul>
+        );
+      }
     }
 
     return (
@@ -269,11 +196,9 @@ export default class TableListUser extends PureComponent {
         <Card title="検索" >
             <div className={styles.tableListForm}>{this.renderForm()}</div>
         </Card>
-        <Card title="スケジュール" >
+        <Card title="スケジュール" style={{ marginTop: 16 }} >
           <Calendar
             dateCellRender={dateCellRender}
-            onSelect={this.onSelect}
-            // monthCellRender={monthCellRender}
           />
         </Card>
       </PageHeaderLayout>

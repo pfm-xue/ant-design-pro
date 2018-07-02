@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Form, Icon, Col, Row, Input,
+import { Card, Button, Form, Icon, Col, Row, Input, Mention,
          Select, Divider, Popover, Slider } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
@@ -7,6 +7,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TableForm from './TableForm';
 import styles from './PlanAdd.less';
 import { Link } from 'dva/router';
+const { toString, toContentState } = Mention;
 const { Option } = Select;
 const tableData = [];
 
@@ -93,6 +94,8 @@ export default class PlanAdd extends PureComponent {
           </li>
         );
       });
+
+      
       return (
         <span className={styles.errorIcon}>
           <Popover
@@ -101,14 +104,22 @@ export default class PlanAdd extends PureComponent {
             overlayClassName={styles.errorPopover}
             trigger="click"
             getPopupContainer={trigger => trigger.parentNode}
-          >
+            >
             <Icon type="exclamation-circle" />
           </Popover>
           {errorCount}
         </span>
       );
     };
-
+    
+    // function onChange(contentState) {
+    //   const srting111 = contentState;
+    //   console.log(toString(contentState));
+    // }
+    
+    function onSelect(suggestion) {
+      console.log('onSelect', suggestion);
+    }      
     const { getFieldValue } = this.props.form;
 
     return (
@@ -138,7 +149,15 @@ export default class PlanAdd extends PureComponent {
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：" >
                   {form.getFieldDecorator('planAuthor', {
                     rules: [{ required: true, message: '計画作成者入力してください' }],
-                  })(<Input placeholder="请输入"/>)}
+                  })(
+                  // <Input placeholder="请输入"/>
+                  <Mention
+                    style={{ width: '100%' }}
+                    // onChange={onChange}
+                    suggestions={['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご']}
+                    onSelect={onSelect}
+                  />                  
+                  )}
                 </Form.Item>                
               </Col>
             </Row>

@@ -525,7 +525,7 @@ export default class BasicForms extends PureComponent {
           </Card>          
             <FooterToolbar {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" >
-                <Link to="/dashboard/workplace">
+                <Link to="/dashboard/tasklist">
                   保存
                 </Link>
               </Button>

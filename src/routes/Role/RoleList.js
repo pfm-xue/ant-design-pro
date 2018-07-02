@@ -199,10 +199,10 @@ export default class RoleList extends PureComponent {
           <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit">
-                查询
+                検索
               </Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-                重置
+                リセット
               </Button>
             </span>
           </Col>

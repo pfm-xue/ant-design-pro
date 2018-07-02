@@ -72,13 +72,15 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
-    '/dashboard/analysis': {
-      component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
-    },
+
+    // '/dashboard/analysis': {
+    //   component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
+    // },
+
     // '/dashboard/monitor': {
     //   component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
     // },
-    '/dashboard/workplace': {
+    '/dashboard/tasklist': {
       component: dynamicWrapper(app, ['project', 'activities', 'chart', 'task'], () =>
         import('../routes/Dashboard/TaskList')
       ),
@@ -182,7 +184,6 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['patient','user','show','plan'], () => import('../routes/Patient/UserShow')),
     },
 
-    // // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // '/patient/list-patientNew': {
     //   component: dynamicWrapper(app, ['patient'], () => import('../routes/Profile/UserListNew')),
     // },    
@@ -195,12 +196,24 @@ export const getRouterData = app => {
     },    
 
     '/schedule/roles': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TableListAdmin')),
+      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TaskAdmin')),
     },
 
     '/schedule/patient': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TableListUser')),
+      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TaskUser')),
     },
+  
+    '/dictionary/plan-dictionary': {
+      component: dynamicWrapper(app, ['templateSchema'], () => import('../routes/Dictionary/PlanDictionary')),
+    },
+
+    '/dictionary/plan-add-data': {
+      component: dynamicWrapper(app, ['templateSchema'], () => import('../routes/Dictionary/ContentAdd')),
+    },
+
+    '/dictionary/plan-edit-data': {
+      component: dynamicWrapper(app, ['templateSchema'], () => import('../routes/Dictionary/ContentEdit')),
+    },    
 
     // '/schedule/roles/admin2': {
     //   component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis3')),

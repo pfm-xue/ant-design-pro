@@ -3,7 +3,7 @@ import { isUrl } from '../utils/utils';
 const menuData = [
   {
     name: 'ホーム',
-    icon: 'dashboard',
+    icon: 'home',
     path: 'dashboard',
     children: [
       // {
@@ -15,10 +15,8 @@ const menuData = [
       //   path: 'monitor',
       // },
       {
-        name: '一覧',
-        path: 'workplace',
-        // hideInBreadcrumb: true,
-        // hideInMenu: true,
+        name: 'タスク一覧',
+        path: 'tasklist',
       },
     ],
   },
@@ -191,45 +189,24 @@ const menuData = [
       {
         name: '管理者',
         path: 'roles',
-        // children: [
-        //   {
-        //     name: '介護士',
-        //     path: 'admin1',
-        //   },
-        //   {
-        //     name: '施設内システム管理者',
-        //     path: 'admin2',
-        //   },
-        //   {
-        //     name: '看護師',
-        //     path: 'admin3',
-        //   },
-        //   {
-        //     name: '相談員',
-        //     path: 'admin4',
-        //   },
-        // ],
       },
       {
         name: '利用者',
         path: 'patient',
       },
-      // {
-      //   name: '設備スケジュール',
-      //   path: 'equipment',
-      //   children: [
-      //     {
-      //       name: '活動室',
-      //       path: 'activityroom',
-      //     },
-      //     {
-      //       name: '浴室',
-      //       path: 'shogiroom',
-      //     },
-      //   ],
-      // },
     ],
   },
+  {
+    name: 'データ辞書',
+    icon: 'layout',
+    path: 'dictionary',
+    children: [
+      {
+        name: '計画書',
+        path: 'plan-dictionary',
+      },
+    ],
+  },  
 ];
 
 function formatter(data, parentPath = '/', parentAuthority) {
