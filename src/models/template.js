@@ -1,7 +1,12 @@
-import { queryTemplateSchema, addTemplateSchema, showTemplateSchema } from '../services/api';
+
+import { 
+  queryTemplate,
+  addTemplate,
+  showTemplate
+} from '../services/api';
 
 export default {
-  namespace: 'templateSchema',
+  namespace: 'template',
 
   state: {
     data: {
@@ -12,14 +17,14 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryTemplateSchema, payload);
+      const response = yield call(queryTemplate, payload);
       yield put({
         type: 'save',
         payload: response,
       });
     },
     *add({ payload, callback }, { call, put }) {
-      const response = yield call(addTemplateSchema, payload);
+      const response = yield call(addTemplate, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -27,7 +32,7 @@ export default {
       if (callback) callback();
     },
     *show({ payload }, { call, put }) {
-      const response = yield call(showTemplateSchema, payload);
+      const response = yield call(showTemplate, payload);
       yield put({
         type: 'save',
         payload: response,

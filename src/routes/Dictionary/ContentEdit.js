@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Form, Icon, Divider, Popover, Input } from 'antd';
+import { Card, Button, Form, Icon, Divider, Popover, Input, Select } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './ContentAdd.less';
 import { Link } from 'dva/router';
+const Option = Select.Option;
 const FormItem = Form.Item;
 
-@connect(({ plan, loading }) => ({
-  plan,
+@connect(({ template, loading }) => ({
+  template,
   submitting: loading.effects['form/submitAdvancedForm'],  
 }))
 @Form.create()
@@ -18,21 +19,17 @@ export default class ContentAdd extends PureComponent {
   };
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeFooterToolbar);
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'template/show',
+      payload: this.props.match.params.id,
+    });    
   }
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeFooterToolbar);
-  }
-  resizeFooterToolbar = () => {
-    const sider = document.querySelectorAll('.ant-layout-sider')[0];
-    const width = `calc(100% - ${sider.style.width})`;
-    if (this.state.width !== width) {
-      this.setState({ width });
-    }
-  };
+
   render() {
-    const { form, dispatch, submitting } = this.props;
+    const { template, form, dispatch, submitting } = this.props;
     const { validateFieldsAndScroll, getFieldsError } = form;
+    const parameter = template.data.list[0];
 
     const formItemLayout = {
       labelCol: {
@@ -99,14 +96,16 @@ export default class ContentAdd extends PureComponent {
         </span>
       );
     };
-    
-    function onSelect(suggestion) {
-      console.log('onSelect', suggestion);
-    }      
 
-    return (
+    const children = [];
+
+    function handleChange(value) {
+      console.log(`selected ${value}`);
+    }
+
+    return parameter && (
       <PageHeaderLayout
-        title="プロジェクト追加"
+        title="プロジェクト編集"
         content=""
         wrapperClassName={styles.advancedForm}
       >
@@ -114,23 +113,22 @@ export default class ContentAdd extends PureComponent {
         <Card style={{ marginBottom: 24 }} bordered={false}>
             <FormItem {...formItemLayout} label="プロジェクト">
               {form.getFieldDecorator('project', {
-                rules: [
-                  {
-                    required: true,
-                    message: '選択入力してください',
-                  },
-                ],
-              })(<Input placeholder="" />)}
+                initialValue:parameter.project,
+                rules: [{ required: true, message: '選択入力してください', }],
+              })(<Input readOnly />)}
             </FormItem>
             <FormItem {...formItemLayout} label="データ">
               {form.getFieldDecorator('projectData', {
-                rules: [
-                  {
-                    required: true,
-                    message: '選択入力してください',
-                  },
-                ],
-              })(<Input placeholder="" />)}
+                rules: [{ required: true, message: '選択入力してください',}],
+              })(
+                <Select mode="tags" style={{ width: '100%' }}
+                  onChange={handleChange}
+                  defaultValue={parameter.projectData}
+                  tokenSeparators={[',']}
+                >
+                  {children}
+                </Select>
+              )}
             </FormItem>
           </Card>         
         </Form>

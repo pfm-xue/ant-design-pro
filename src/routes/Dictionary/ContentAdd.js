@@ -7,8 +7,9 @@ import styles from './ContentAdd.less';
 import { Link } from 'dva/router';
 const FormItem = Form.Item;
 
-@connect(({ plan, loading }) => ({
-  plan,
+@connect(({ template, loading }) => ({
+  template,
+  loading: loading.models.template,
   submitting: loading.effects['form/submitAdvancedForm'],  
 }))
 @Form.create()
@@ -51,9 +52,9 @@ export default class ContentAdd extends PureComponent {
         if (!error) {
           // submit the values
           dispatch({
-            type: 'plan/add',
+            type: 'template/add',
             payload: {
-              planData: values,
+              template: values,
             },            
           });
         }

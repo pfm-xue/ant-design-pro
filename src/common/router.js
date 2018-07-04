@@ -204,15 +204,15 @@ export const getRouterData = app => {
     },
   
     '/dictionary/plan-dictionary': {
-      component: dynamicWrapper(app, ['templateSchema'], () => import('../routes/Dictionary/PlanDictionary')),
+      component: dynamicWrapper(app, ['template'], () => import('../routes/Dictionary/PlanDictionary')),
     },
 
     '/dictionary/plan-add-data': {
-      component: dynamicWrapper(app, ['templateSchema'], () => import('../routes/Dictionary/ContentAdd')),
+      component: dynamicWrapper(app, ['template'], () => import('../routes/Dictionary/ContentAdd')),
     },
 
-    '/dictionary/plan-edit-data': {
-      component: dynamicWrapper(app, ['templateSchema'], () => import('../routes/Dictionary/ContentEdit')),
+    '/dictionary/plan-edit-data/:id': {
+      component: dynamicWrapper(app, ['template'], () => import('../routes/Dictionary/ContentEdit')),
     },    
 
     // '/schedule/roles/admin2': {

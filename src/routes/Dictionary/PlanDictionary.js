@@ -9,22 +9,21 @@ const FormItem = Form.Item;
 import styles from './PlanDictionary.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-@connect(({ templateSchema, loading }) => ({
-  templateSchema,
-  loading: loading.models.task,
+@connect(({ template, loading }) => ({
+  template,
+  loading: loading.models.template,
 }))
 @Form.create()
 export default class PlanDictionary extends PureComponent {
 
   state = {
-    modalVisible1: false,
-    modalVisible: false,
+
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'templateSchema/fetch',
+      type: 'template/fetch',
     });    
   }
 
@@ -73,37 +72,37 @@ export default class PlanDictionary extends PureComponent {
   }
 
   render() {
-    const { task } = this.props;
-    const { modalVisible1, modalVisible } = this.state;
+    const { template, loading  } = this.props;
+    // const { modalVisible1, modalVisible } = this.state;
 
     const columns = [
       {
         title: 'プロジェクト',
-        dataIndex: 'determine',
-        key: 'determine',
-        render: (text) => (
-          <Fragment>
-            {!text ? "未実施" : "実施" }
-          </Fragment>
-        ),
+        dataIndex: 'project',
+        key: 'project',
+        // render: (text) => (
+        //   <Fragment>
+        //     {!text ? "未実施" : "実施" }
+        //   </Fragment>
+        // ),
       },
       {
         title: 'データ',
-        dataIndex: 'Visits',
-        key: 'Visits',
-        render: (text) => (
-          <Fragment>
-            {!text ? "未実施" : "実施" }
-          </Fragment>
-        ),      
+        dataIndex: 'projectData',
+        key: 'projectData',
+        // render: (text) => (
+        //   <Fragment>
+        //     {!text ? "未実施" : "実施" }
+        //   </Fragment>
+        // ),      
       },
       {
         title: '操作',
-        render: () => (
+        render: (record) => (
           <Fragment>
-            <Dropdown overlay={menu} placement="bottomRight">
-              <Button　type="primary">アセスメント</Button>
-            </Dropdown>
+            <Link to={"/dictionary/plan-edit-data/" + record._id}>
+              <Button size="small" type="primary">編集</Button>
+            </Link>              
           </Fragment>
         ),
       }];
@@ -119,7 +118,7 @@ export default class PlanDictionary extends PureComponent {
             <Card style={{ marginTop: 16 }} title="データ一覧" >
             {/*アセスメント*/}
               <Table
-                // dataSource={dataSource()}
+                dataSource={template.data.list}
                 columns={columns}
               />
             </Card>            
