@@ -73,6 +73,7 @@ export default class PlanAdd extends PureComponent {
     };
     const errors = getFieldsError();
     const getErrorInfo = () => {
+
       const errorCount = Object.keys(errors).filter(key => errors[key]).length;
       if (!errors || errorCount === 0) {
         return null;
@@ -95,7 +96,6 @@ export default class PlanAdd extends PureComponent {
         );
       });
 
-      
       return (
         <span className={styles.errorIcon}>
           <Popover

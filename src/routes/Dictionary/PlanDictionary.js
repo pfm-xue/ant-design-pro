@@ -73,28 +73,22 @@ export default class PlanDictionary extends PureComponent {
 
   render() {
     const { template, loading  } = this.props;
-    // const { modalVisible1, modalVisible } = this.state;
 
     const columns = [
       {
         title: 'プロジェクト',
         dataIndex: 'project',
         key: 'project',
-        // render: (text) => (
-        //   <Fragment>
-        //     {!text ? "未実施" : "実施" }
-        //   </Fragment>
-        // ),
       },
       {
         title: 'データ',
         dataIndex: 'projectData',
         key: 'projectData',
-        // render: (text) => (
-        //   <Fragment>
-        //     {!text ? "未実施" : "実施" }
-        //   </Fragment>
-        // ),      
+        render: (text) => (
+          <Fragment>
+            {text}
+          </Fragment>
+        ),      
       },
       {
         title: '操作',

@@ -175,11 +175,11 @@ export default class TaskList extends PureComponent {
           onOk={okHandle}
           onCancel={() => this.handleCancel()}
         >
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
             {form.getFieldDecorator('_id', {
               initialValue:data._id,
               rules: [{ required: true, message: '入力してください。' }],
-            })(<Input disabled />)}
+            })(<Input type="hidden" disabled />)}
           </FormItem>
           {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
             {form.getFieldDecorator('recording.implement_admin', {
@@ -240,11 +240,11 @@ export default class TaskList extends PureComponent {
           onOk={okHandle}
           onCancel={() => this.handleCancel()}
         >
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
             {form.getFieldDecorator('_id', {
               initialValue:data._id,
               rules: [{ required: true, message: '入力してください。' }],
-            })(<Input disabled />)}
+            })(<Input type="hidden" disabled />)}
           </FormItem>        
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="体温">
             {form.getFieldDecorator('vital.vital1', {

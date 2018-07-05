@@ -48,9 +48,9 @@ export default class ContentAdd extends PureComponent {
         if (!error) {
           // submit the values
           dispatch({
-            type: 'plan/add',
+            type: 'template/add',
             payload: {
-              planData: values,
+              template: values,
             },            
           });
         }
@@ -97,7 +97,10 @@ export default class ContentAdd extends PureComponent {
       );
     };
 
-    const children = [];
+    let children = [];
+    // if (parameter !== "") {
+    //   children = parameter.projectData;
+    // }
 
     function handleChange(value) {
       console.log(`selected ${value}`);
@@ -111,7 +114,13 @@ export default class ContentAdd extends PureComponent {
       >
         <Form layout="vertical" hideRequiredMark style={{ marginTop: 8 }}>
         <Card style={{ marginBottom: 24 }} bordered={false}>
-            <FormItem {...formItemLayout} label="プロジェクト">
+            <FormItem display="none" {...formItemLayout} label="">
+              {form.getFieldDecorator('_id', {
+                initialValue:parameter._id,
+                rules: [{ required: true, message: '選択入力してください', }],
+              })(<Input type="hidden" readOnly />)}
+            </FormItem>        
+            <FormItem display="none" {...formItemLayout} label="プロジェクト">
               {form.getFieldDecorator('project', {
                 initialValue:parameter.project,
                 rules: [{ required: true, message: '選択入力してください', }],

@@ -84,15 +84,14 @@ export default class ContentAdd extends PureComponent {
         );
       });
 
-      
       return (
         <span className={styles.errorIcon}>
           <Popover
-            title="表单校验信息"
-            content={errorList}
-            overlayClassName={styles.errorPopover}
-            trigger="click"
-            getPopupContainer={trigger => trigger.parentNode}
+              title="表单校验信息"
+              content={errorList}
+              overlayClassName={styles.errorPopover}
+              trigger="click"
+              getPopupContainer={trigger => trigger.parentNode}
             >
             <Icon type="exclamation-circle" />
           </Popover>
@@ -100,10 +99,10 @@ export default class ContentAdd extends PureComponent {
         </span>
       );
     };
-    
+
     function onSelect(suggestion) {
       console.log('onSelect', suggestion);
-    }      
+    }
 
     return (
       <PageHeaderLayout
@@ -133,7 +132,7 @@ export default class ContentAdd extends PureComponent {
                 ],
               })(<Input placeholder="" />)}
             </FormItem>
-          </Card>         
+          </Card>
         </Form>
         <FooterToolbar style={{ width: this.state.width }}>
           {getErrorInfo()}

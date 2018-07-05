@@ -128,11 +128,11 @@ export default class PlanEdit extends PureComponent {
           <Card title="" className={styles.card} bordered={false}>
           <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
+                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
                   {form.getFieldDecorator('_id', {
                     initialValue:parameter[0]._id,
                     rules: [{ required: true, message: '作成日入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input type="hidden" placeholder="请输入" />)}
                 </Form.Item>
               </Col>
             </Row>
