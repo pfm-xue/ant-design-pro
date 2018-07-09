@@ -2,9 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Row, Col, Card, Icon, Avatar, Tabs, Button, Table, Divider, Form, Input, Dropdown, Menu, Select, DatePicker } from 'antd';
-const { TabPane } = Tabs;
-const { Search } = Input;
+import { Row, Col, Card, Icon, Button, Table, Divider, Form, Input } from 'antd';
 const FormItem = Form.Item;
 import styles from './PlanDictionary.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -17,7 +15,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 export default class PlanDictionary extends PureComponent {
 
   state = {
-
+    expandForm: false,
   };
 
   componentDidMount() {

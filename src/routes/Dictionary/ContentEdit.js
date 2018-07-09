@@ -144,10 +144,12 @@ export default class ContentAdd extends PureComponent {
         <FooterToolbar style={{ width: this.state.width }}>
           {getErrorInfo()}
           <Button type="primary" onClick={validate} loading={submitting}>
-            保存
+            <Link to="/dictionary/plan-dictionary">
+              保存
+            </Link>
           </Button>
           <Divider type="vertical" />
-          <Link to="/patient/list-patient">
+          <Link to="/dictionary/plan-dictionary">
             <Button>キャンセル</Button>
           </Link>
         </FooterToolbar>

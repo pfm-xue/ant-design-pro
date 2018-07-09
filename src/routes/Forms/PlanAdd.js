@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Form, Icon, Col, Row, Input, Mention,
-         Select, Divider, Popover, Slider } from 'antd';
-import { connect } from 'dva';
-import FooterToolbar from 'components/FooterToolbar';
+import { Card, Button, Form, Icon, Col, Row, Input, Mention, Select, Divider, Popover, Slider, DatePicker } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import FooterToolbar from 'components/FooterToolbar';
 import TableForm from './TableForm';
 import styles from './PlanAdd.less';
 import { Link } from 'dva/router';
-const { toString, toContentState } = Mention;
+import { connect } from 'dva';
+import moment from 'moment';
 const { Option } = Select;
 const tableData = [];
 
@@ -22,6 +21,7 @@ const disorderList = {
   7: 'C1',
   8: 'C2',
 };
+
 const dementiaList = {
   0: '正常',
   1: 'Ⅰ',
@@ -32,8 +32,9 @@ const dementiaList = {
   6: 'ⅣM',
 };
 
-@connect(({ plan, loading }) => ({
+@connect(({ plan, template, loading }) => ({
   plan,
+  template,
   submitting: loading.effects['form/submitAdvancedForm'],  
 }))
 @Form.create()
@@ -41,6 +42,13 @@ export default class PlanAdd extends PureComponent {
   state = {
     width: '100%',
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'template/fetch',
+    });    
+  }
 
   componentDidMount() {
     window.addEventListener('resize', this.resizeFooterToolbar);
@@ -56,8 +64,10 @@ export default class PlanAdd extends PureComponent {
     }
   };
   render() {
-    const { form, dispatch, submitting } = this.props;
+    const { form, dispatch, submitting, template } = this.props;
+    // const { getFieldValue } = this.props.form;
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form;
+
     const validate = () => {
       validateFieldsAndScroll((error, values) => {
         if (!error) {
@@ -119,10 +129,10 @@ export default class PlanAdd extends PureComponent {
     
     function onSelect(suggestion) {
       console.log('onSelect', suggestion);
-    }      
-    const { getFieldValue } = this.props.form;
+    }
 
-    return (
+
+    return template && (
       <PageHeaderLayout
         title="【個別機能訓練計画書】"
         content=""
@@ -135,14 +145,22 @@ export default class PlanAdd extends PureComponent {
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
                   {form.getFieldDecorator('createDate', {
                     rules: [{ required: true, message: '作成日入力してください' }],
-                  })(<Input type="Date" placeholder="请输入" />)}
+                  })(
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                    />                  
+                  )}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
                   {form.getFieldDecorator('createLastTime', {
                     rules: [{ required: true, message: '前回作成日入力してください' }],
-                  })(<Input type="Date" placeholder="请输入" />)}
+                  })(
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                    />
+                  )}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
@@ -154,7 +172,7 @@ export default class PlanAdd extends PureComponent {
                   <Mention
                     style={{ width: '100%' }}
                     // onChange={onChange}
-                    suggestions={['afc163', 'benjycui', 'yiminghe', 'RaoHai', '中文', 'にほんご']}
+                    suggestions={template.data.list}
                     onSelect={onSelect}
                   />                  
                   )}
@@ -306,7 +324,12 @@ export default class PlanAdd extends PureComponent {
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
                   {form.getFieldDecorator('additionalTraining.longTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="長期目標" />)}
+                  })(
+                  // <Input type="Date" placeholder="長期目標" />
+                  <DatePicker
+                    defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                  />                  
+                  )}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
@@ -335,7 +358,12 @@ export default class PlanAdd extends PureComponent {
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
                   {form.getFieldDecorator('additionalTraining.shortTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="短期目標" />)}
+                  })(
+                    // <Input type="Date" placeholder="長期目標" />
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                    />                  
+                    )}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
@@ -386,7 +414,12 @@ export default class PlanAdd extends PureComponent {
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
                   {form.getFieldDecorator('planTow.longTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="長期目標" />)}
+                  })(
+                    // <Input type="Date" placeholder="長期目標" />
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                    />                  
+                    )}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
@@ -415,7 +448,12 @@ export default class PlanAdd extends PureComponent {
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
                   {form.getFieldDecorator('planTow.shortTermGoals', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="短期目標" />)}
+                  })(
+                    // <Input type="Date" placeholder="長期目標" />
+                    <DatePicker
+                      defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                    />                  
+                    )}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
