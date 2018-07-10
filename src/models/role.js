@@ -34,7 +34,7 @@ export default {
         payload: response,
       });
       if (callback) callback();
-    },    
+    },
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(removeRole, payload);
       yield put({

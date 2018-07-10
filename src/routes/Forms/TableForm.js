@@ -204,11 +204,11 @@ export default class TableForm extends PureComponent {
           }
           return text;
         },
-      },             
+      },
       {
         title: '操作',
         key: 'action',
-        render: ( record ) => {
+        render: record => {
           if (!!record.editable && this.state.loading) {
             return null;
           }
@@ -216,7 +216,10 @@ export default class TableForm extends PureComponent {
             if (record.isNew) {
               return (
                 <span>
-                  <Popconfirm title="これを削除しますか？" onConfirm={() => this.remove(record.key)}>
+                  <Popconfirm
+                    title="これを削除しますか？"
+                    onConfirm={() => this.remove(record.key)}
+                  >
                     <a>削除</a>
                   </Popconfirm>
                 </span>

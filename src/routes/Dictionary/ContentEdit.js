@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 
 @connect(({ template, loading }) => ({
   template,
-  submitting: loading.effects['form/submitAdvancedForm'],  
+  submitting: loading.effects['form/submitAdvancedForm'],
 }))
 @Form.create()
 export default class ContentAdd extends PureComponent {
@@ -23,7 +23,7 @@ export default class ContentAdd extends PureComponent {
     dispatch({
       type: 'template/show',
       payload: this.props.match.params.id,
-    });    
+    });
   }
 
   render() {
@@ -51,7 +51,7 @@ export default class ContentAdd extends PureComponent {
             type: 'template/add',
             payload: {
               template: values,
-            },            
+            },
           });
         }
       });
@@ -80,7 +80,6 @@ export default class ContentAdd extends PureComponent {
         );
       });
 
-      
       return (
         <span className={styles.errorIcon}>
           <Popover
@@ -89,7 +88,7 @@ export default class ContentAdd extends PureComponent {
             overlayClassName={styles.errorPopover}
             trigger="click"
             getPopupContainer={trigger => trigger.parentNode}
-            >
+          >
             <Icon type="exclamation-circle" />
           </Popover>
           {errorCount}
@@ -106,54 +105,56 @@ export default class ContentAdd extends PureComponent {
       console.log(`selected ${value}`);
     }
 
-    return parameter && (
-      <PageHeaderLayout
-        title="プロジェクト編集"
-        content=""
-        wrapperClassName={styles.advancedForm}
-      >
-        <Form layout="vertical" hideRequiredMark style={{ marginTop: 8 }}>
-        <Card style={{ marginBottom: 24 }} bordered={false}>
-            <FormItem display="none" {...formItemLayout} label="">
-              {form.getFieldDecorator('_id', {
-                initialValue:parameter._id,
-                rules: [{ required: true, message: '選択入力してください', }],
-              })(<Input type="hidden" readOnly />)}
-            </FormItem>        
-            <FormItem display="none" {...formItemLayout} label="プロジェクト">
-              {form.getFieldDecorator('project', {
-                initialValue:parameter.project,
-                rules: [{ required: true, message: '選択入力してください', }],
-              })(<Input readOnly />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="データ">
-              {form.getFieldDecorator('projectData', {
-                rules: [{ required: true, message: '選択入力してください',}],
-              })(
-                <Select mode="tags" style={{ width: '100%' }}
-                  onChange={handleChange}
-                  defaultValue={parameter.projectData}
-                  tokenSeparators={[',']}
-                >
-                  {children}
-                </Select>
-              )}
-            </FormItem>
-          </Card>         
-        </Form>
-        <FooterToolbar style={{ width: this.state.width }}>
-          {getErrorInfo()}
-          <Button type="primary" onClick={validate} loading={submitting}>
+    return (
+      parameter && (
+        <PageHeaderLayout
+          title="プロジェクト編集"
+          content=""
+          wrapperClassName={styles.advancedForm}
+        >
+          <Form layout="vertical" hideRequiredMark style={{ marginTop: 8 }}>
+            <Card style={{ marginBottom: 24 }} bordered={false}>
+              <FormItem display="none" {...formItemLayout} label="">
+                {form.getFieldDecorator('_id', {
+                  initialValue: parameter._id,
+                  rules: [{ required: true, message: '選択入力してください' }],
+                })(<Input type="hidden" readOnly />)}
+              </FormItem>
+              <FormItem display="none" {...formItemLayout} label="プロジェクト">
+                {form.getFieldDecorator('project', {
+                  initialValue: parameter.project,
+                  rules: [{ required: true, message: '選択入力してください' }],
+                })(<Input readOnly />)}
+              </FormItem>
+              <FormItem {...formItemLayout} label="データ">
+                {form.getFieldDecorator('projectData', {
+                  rules: [{ required: true, message: '選択入力してください' }],
+                })(
+                  <Select
+                    mode="tags"
+                    style={{ width: '100%' }}
+                    onChange={handleChange}
+                    defaultValue={parameter.projectData}
+                    tokenSeparators={[',']}
+                  >
+                    {children}
+                  </Select>
+                )}
+              </FormItem>
+            </Card>
+          </Form>
+          <FooterToolbar style={{ width: this.state.width }}>
+            {getErrorInfo()}
+            <Button type="primary" onClick={validate} loading={submitting}>
+              <Link to="/dictionary/plan-dictionary">保存</Link>
+            </Button>
+            <Divider type="vertical" />
             <Link to="/dictionary/plan-dictionary">
-              保存
+              <Button>キャンセル</Button>
             </Link>
-          </Button>
-          <Divider type="vertical" />
-          <Link to="/dictionary/plan-dictionary">
-            <Button>キャンセル</Button>
-          </Link>
-        </FooterToolbar>
-      </PageHeaderLayout>
+          </FooterToolbar>
+        </PageHeaderLayout>
+      )
     );
   }
 }

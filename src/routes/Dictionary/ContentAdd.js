@@ -10,7 +10,7 @@ const FormItem = Form.Item;
 @connect(({ template, loading }) => ({
   template,
   loading: loading.models.template,
-  submitting: loading.effects['form/submitAdvancedForm'],  
+  submitting: loading.effects['form/submitAdvancedForm'],
 }))
 @Form.create()
 export default class ContentAdd extends PureComponent {
@@ -55,7 +55,7 @@ export default class ContentAdd extends PureComponent {
             type: 'template/add',
             payload: {
               template: values,
-            },            
+            },
           });
         }
       });
@@ -87,12 +87,12 @@ export default class ContentAdd extends PureComponent {
       return (
         <span className={styles.errorIcon}>
           <Popover
-              title="表单校验信息"
-              content={errorList}
-              overlayClassName={styles.errorPopover}
-              trigger="click"
-              getPopupContainer={trigger => trigger.parentNode}
-            >
+            title="表单校验信息"
+            content={errorList}
+            overlayClassName={styles.errorPopover}
+            trigger="click"
+            getPopupContainer={trigger => trigger.parentNode}
+          >
             <Icon type="exclamation-circle" />
           </Popover>
           {errorCount}
@@ -105,13 +105,9 @@ export default class ContentAdd extends PureComponent {
     }
 
     return (
-      <PageHeaderLayout
-        title="プロジェクト追加"
-        content=""
-        wrapperClassName={styles.advancedForm}
-      >
+      <PageHeaderLayout title="プロジェクト追加" content="" wrapperClassName={styles.advancedForm}>
         <Form layout="vertical" hideRequiredMark style={{ marginTop: 8 }}>
-        <Card style={{ marginBottom: 24 }} bordered={false}>
+          <Card style={{ marginBottom: 24 }} bordered={false}>
             <FormItem {...formItemLayout} label="プロジェクト">
               {form.getFieldDecorator('project', {
                 rules: [
@@ -137,9 +133,7 @@ export default class ContentAdd extends PureComponent {
         <FooterToolbar style={{ width: this.state.width }}>
           {getErrorInfo()}
           <Button type="primary" onClick={validate} loading={submitting}>
-            <Link to="/dictionary/plan-dictionary">
-                保存
-            </Link>
+            <Link to="/dictionary/plan-dictionary">保存</Link>
           </Button>
           <Divider type="vertical" />
           <Link to="/dictionary/plan-dictionary">

@@ -1,6 +1,18 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, DatePicker, Tabs, Button, Calendar, Icon, Form, Modal,  Input,  message, Upload } from 'antd';
+import {
+  Card,
+  DatePicker,
+  Tabs,
+  Button,
+  Calendar,
+  Icon,
+  Form,
+  Modal,
+  Input,
+  message,
+  Upload,
+} from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 const { Description } = DescriptionList;
@@ -61,7 +73,7 @@ export default class RoleShow extends PureComponent {
     dispatch({
       type: 'role/show',
       payload: this.props.match.params.id,
-    });    
+    });
     dispatch({
       type: 'task/fetch',
     });
@@ -87,19 +99,19 @@ export default class RoleShow extends PureComponent {
     });
   };
 
-  handleCancel = () => this.setState({ previewVisible: false })
+  handleCancel = () => this.setState({ previewVisible: false });
 
-  handlePreview = (file) => {
+  handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
     });
-  }
+  };
 
-  handleChange = ({ fileList }) => this.setState({ fileList })
+  handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    const { task, roleLoading, role: {data}, dispatch, match } = this.props;
+    const { task, roleLoading, role: { data }, dispatch, match } = this.props;
     const { previewVisible, previewImage, fileList, modalVisible } = this.state;
     let scheduleTime = '';
 
@@ -115,7 +127,7 @@ export default class RoleShow extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
-    function editData (data) {
+    function editData(data) {
       data.executeTime = scheduleTime._d;
       dispatch({
         type: 'task/add',
@@ -125,7 +137,7 @@ export default class RoleShow extends PureComponent {
       });
     }
 
-    function dateChange (data) {
+    function dateChange(data) {
       const time = data;
       scheduleTime = time;
     }
@@ -139,20 +151,26 @@ export default class RoleShow extends PureComponent {
         maskClosable: 'false',
         onOk() {
           editData(data);
-        },     
+        },
         content: (
           <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
               <FormItem label="タスク予定時間">
-                {(<DatePicker onChange={dateChange} defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
-              </FormItem>                         
+                {
+                  <DatePicker
+                    onChange={dateChange}
+                    defaultValue={moment(data.executeTime, 'YYYY/MM/DD')}
+                    format={'YYYY/MM/DD'}
+                  />
+                }
+              </FormItem>
               <div>
                 <ul className="events">
-                    <li>利用者氏名：{data.task_user.name}</li>
-                    <li>管理者氏名：{data.task_admin.adminName}</li>
+                  <li>利用者氏名：{data.task_user.name}</li>
+                  <li>管理者氏名：{data.task_admin.adminName}</li>
                 </ul>
               </div>
-            </Card>  
+            </Card>
           </div>
         ),
       });
@@ -165,21 +183,21 @@ export default class RoleShow extends PureComponent {
       list.map(item => {
         const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
         const valueTime = moment(value._d).format('YYYY-MM-DD');
-        if ( executeTime === valueTime && item.task_admin._id === id ) {
+        if (executeTime === valueTime && item.task_admin._id === id) {
           data = item;
         }
-      }) 
+      });
       return data;
     }
 
     function dateCellRender(value) {
       const list = getListData(value);
-      if(typeof(list) === "undefined"){
-        return <div></div>;
+      if (typeof list === 'undefined') {
+        return <div />;
       } else {
         return (
           <ul className="events">
-            <a onClick={() => confirm(list)} >
+            <a onClick={() => confirm(list)}>
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
               <li>管理者：{list.task_admin.adminName}</li>
@@ -191,28 +209,29 @@ export default class RoleShow extends PureComponent {
 
     return (
       <PageHeaderLayout title="管理者詳細情報">
-        <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false} >
+        <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false}>
           <DescriptionList loading={roleLoading} size="large" title="" style={{ marginBottom: 32 }}>
-              <Description term="名前">{data.list[0].adminName}</Description>
-              <Description term="職務">{data.list[0].post}</Description>
-              <Description term="role">{data.list[0].role}</Description>
-              <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
-              <Description term="Email">{data.list[0].email}</Description>
-              <Description term="アドレス">{data.list[0].address}</Description>
+            <Description term="名前">{data.list[0].adminName}</Description>
+            <Description term="職務">{data.list[0].post}</Description>
+            <Description term="role">{data.list[0].role}</Description>
+            <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
+            <Description term="Email">{data.list[0].email}</Description>
+            <Description term="アドレス">{data.list[0].address}</Description>
           </DescriptionList>
         </Card>
-        <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
-          <Tabs>         
+        <Card bodyStyle={{ padding: 0 }} bordered={false} title="">
+          <Tabs>
             {/*スケジュール*/}
             <TabPane tab="スケジュール" key="assessment">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)} >新規</Button>
-                <br/><br/>
-                  <Calendar
-                    dateCellRender={dateCellRender}
-                  />
-              </Card>      
-          　</TabPane>
+                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
+                  新規
+                </Button>
+                <br />
+                <br />
+                <Calendar dateCellRender={dateCellRender} />
+              </Card>
+            </TabPane>
             {/*画像*/}
             <TabPane tab="画像" key="record">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
@@ -228,7 +247,7 @@ export default class RoleShow extends PureComponent {
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                   <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
-              </Card>  
+              </Card>
             </TabPane>
           </Tabs>
         </Card>

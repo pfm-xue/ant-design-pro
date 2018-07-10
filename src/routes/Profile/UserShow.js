@@ -1,6 +1,18 @@
-import React, { PureComponent, } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Tabs, Button, Calendar, Steps, Icon, Form, Modal, Input, Upload, DatePicker } from 'antd';
+import {
+  Card,
+  Tabs,
+  Button,
+  Calendar,
+  Steps,
+  Icon,
+  Form,
+  Modal,
+  Input,
+  Upload,
+  DatePicker,
+} from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { Link } from 'dva/router';
@@ -11,7 +23,6 @@ const { Description } = DescriptionList;
 const { TabPane } = Tabs;
 const { Step } = Steps;
 
- 
 const FormItem = Form.Item;
 
 const CreateForm = Form.create()(props => {
@@ -78,7 +89,7 @@ export default class UserShow extends PureComponent {
     });
     dispatch({
       type: 'plan/fetch',
-    });      
+    });
   }
 
   handleFormReset = () => {
@@ -112,19 +123,27 @@ export default class UserShow extends PureComponent {
     });
   };
 
-  handleCancel = () => this.setState({ previewVisible: false })
+  handleCancel = () => this.setState({ previewVisible: false });
 
-  handlePreview = (file) => {
+  handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
     });
-  }
+  };
 
-  handleChange = ({ fileList }) => this.setState({ fileList })
+  handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    const { user: { data }, userLoading, task, taskLoading, plan, planLoading, dispatch } = this.props;
+    const {
+      user: { data },
+      userLoading,
+      task,
+      taskLoading,
+      plan,
+      planLoading,
+      dispatch,
+    } = this.props;
     const { modalVisible, fileList, previewVisible, previewImage } = this.state;
     let scheduleTime = '';
 
@@ -140,7 +159,7 @@ export default class UserShow extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
-    function editData (data) {
+    function editData(data) {
       data.executeTime = scheduleTime._d;
       dispatch({
         type: 'task/add',
@@ -150,11 +169,10 @@ export default class UserShow extends PureComponent {
       });
     }
 
-    function dateChange (data) {
+    function dateChange(data) {
       const time = data;
       scheduleTime = time;
     }
-
 
     function confirm(data) {
       Modal.confirm({
@@ -170,15 +188,21 @@ export default class UserShow extends PureComponent {
           <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
               <FormItem label="タスク予定時間">
-                {(<DatePicker onChange={dateChange} defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
-              </FormItem>                         
+                {
+                  <DatePicker
+                    onChange={dateChange}
+                    defaultValue={moment(data.executeTime, 'YYYY/MM/DD')}
+                    format={'YYYY/MM/DD'}
+                  />
+                }
+              </FormItem>
               <div>
                 <ul className="events">
-                    <li>利用者氏名：{data.task_user.name}</li>
-                    <li>管理者氏名：{data.task_admin.adminName}</li>
+                  <li>利用者氏名：{data.task_user.name}</li>
+                  <li>管理者氏名：{data.task_admin.adminName}</li>
                 </ul>
               </div>
-            </Card>  
+            </Card>
           </div>
         ),
       });
@@ -190,21 +214,21 @@ export default class UserShow extends PureComponent {
       list.map(item => {
         const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
         const valueTime = moment(value._d).format('YYYY-MM-DD');
-        if ( executeTime === valueTime ) {
+        if (executeTime === valueTime) {
           data = item;
         }
-      }) 
+      });
       return data;
     }
 
     function dateCellRender(value) {
       const list = getListData(value);
-      if(typeof(list) === "undefined"){
-        return <div></div>;
+      if (typeof list === 'undefined') {
+        return <div />;
       } else {
         return (
           <ul className="events">
-            <a onClick={() => confirm(list)} >
+            <a onClick={() => confirm(list)}>
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
             </a>
@@ -215,59 +239,79 @@ export default class UserShow extends PureComponent {
 
     return (
       <PageHeaderLayout title="使用者詳細情報">
-          <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false} >
-            { data.list &&
-              <DescriptionList loading={userLoading} size="large" title="" style={{ marginBottom: 32 }}>
-                <Description term="利用者氏名">{data.list[0].name}</Description>
-                <Description term="ふりがな">{data.list[0].phonetic}</Description>
-                <Description term="生年月日">{moment(data.list[0].birth).format('YYYY-MM-DD')}</Description>
-                <Description term="性別">{data.list[0].sex}</Description>
-                <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
-                <Description term="住所">{data.list[0].address}</Description>
-              </DescriptionList>
-            }
-          </Card>
-        <Card bodyStyle={{ padding: 0 }} bordered={false} title="" >
-         <Tabs>         
-          {/*スケジュール*/}
-          <TabPane tab="スケジュール" key="assessment">
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)} >新規</Button>
-              <br/><br/>
-                <Calendar
-                  dateCellRender={dateCellRender}
-                  loading={taskLoading}
-                />
-            </Card>      
-        　</TabPane>
+        <Card style={{ marginBottom: 24 }} title="使用者情報" bordered={false}>
+          {data.list && (
+            <DescriptionList
+              loading={userLoading}
+              size="large"
+              title=""
+              style={{ marginBottom: 32 }}
+            >
+              <Description term="利用者氏名">{data.list[0].name}</Description>
+              <Description term="ふりがな">{data.list[0].phonetic}</Description>
+              <Description term="生年月日">
+                {moment(data.list[0].birth).format('YYYY-MM-DD')}
+              </Description>
+              <Description term="性別">{data.list[0].sex}</Description>
+              <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
+              <Description term="住所">{data.list[0].address}</Description>
+            </DescriptionList>
+          )}
+        </Card>
+        <Card bodyStyle={{ padding: 0 }} bordered={false} title="">
+          <Tabs>
+            {/*スケジュール*/}
+            <TabPane tab="スケジュール" key="assessment">
+              <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
+                  新規
+                </Button>
+                <br />
+                <br />
+                <Calendar dateCellRender={dateCellRender} loading={taskLoading} />
+              </Card>
+            </TabPane>
             {/*計画書*/}
             <TabPane tab="計画書" key="plan">
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <Link to="/form/advanced-form" >
-                <Button type="primary" icon="plus">新規</Button>
-              </Link>
-              <br/><br/>
-                <Steps loading={planLoading} direction="vertical" >
-                {plan.data.list.map(item => <Step title={moment(item.createDate).format('YYYY-MM-DD')} description={item.planAuthor} icon={<Link to={"/profile/plan-show/" + item._id} ><Icon type="edit" /></Link>}/>)}
+              <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+                <Link to="/form/advanced-form">
+                  <Button type="primary" icon="plus">
+                    新規
+                  </Button>
+                </Link>
+                <br />
+                <br />
+                <Steps loading={planLoading} direction="vertical">
+                  {plan.data.list.map(item => (
+                    <Step
+                      title={moment(item.createDate).format('YYYY-MM-DD')}
+                      description={item.planAuthor}
+                      icon={
+                        <Link to={'/profile/plan-show/' + item._id}>
+                          <Icon type="edit" />
+                        </Link>
+                      }
+                    />
+                  ))}
                 </Steps>
-            </Card>
+              </Card>
             </TabPane>
             {/*画像*/}
             <TabPane tab="画像" key="record">
-            <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-              <Upload
-                action="//jsonplaceholder.typicode.com/posts/"
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={this.handlePreview}
-                onChange={this.handleChange}
-              >
-                {uploadButton}
-              </Upload>
-              <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                <img alt="example" style={{ width: '100%' }} src={previewImage} />
-              </Modal>
-            </Card>  
+              <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+                <Upload
+                  action="//jsonplaceholder.typicode.com/posts/"
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={this.handlePreview}
+                  onChange={this.handleChange}
+                >
+                  {uploadButton}
+                </Upload>
+                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                  <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+              </Card>
             </TabPane>
           </Tabs>
         </Card>

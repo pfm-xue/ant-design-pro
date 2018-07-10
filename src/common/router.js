@@ -111,7 +111,7 @@ export const getRouterData = app => {
     },
     '/form/plan-edit/:id': {
       component: dynamicWrapper(app, ['form', 'plan'], () => import('../routes/Forms/PlanEdit')),
-    },    
+    },
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
     },
@@ -181,19 +181,21 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['patient'], () => import('../routes/Patient/UserList')),
     },
     '/patient/show-patient/:id': {
-      component: dynamicWrapper(app, ['patient','user','show','plan'], () => import('../routes/Patient/UserShow')),
+      component: dynamicWrapper(app, ['patient', 'user', 'show', 'plan'], () =>
+        import('../routes/Patient/UserShow')
+      ),
     },
 
     // '/patient/list-patientNew': {
     //   component: dynamicWrapper(app, ['patient'], () => import('../routes/Profile/UserListNew')),
-    // },    
+    // },
 
     '/role/physician-role': {
       component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleList')),
     },
     '/role/physician-show/:id': {
       component: dynamicWrapper(app, ['role'], () => import('../routes/Role/RoleShow')),
-    },    
+    },
 
     '/schedule/roles': {
       component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TaskAdmin')),
@@ -202,9 +204,11 @@ export const getRouterData = app => {
     '/schedule/patient': {
       component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TaskUser')),
     },
-  
+
     '/dictionary/plan-dictionary': {
-      component: dynamicWrapper(app, ['template'], () => import('../routes/Dictionary/PlanDictionary')),
+      component: dynamicWrapper(app, ['template'], () =>
+        import('../routes/Dictionary/PlanDictionary')
+      ),
     },
 
     '/dictionary/plan-add-data': {
@@ -212,8 +216,10 @@ export const getRouterData = app => {
     },
 
     '/dictionary/plan-edit-data/:id': {
-      component: dynamicWrapper(app, ['template'], () => import('../routes/Dictionary/ContentEdit')),
-    },    
+      component: dynamicWrapper(app, ['template'], () =>
+        import('../routes/Dictionary/ContentEdit')
+      ),
+    },
 
     // '/schedule/roles/admin2': {
     //   component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis3')),
@@ -238,8 +244,6 @@ export const getRouterData = app => {
     '/profile/plan-printing': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/PlanPreview')),
     },
-
-
   };
   // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());

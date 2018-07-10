@@ -1,6 +1,20 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Select, Button, Modal, message, Divider, Calendar, Badge, DatePicker } from 'antd';
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Input,
+  Select,
+  Button,
+  Modal,
+  message,
+  Divider,
+  Calendar,
+  Badge,
+  DatePicker,
+} from 'antd';
 import moment from 'moment';
 import { Link } from 'dva/router';
 import styles from './TableList.less';
@@ -119,8 +133,7 @@ export default class TableListAdmin extends PureComponent {
     const { task, dispatch, match } = this.props;
     let scheduleTime = '';
 
-    
-    function editData (data) {
+    function editData(data) {
       data.executeTime = scheduleTime._d;
       dispatch({
         type: 'task/add',
@@ -130,7 +143,7 @@ export default class TableListAdmin extends PureComponent {
       });
     }
 
-    function dateChange (data) {
+    function dateChange(data) {
       const time = data;
       scheduleTime = time;
     }
@@ -144,20 +157,26 @@ export default class TableListAdmin extends PureComponent {
         maskClosable: 'false',
         onOk() {
           editData(data);
-        },     
+        },
         content: (
           <div>
             <Card title="" style={{ marginBottom: 24 }} bordered={false}>
               <FormItem label="タスク予定時間">
-                {(<DatePicker onChange={dateChange} defaultValue={moment(data.executeTime, "YYYY/MM/DD")} format={"YYYY/MM/DD"}/>)}
-              </FormItem>                         
+                {
+                  <DatePicker
+                    onChange={dateChange}
+                    defaultValue={moment(data.executeTime, 'YYYY/MM/DD')}
+                    format={'YYYY/MM/DD'}
+                  />
+                }
+              </FormItem>
               <div>
                 <ul className="events">
-                    <li>利用者氏名：{data.task_user.name}</li>
-                    <li>管理者氏名：{data.task_admin.adminName}</li>
+                  <li>利用者氏名：{data.task_user.name}</li>
+                  <li>管理者氏名：{data.task_admin.adminName}</li>
                 </ul>
               </div>
-            </Card>  
+            </Card>
           </div>
         ),
       });
@@ -169,21 +188,21 @@ export default class TableListAdmin extends PureComponent {
       list.map(item => {
         const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
         const valueTime = moment(value._d).format('YYYY-MM-DD');
-        if ( executeTime === valueTime ) {
+        if (executeTime === valueTime) {
           data = item;
         }
-      }) 
+      });
       return data;
     }
 
     function dateCellRender(value) {
       const list = getListData(value);
-      if(typeof(list) === "undefined"){
-        return <div></div>;
+      if (typeof list === 'undefined') {
+        return <div />;
       } else {
         return (
           <ul className="events">
-            <a onClick={() => confirm(list)} >
+            <a onClick={() => confirm(list)}>
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
               <li>管理者：{list.task_admin.adminName}</li>
@@ -195,13 +214,11 @@ export default class TableListAdmin extends PureComponent {
 
     return (
       <PageHeaderLayout>
-        <Card title="検索" >
-            <div className={styles.tableListForm}>{this.renderForm()}</div>
+        <Card title="検索">
+          <div className={styles.tableListForm}>{this.renderForm()}</div>
         </Card>
-        <Card title="スケジュール" style={{ marginTop: 16 }} >
-          <Calendar
-            dateCellRender={dateCellRender}
-          />
+        <Card title="スケジュール" style={{ marginTop: 16 }}>
+          <Calendar dateCellRender={dateCellRender} />
         </Card>
       </PageHeaderLayout>
     );

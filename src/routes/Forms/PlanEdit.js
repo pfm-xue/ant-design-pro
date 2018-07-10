@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Form, Icon, Col, Row, Input,
-         Select, Divider, Popover, Slider } from 'antd';
+import { Card, Button, Form, Icon, Col, Row, Input, Select, Divider, Popover, Slider } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -33,7 +32,7 @@ const dementiaList = {
 
 @connect(({ plan, loading }) => ({
   plan,
-  planLoading: loading.models.plan, 
+  planLoading: loading.models.plan,
 }))
 @Form.create()
 export default class PlanEdit extends PureComponent {
@@ -46,7 +45,7 @@ export default class PlanEdit extends PureComponent {
     dispatch({
       type: 'plan/show',
       payload: this.props.match.params.id,
-    });     
+    });
   }
 
   componentWillUnmount() {
@@ -72,7 +71,7 @@ export default class PlanEdit extends PureComponent {
             type: 'plan/add',
             payload: {
               planData: values,
-            },            
+            },
           });
         }
       });
@@ -118,397 +117,400 @@ export default class PlanEdit extends PureComponent {
 
     const { getFieldValue } = this.props.form;
 
-    return parameter && (
-      <PageHeaderLayout
-        title="【個別機能訓練計画書】"
-        content=""
-        wrapperClassName={styles.advancedForm}
-      >
-        <Form layout="vertical" hideRequiredMark>
-          <Card title="" className={styles.card} bordered={false}>
-          <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
-                  {form.getFieldDecorator('_id', {
-                    initialValue:parameter[0]._id,
-                    rules: [{ required: true, message: '作成日入力してください' }],
-                  })(<Input type="hidden" placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
-                  {form.getFieldDecorator('createDate', {
-                    rules: [{ required: true, message: '作成日入力してください' }],
-                  })(<Input type="Date" placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
-                  {form.getFieldDecorator('createLastTime', {
-                    rules: [{ required: true, message: '前回作成日入力してください' }],
-                  })(<Input type="Date" placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：" >
-                  {form.getFieldDecorator('planAuthor', {
-                    initialValue:parameter[0].planAuthor,
-                    rules: [{ required: true, message: '計画作成者入力してください' }],
-                  })(<Input placeholder="请输入"/>)}
-                </Form.Item>                
-              </Col>
-            </Row>
-            {/* <Row gutter={16}>
+    return (
+      parameter && (
+        <PageHeaderLayout
+          title="【個別機能訓練計画書】"
+          content=""
+          wrapperClassName={styles.advancedForm}
+        >
+          <Form layout="vertical" hideRequiredMark>
+            <Card title="" className={styles.card} bordered={false}>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
+                    {form.getFieldDecorator('_id', {
+                      initialValue: parameter[0]._id,
+                      rules: [{ required: true, message: '作成日入力してください' }],
+                    })(<Input type="hidden" placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
+                    {form.getFieldDecorator('createDate', {
+                      rules: [{ required: true, message: '作成日入力してください' }],
+                    })(<Input type="Date" placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
+                    {form.getFieldDecorator('createLastTime', {
+                      rules: [{ required: true, message: '前回作成日入力してください' }],
+                    })(<Input type="Date" placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="計画作成者：">
+                    {form.getFieldDecorator('planAuthor', {
+                      initialValue: parameter[0].planAuthor,
+                      rules: [{ required: true, message: '計画作成者入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              {/* <Row gutter={16}>
               <Col lg={6} md={12} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな：">
                   {form.getFieldDecorator('phonetic', {
                     rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別：">
                   {form.getFieldDecorator('sex', {
                     rules: [{ required: true, message: '性別入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </Form.Item>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日：">
                   {form.getFieldDecorator('birth', {
                     rules: [{ required: true, message: '生年月日入力してください' }],
-                  })(<Input type="Date" placeholder="请输入" />)}
+                  })(<Input type="Date" placeholder="入力してください" />)}
                 </Form.Item>
               </Col>
             </Row> */}
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護認定：">
-                  {form.getFieldDecorator('certification', {
-                    initialValue:parameter[0].certification,
-                    rules: [{ required: true, message: '介護認定入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者：">
-                  {form.getFieldDecorator('admin', {
-                    initialValue:parameter[0].admin,
-                    rules: [{ required: true, message: '管理者入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="看護：">
-                  {form.getFieldDecorator('nursing', {
-                    initialValue:parameter[0].nursing,
-                    rules: [{ required: true, message: '看護入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護：">
-                  {form.getFieldDecorator('nursingCare', {
-                    initialValue:parameter[0].nursingCare,
-                    rules: [{ required: true, message: '介護入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="機能訓練：">
-                  {form.getFieldDecorator('functionalTraining', {
-                    initialValue:parameter[0].functionalTraining,
-                    rules: [{ required: true, message: '機能訓練入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="相談員：">
-                  {form.getFieldDecorator('counselor', {
-                    initialValue:parameter[0].counselor,
-                    rules: [{ required: true, message: '相談員入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                {/* <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="氏名：">
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護認定：">
+                    {form.getFieldDecorator('certification', {
+                      initialValue: parameter[0].certification,
+                      rules: [{ required: true, message: '介護認定入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者：">
+                    {form.getFieldDecorator('admin', {
+                      initialValue: parameter[0].admin,
+                      rules: [{ required: true, message: '管理者入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="看護：">
+                    {form.getFieldDecorator('nursing', {
+                      initialValue: parameter[0].nursing,
+                      rules: [{ required: true, message: '看護入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護：">
+                    {form.getFieldDecorator('nursingCare', {
+                      initialValue: parameter[0].nursingCare,
+                      rules: [{ required: true, message: '介護入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="機能訓練：">
+                    {form.getFieldDecorator('functionalTraining', {
+                      initialValue: parameter[0].functionalTraining,
+                      rules: [{ required: true, message: '機能訓練入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="相談員：">
+                    {form.getFieldDecorator('counselor', {
+                      initialValue: parameter[0].counselor,
+                      rules: [{ required: true, message: '相談員入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  {/* <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="氏名：">
                   {form.getFieldDecorator('name', {
                     rules: [{ required: true, message: '氏名入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </Form.Item> */}
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="本人の希望：">
-                  {form.getFieldDecorator('oneselfDesire', {
-                    initialValue:parameter[0].oneselfDesire,
-                    rules: [{ required: true, message: '本人の希望入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="家族の希望：">
-                  {form.getFieldDecorator('familyDesire', {
-                    initialValue:parameter[0].familyDesire,
-                    rules: [{ required: true, message: '家族の希望入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="障害老人の日常生活自立度：">
-                  {getFieldDecorator('disorder', {
-                    initialValue:parameter[0].disorder,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Slider marks={disorderList} max={8} step={null} defaultValue={0} />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="認知症老人の日常生活自立度：">
-                  {getFieldDecorator('dementia', {
-                    initialValue:parameter[0].dementia,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Slider marks={dementiaList} max={6} step={null} defaultValue={0} />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="病名、合併症(心疾患、吸器疾患等)：" >
-                  {form.getFieldDecorator('diseaseName', {
-                    initialValue:parameter[0].diseaseName,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>                     
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="運動時のリスク(血圧、不整脈、呼吸等)：" >
-                  {form.getFieldDecorator('exerciseRisk', {
-                    initialValue:parameter[0].exerciseRisk,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="生活課題：" >
-                  {form.getFieldDecorator('lifeIssues', {
-                    initialValue:parameter[0].lifeIssues,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>                    
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item wrapperCol={{ span: 20 }} label="在宅環境(生活課題に関連する在宅環境課題)：" >
-                  {form.getFieldDecorator('homeEnvironment', {
-                    initialValue:parameter[0].homeEnvironment,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>
-              </Col>
-            </Row>
-        </Card>
-        <Card title="個別機能訓練加算Ⅰ" className={styles.card} bordered={false}>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
-                  {form.getFieldDecorator('additionalTraining.longTermGoals', {
-                    initialValue:parameter[0].additionalTraining.longTermGoals,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="長期目標" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                {/* <Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="本人の希望：">
+                    {form.getFieldDecorator('oneselfDesire', {
+                      initialValue: parameter[0].oneselfDesire,
+                      rules: [{ required: true, message: '本人の希望入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="家族の希望：">
+                    {form.getFieldDecorator('familyDesire', {
+                      initialValue: parameter[0].familyDesire,
+                      rules: [{ required: true, message: '家族の希望入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item wrapperCol={{ span: 20 }} label="障害老人の日常生活自立度：">
+                    {getFieldDecorator('disorder', {
+                      initialValue: parameter[0].disorder,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Slider marks={disorderList} max={8} step={null} defaultValue={0} />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  <Form.Item wrapperCol={{ span: 20 }} label="認知症老人の日常生活自立度：">
+                    {getFieldDecorator('dementia', {
+                      initialValue: parameter[0].dementia,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Slider marks={dementiaList} max={6} step={null} defaultValue={0} />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item wrapperCol={{ span: 20 }} label="病名、合併症(心疾患、吸器疾患等)：">
+                    {form.getFieldDecorator('diseaseName', {
+                      initialValue: parameter[0].diseaseName,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item
+                    wrapperCol={{ span: 20 }}
+                    label="運動時のリスク(血圧、不整脈、呼吸等)："
+                  >
+                    {form.getFieldDecorator('exerciseRisk', {
+                      initialValue: parameter[0].exerciseRisk,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  <Form.Item wrapperCol={{ span: 20 }} label="生活課題：">
+                    {form.getFieldDecorator('lifeIssues', {
+                      initialValue: parameter[0].lifeIssues,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item
+                    wrapperCol={{ span: 20 }}
+                    label="在宅環境(生活課題に関連する在宅環境課題)："
+                  >
+                    {form.getFieldDecorator('homeEnvironment', {
+                      initialValue: parameter[0].homeEnvironment,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Card>
+            <Card title="個別機能訓練加算Ⅰ" className={styles.card} bordered={false}>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
+                    {form.getFieldDecorator('additionalTraining.longTermGoals', {
+                      initialValue: parameter[0].additionalTraining.longTermGoals,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input type="Date" placeholder="長期目標" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  {/* <Form.Item>
                   {getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
                 </Form.Item> */}
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('additionalTraining.longTermGoalsDegree', {
-                    initialValue:parameter[0].additionalTraining.longTermGoalsDegree,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(
-                    <Select placeholder="逹成度">
-                      <Option value="逹成">逹成</Option>
-                      <Option value="一部">一部</Option>
-                      <Option value="未逹">未逹</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
-                  {form.getFieldDecorator('additionalTraining.shortTermGoals', {
-                    initialValue:parameter[0].additionalTraining.shortTermGoals,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="短期目標" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                {/* <Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
+                    {form.getFieldDecorator('additionalTraining.longTermGoalsDegree', {
+                      initialValue: parameter[0].additionalTraining.longTermGoalsDegree,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(
+                      <Select placeholder="逹成度">
+                        <Option value="逹成">逹成</Option>
+                        <Option value="一部">一部</Option>
+                        <Option value="未逹">未逹</Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
+                    {form.getFieldDecorator('additionalTraining.shortTermGoals', {
+                      initialValue: parameter[0].additionalTraining.shortTermGoals,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input type="Date" placeholder="短期目標" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  {/* <Form.Item>
                   {getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
                 </Form.Item> */}
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('additionalTraining.shortTermGoalsDegree', {
-                    initialValue:parameter[0].additionalTraining.shortTermGoalsDegree,
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(
-                    <Select placeholder="逹成度">
-                      <Option value="逹成">逹成</Option>
-                      <Option value="一部">一部</Option>
-                      <Option value="未逹">未逹</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Card title="プログラム" bordered={false}>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
+                    {form.getFieldDecorator('additionalTraining.shortTermGoalsDegree', {
+                      initialValue: parameter[0].additionalTraining.shortTermGoalsDegree,
+                      rules: [{ required: true, message: 'ふりがな入力してください' }],
+                    })(
+                      <Select placeholder="逹成度">
+                        <Option value="逹成">逹成</Option>
+                        <Option value="一部">一部</Option>
+                        <Option value="未逹">未逹</Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Card title="プログラム" bordered={false}>
                   {getFieldDecorator('members', {
                     initialValue: tableData,
                   })(<TableForm />)}
-              </Card>
-            </Row> 
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                </Card>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24} />
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
                   {form.getFieldDecorator('additionalTraining.enum', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </Form.Item> */}
-              </Col>
-            </Row> 
-        </Card>
-        <Card title="個別機能訓練計画書Ⅱ" className={styles.card} bordered={false}>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
-                  {form.getFieldDecorator('planTow.longTermGoals', {
-                    initialValue:parameter[0].planTow.longTermGoals,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="長期目標" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                {/* <Form.Item>
+                </Col>
+              </Row>
+            </Card>
+            <Card title="個別機能訓練計画書Ⅱ" className={styles.card} bordered={false}>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="長期目標：">
+                    {form.getFieldDecorator('planTow.longTermGoals', {
+                      initialValue: parameter[0].planTow.longTermGoals,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input type="Date" placeholder="長期目標" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  {/* <Form.Item>
                   {form.getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
                 </Form.Item> */}
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('planTow.longTermGoalsDegree', {
-                    initialValue:parameter[0].planTow.longTermGoalsDegree,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(
-                    <Select placeholder="逹成度">
-                      <Option value="逹成">逹成</Option>
-                      <Option value="一部">一部</Option>
-                      <Option value="未逹">未逹</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
-                  {form.getFieldDecorator('planTow.shortTermGoals', {
-                    initialValue:parameter[0].planTow.shortTermGoals,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input type="Date" placeholder="短期目標" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                {/* <Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
+                    {form.getFieldDecorator('planTow.longTermGoalsDegree', {
+                      initialValue: parameter[0].planTow.longTermGoalsDegree,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(
+                      <Select placeholder="逹成度">
+                        <Option value="逹成">逹成</Option>
+                        <Option value="一部">一部</Option>
+                        <Option value="未逹">未逹</Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短期目標：">
+                    {form.getFieldDecorator('planTow.shortTermGoals', {
+                      initialValue: parameter[0].planTow.shortTermGoals,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input type="Date" placeholder="短期目標" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                  {/* <Form.Item>
                   {form.getFieldDecorator('url2', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
                 </Form.Item> */}
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
-                  {form.getFieldDecorator('planTow.shortTermGoalsDegree', {
-                    initialValue:parameter[0].planTow.shortTermGoalsDegree,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(
-                    <Select placeholder="逹成度">
-                      <Option value="逹成">逹成</Option>
-                      <Option value="一部">一部</Option>
-                      <Option value="未逹">未逹</Option>
-                    </Select>
-                  )}
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Card title="プログラム" bordered={false}>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
+                    {form.getFieldDecorator('planTow.shortTermGoalsDegree', {
+                      initialValue: parameter[0].planTow.shortTermGoalsDegree,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(
+                      <Select placeholder="逹成度">
+                        <Option value="逹成">逹成</Option>
+                        <Option value="一部">一部</Option>
+                        <Option value="未逹">未逹</Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Card title="プログラム" bordered={false}>
                   {getFieldDecorator('members', {
                     initialValue: tableData,
                   })(<TableForm />)}
-              </Card>
-            </Row> 
-            <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                </Card>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24} />
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                  {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
                   {form.getFieldDecorator('planTow.enum', {
                     rules: [{ required: true, message: '入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </Form.Item> */}
-              </Col>
-            </Row>             
-          </Card>
-          <Card title="" className={styles.card} bordered={false}>
-          <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-              <Form.Item wrapperCol={{ span: 20 }} label="特記事項" >
-                  {form.getFieldDecorator('specialNotes', {
-                    initialValue:parameter[0].specialNotes,
-                    rules: [{ required: true, message: '入力してください' }],
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>                 
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-              </Col>
-            </Row> 
-          </Card>           
-        </Form>
-        <FooterToolbar style={{ width: this.state.width }}>
-          {getErrorInfo()}
-          <Link to="/patient/list-patient">
-          <Button type="primary" onClick={validate} loading={submitting}>
-            保存
-          </Button>
-          </Link>
-          <Divider type="vertical" />
-          <Link to="/patient/list-patient">
-            <Button>キャンセル</Button>
-          </Link>
-        </FooterToolbar>
-      </PageHeaderLayout>
+                </Col>
+              </Row>
+            </Card>
+            <Card title="" className={styles.card} bordered={false}>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item wrapperCol={{ span: 20 }} label="特記事項">
+                    {form.getFieldDecorator('specialNotes', {
+                      initialValue: parameter[0].specialNotes,
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(<Input placeholder="入力してください" />)}
+                  </Form.Item>
+                </Col>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
+              </Row>
+            </Card>
+          </Form>
+          <FooterToolbar style={{ width: this.state.width }}>
+            {getErrorInfo()}
+            <Link to="/patient/list-patient">
+              <Button type="primary" onClick={validate} loading={submitting}>
+                保存
+              </Button>
+            </Link>
+            <Divider type="vertical" />
+            <Link to="/patient/list-patient">
+              <Button>キャンセル</Button>
+            </Link>
+          </FooterToolbar>
+        </PageHeaderLayout>
+      )
     );
   }
 }

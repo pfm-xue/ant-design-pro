@@ -13,7 +13,6 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 }))
 @Form.create()
 export default class PlanDictionary extends PureComponent {
-
   state = {
     expandForm: false,
   };
@@ -22,7 +21,7 @@ export default class PlanDictionary extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'template/fetch',
-    });    
+    });
   }
 
   renderSimpleForm() {
@@ -57,7 +56,7 @@ export default class PlanDictionary extends PureComponent {
     return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
-  toggle = (record) => {
+  toggle = record => {
     const time = moment(new Date()).format('YYYY-MM-DD HH:mm');
     record.arrivalTime = time;
     this.props.dispatch({
@@ -67,10 +66,10 @@ export default class PlanDictionary extends PureComponent {
       },
     });
     location.reload();
-  }
+  };
 
   render() {
-    const { template, loading  } = this.props;
+    const { template, loading } = this.props;
 
     const columns = [
       {
@@ -82,38 +81,34 @@ export default class PlanDictionary extends PureComponent {
         title: 'データ',
         dataIndex: 'projectData',
         key: 'projectData',
-        render: (text) => (
-          <Fragment>
-            {text}
-          </Fragment>
-        ),      
+        render: text => <Fragment>{text}</Fragment>,
       },
       {
         title: '操作',
-        render: (record) => (
+        render: record => (
           <Fragment>
-            <Link to={"/dictionary/plan-edit-data/" + record._id}>
-              <Button size="small" type="primary">編集</Button>
-            </Link>              
+            <Link to={'/dictionary/plan-edit-data/' + record._id}>
+              <Button size="small" type="primary">
+                編集
+              </Button>
+            </Link>
           </Fragment>
         ),
-      }];
+      },
+    ];
 
     return (
       <PageHeaderLayout>
         <Row gutter={24}>
           <Col>
-            <Card title="検索" >
-            {/*Search*/}
+            <Card title="検索">
+              {/*Search*/}
               <div className={styles.tableListForm}>{this.renderForm()}</div>
             </Card>
-            <Card style={{ marginTop: 16 }} title="データ一覧" >
-            {/*アセスメント*/}
-              <Table
-                dataSource={template.data.list}
-                columns={columns}
-              />
-            </Card>            
+            <Card style={{ marginTop: 16 }} title="データ一覧">
+              {/*アセスメント*/}
+              <Table dataSource={template.data.list} columns={columns} />
+            </Card>
           </Col>
         </Row>
       </PageHeaderLayout>

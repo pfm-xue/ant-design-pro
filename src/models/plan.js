@@ -32,7 +32,7 @@ export default {
         type: 'save',
         payload: response,
       });
-    },     
+    },
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(removePlan, payload);
       yield put({

@@ -5,7 +5,7 @@ export default {
 
   state: {
     data: {
-      user: {}
+      user: {},
     },
   },
 

@@ -1,9 +1,4 @@
-
-import { 
-  queryTemplate,
-  addTemplate,
-  showTemplate
-} from '../services/api';
+import { queryTemplate, addTemplate, showTemplate } from '../services/api';
 
 export default {
   namespace: 'template',
@@ -37,7 +32,7 @@ export default {
         type: 'save',
         payload: response,
       });
-    },     
+    },
     *remove({ payload, callback }, { call, put }) {
       const response = yield call(removeTemplateSchema, payload);
       yield put({

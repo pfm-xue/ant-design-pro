@@ -206,7 +206,7 @@ const menuData = [
         path: 'plan-dictionary',
       },
     ],
-  },  
+  },
 ];
 
 function formatter(data, parentPath = '/', parentAuthority) {

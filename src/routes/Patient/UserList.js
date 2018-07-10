@@ -1,7 +1,19 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Row, Col, Card, Form, Input, Select, Button, Modal, DatePicker, Popconfirm, Divider } from 'antd';
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Input,
+  Select,
+  Button,
+  Modal,
+  DatePicker,
+  Popconfirm,
+  Divider,
+} from 'antd';
 import { Link } from 'dva/router';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -10,7 +22,6 @@ import styles from './UserList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-
 
 // 利用者 新建
 const CreateForm = Form.create()(props => {
@@ -35,9 +46,8 @@ const CreateForm = Form.create()(props => {
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
-        {form.getFieldDecorator('phonetic', {
-        })(<Input placeholder="请输入" />)}
-      </FormItem>      
+        {form.getFieldDecorator('phonetic', {})(<Input placeholder="请输入" />)}
+      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
         {form.getFieldDecorator('birth', {
           rules: [{ required: true, message: '生年月日を選択してください' }],
@@ -54,18 +64,16 @@ const CreateForm = Form.create()(props => {
         )}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
-            {form.getFieldDecorator('telephoneNumber', {
-            })(<Input placeholder="请输入" />)}
-      </FormItem>      
+        {form.getFieldDecorator('telephoneNumber', {})(<Input placeholder="请输入" />)}
+      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アドレス">
-        {form.getFieldDecorator('address', {
-        })(<Input placeholder="请输入" />)}
-      </FormItem>      
+        {form.getFieldDecorator('address', {})(<Input placeholder="请输入" />)}
+      </FormItem>
     </Modal>
   );
 });
 
-@connect(({user, loading }) => ({
+@connect(({ user, loading }) => ({
   user,
   loading: loading.models.user,
 }))
@@ -154,7 +162,7 @@ export default class UserList extends PureComponent {
     });
   };
 
-  handleModalVisible1 = (record) => {
+  handleModalVisible1 = record => {
     this.setState({
       modalVisible1: true,
       userData: record,
@@ -165,10 +173,10 @@ export default class UserList extends PureComponent {
     this.setState({
       modalVisible1: false,
     });
-  }
+  };
 
   handleAdd = fields => {
-    const { dispatch } = this.props;    
+    const { dispatch } = this.props;
     dispatch({
       type: 'user/add',
       payload: {
@@ -177,7 +185,7 @@ export default class UserList extends PureComponent {
     });
     this.setState({
       modalVisible: false,
-      modalVisible1: false,      
+      modalVisible1: false,
     });
   };
 
@@ -234,54 +242,57 @@ export default class UserList extends PureComponent {
           handleAdd(fieldsValue);
         });
       };
-      return userData && (
-        <Modal
-          title="利用者情報変更"
-          visible={modalVisible1}
-          onOk={okHandle}
-          onCancel={() => this.handleCancel()}
-        >
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ID">
-            {form.getFieldDecorator('_id', {
-              initialValue:userData._id,
-              rules: [{ required: true, message: 'Please input some description...' }],
-            })(<Input disabled placeholder="请输入" />)}
-          </FormItem>         
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
-            {form.getFieldDecorator('name', {
-              initialValue:userData.name,
-            })(<Input placeholder="请输入" />)}
-          </FormItem>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
-            {form.getFieldDecorator('phonetic', {
-              initialValue:userData.phonetic,
-            })(<Input placeholder="请输入" />)}
-          </FormItem>      
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
-            {form.getFieldDecorator('birth', {
-            })(<DatePicker defaultValue={moment(userData.birth, 'YYYY-MM-DD')}/>)}
-          </FormItem>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
-            {form.getFieldDecorator('sex', {
-              initialValue:userData.sex,
-            })(
-              <Select placeholder="请选择" style={{ width: '100%' }}>
-                <Option value="男">男</Option>
-                <Option value="女">女</Option>
-              </Select>
-            )}
-          </FormItem>
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
-            {form.getFieldDecorator('telephoneNumber', {
-              initialValue:userData.telephoneNumber,
-            })(<Input placeholder="请输入" />)}
-          </FormItem>      
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アドレス">
-            {form.getFieldDecorator('address', {
-              initialValue:userData.address,
-            })(<Input placeholder="请输入" />)}
-          </FormItem>          
-        </Modal>
+      return (
+        userData && (
+          <Modal
+            title="利用者情報変更"
+            visible={modalVisible1}
+            onOk={okHandle}
+            onCancel={() => this.handleCancel()}
+          >
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="">
+              {form.getFieldDecorator('_id', {
+                initialValue: userData._id,
+                rules: [{ required: true, message: 'Please input some description...' }],
+              })(<Input type="hidden" disabled placeholder="请输入" />)}
+            </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
+              {form.getFieldDecorator('name', {
+                initialValue: userData.name,
+              })(<Input placeholder="请输入" />)}
+            </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
+              {form.getFieldDecorator('phonetic', {
+                initialValue: userData.phonetic,
+              })(<Input placeholder="请输入" />)}
+            </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
+              {form.getFieldDecorator('birth', {})(
+                <DatePicker defaultValue={moment(userData.birth, 'YYYY-MM-DD')} />
+              )}
+            </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
+              {form.getFieldDecorator('sex', {
+                initialValue: userData.sex,
+              })(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="男">男</Option>
+                  <Option value="女">女</Option>
+                </Select>
+              )}
+            </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
+              {form.getFieldDecorator('telephoneNumber', {
+                initialValue: userData.telephoneNumber,
+              })(<Input placeholder="请输入" />)}
+            </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アドレス">
+              {form.getFieldDecorator('address', {
+                initialValue: userData.address,
+              })(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Modal>
+        )
       );
     });
 
@@ -297,11 +308,7 @@ export default class UserList extends PureComponent {
       {
         title: '生年月日',
         dataIndex: 'birth',
-        render: (text) => (
-          <Fragment>
-          {moment(text).format('YYYY-MM-DD')}
-          </Fragment>
-        ),        
+        render: text => <Fragment>{moment(text).format('YYYY-MM-DD')}</Fragment>,
       },
       {
         title: '性別',
@@ -314,16 +321,16 @@ export default class UserList extends PureComponent {
       {
         title: 'アドレス',
         dataIndex: 'address',
-      },            
+      },
       {
         title: '操作',
-        render: (record) => (
+        render: record => (
           <Fragment>
             <Button type="primary" onClick={() => this.handleModalVisible1(record)}>
               編集
             </Button>
             <Divider type="vertical" />
-            <Link to={"/patient/show-patient/" + record._id} className={styles.logo} key="logo">
+            <Link to={'/patient/show-patient/' + record._id} className={styles.logo} key="logo">
               <Button>详细 </Button>
             </Link>
           </Fragment>
@@ -350,11 +357,13 @@ export default class UserList extends PureComponent {
                 新建
               </Button>
               <Popconfirm title="これを削除しますか？">
-                <Button icon="delete" type="danger">消除</Button>
-              </Popconfirm>              
+                <Button icon="delete" type="danger">
+                  消除
+                </Button>
+              </Popconfirm>
             </div>
             <StandardTable
-              selectedRows=''
+              selectedRows=""
               loading={loading}
               data={data}
               columns={columns}

@@ -24,7 +24,7 @@ export default {
         type: 'save',
         payload: response,
       });
-    }, 
+    },
     *add({ payload, callback }, { call, put }) {
       const response = yield call(addUser, payload);
       yield put({
@@ -42,7 +42,6 @@ export default {
       if (callback) callback();
     },
   },
-
 
   reducers: {
     save(state, action) {
