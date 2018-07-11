@@ -212,7 +212,15 @@ export default class PlanAdd extends PureComponent {
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護認定：">
                     {form.getFieldDecorator('certification', {
                       rules: [{ required: true, message: '介護認定入力してください' }],
-                    })(<Input placeholder="入力してください" />)}
+                    })(
+                      // <Input placeholder="入力してください"/>
+                      <Mention
+                        style={{ width: '100%' }}s
+                        // onChange={onChange}
+                        suggestions={['介護','介護1','介護2','介護3','介護4']}
+                        onSelect={onSelect}
+                      />
+                    )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
@@ -511,7 +519,7 @@ export default class PlanAdd extends PureComponent {
             </Card>
           </Form>
           <FooterToolbar style={{ width: this.state.width }}>
-            {getErrorInfo()}
+            {/* {getErrorInfo()} */}
             <Button type="primary" onClick={validate} loading={submitting}>
               保存
             </Button>

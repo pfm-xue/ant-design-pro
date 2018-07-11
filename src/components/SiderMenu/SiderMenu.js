@@ -214,8 +214,8 @@ export default class SiderMenu extends PureComponent {
         className={styles.sider}
       >
         <div className={styles.logo} key="logo">
-          <Link to="/dashboard/tasklist">
-            <img src={logo} alt="logo" />
+          <Link to="/home">
+            <img src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" alt="logo" />
             <h1>DgS Medical</h1>
           </Link>
         </div>

@@ -80,7 +80,7 @@ export const getRouterData = app => {
     // '/dashboard/monitor': {
     //   component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
     // },
-    '/dashboard/tasklist': {
+    '/home': {
       component: dynamicWrapper(app, ['project', 'activities', 'chart', 'task'], () =>
         import('../routes/Dashboard/TaskList')
       ),

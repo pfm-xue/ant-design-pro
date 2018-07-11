@@ -20,7 +20,7 @@ export default {
       // Login successfully
       if (response.status === 'ok') {
         reloadAuthorized();
-        yield put(routerRedux.push('/dashboard/tasklist'));
+        yield put(routerRedux.push('/home'));
       }
     },
     *logout(_, { put, select }) {
