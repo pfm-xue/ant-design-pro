@@ -13,9 +13,10 @@ import {
   DatePicker,
   Popconfirm,
   Divider,
+  Table,
 } from 'antd';
 import { Link } from 'dva/router';
-import StandardTable from 'components/StandardTable';
+// import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './UserList.less';
@@ -362,13 +363,11 @@ export default class UserList extends PureComponent {
                 </Button>
               </Popconfirm>
             </div>
-            <StandardTable
-              selectedRows=""
-              loading={loading}
-              data={data}
+            <Table
+              rowKey={record => record._id}
+              dataSource={data.list}
               columns={columns}
-              // onSelectRow={this.handleSelectRows}
-              // onChange={this.handleStandardTableChange}
+              pagination={{ pageSize: 5 }}
             />
           </div>
         </Card>

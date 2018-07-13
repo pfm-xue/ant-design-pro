@@ -60,13 +60,10 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-@connect(({ user, task, plan, loading }) => ({
+@connect(({ user, task, plan }) => ({
   task,
   user,
   plan,
-  userLoading: loading.models.user,
-  taskLoading: loading.models.task,
-  planLoading: loading.models.plan,
 }))
 @Form.create()
 export default class UserShow extends PureComponent {
@@ -137,11 +134,8 @@ export default class UserShow extends PureComponent {
   render() {
     const {
       user: { data },
-      userLoading,
       task,
-      taskLoading,
       plan,
-      planLoading,
       dispatch,
       match,
     } = this.props;
@@ -245,9 +239,8 @@ export default class UserShow extends PureComponent {
     return (
       <PageHeaderLayout title="利用者詳細情報">
         <Card style={{ marginBottom: 24 }} title="利用者情報" bordered={false}>
-          {data.list && (
+          { data.list && (
             <DescriptionList
-              loading={userLoading}
               size="large"
               title=""
               style={{ marginBottom: 32 }}
@@ -273,7 +266,7 @@ export default class UserShow extends PureComponent {
                 </Button>
                 <br />
                 <br />
-                <Calendar dateCellRender={dateCellRender} loading={taskLoading} />
+                <Calendar dateCellRender={dateCellRender} />
               </Card>
             </TabPane>
             {/*計画書*/}
@@ -286,7 +279,7 @@ export default class UserShow extends PureComponent {
                 </Link>
                 <br />
                 <br />
-                <Steps loading={planLoading} direction="vertical">
+                <Steps direction="vertical">
                   {plan.data.list.map(item => (
                     <Step
                       title={moment(item.createDate).format('YYYY-MM-DD')}

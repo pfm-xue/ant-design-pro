@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Select, Button, Modal, Popconfirm, Divider } from 'antd';
-import StandardTable from 'components/StandardTable';
+import { Row, Col, Card, Form, Input, Select, Button, Modal, Popconfirm, Divider, Table } from 'antd';
+// import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import { Link } from 'dva/router';
@@ -83,9 +83,8 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-@connect(({ role, loading }) => ({
+@connect(({ role }) => ({
   role,
-  loading: loading.models.role,
 }))
 @Form.create()
 export default class RoleList extends PureComponent {
@@ -93,7 +92,6 @@ export default class RoleList extends PureComponent {
     modalVisible1: false,
     modalVisible: false,
     expandForm: false,
-    selectedRows: [],
     formValues: {},
     roleData: '',
   };
@@ -216,9 +214,9 @@ export default class RoleList extends PureComponent {
   }
 
   render() {
-    const { role: { data }, loading } = this.props;
+    const { role: { data } } = this.props;
 
-    const { selectedRows, modalVisible, modalVisible1, roleData } = this.state;
+    const { modalVisible, modalVisible1, roleData } = this.state;
 
     const CreateForm1 = Form.create()(props => {
       const { modalVisible1, form, handleAdd } = props;
@@ -290,21 +288,17 @@ export default class RoleList extends PureComponent {
     });
 
     const columns = [
-      // {
-      //   title: '管理者ID',
-      //   dataIndex: 'adminId',
-      // },
       {
         title: '管理者名前',
         dataIndex: 'adminName',
       },
       {
-        title: 'role',
-        dataIndex: 'role',
-      },
-      {
         title: '職務',
         dataIndex: 'post',
+      },
+      {
+        title: 'role',
+        dataIndex: 'role',
       },
       {
         title: '電話番号',
@@ -359,13 +353,11 @@ export default class RoleList extends PureComponent {
                 </Button>
               </Popconfirm>
             </div>
-            <StandardTable
-              selectedRows={selectedRows}
-              loading={loading}
-              data={data}
+            <Table
+              rowKey={record => record._id}
+              dataSource={data.list}
               columns={columns}
-              // onSelectRow={this.handleSelectRows}
-              // onChange={this.handleStandardTableChange}
+              pagination={{ pageSize: 5 }}
             />
           </div>
         </Card>

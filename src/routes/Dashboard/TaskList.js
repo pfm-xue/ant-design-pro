@@ -204,7 +204,7 @@ export default class TaskList extends PureComponent {
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
               {form.getFieldDecorator('recording.startTime', {})(
                 <DatePicker
-                  defaultValue={moment(data.recording.startTime, 'YYYY-MM-DD HH:mm:ss')}
+                  initialValue={moment(data.recording.startTime, 'YYYY-MM-DD HH:mm:ss')}
                   placeholder="実施時間(Start)"
                   format="YYYY-MM-DD HH:mm:ss"
                   showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
@@ -364,7 +364,7 @@ export default class TaskList extends PureComponent {
       {
         title: '実施記録',
         dataIndex: 'recording',
-        render: (record) => (
+        render: (text, record) => (
           <Fragment>
             <a onClick={() => this.handleModalVisible1(record)}>実施記録</a>
           </Fragment>
@@ -431,8 +431,10 @@ export default class TaskList extends PureComponent {
 
     function dataSource(value) {
       let taskList = [];
+      let list = task.data.list;
       if (value !== '' && typeof value !== 'undefined') {
-        task.data.list.map(item => {
+        list.map((item,i) => {
+          item.key = i;
           const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
           const valueTime = moment(value._d).format('YYYY-MM-DD');
           if (executeTime === valueTime) {
@@ -440,7 +442,10 @@ export default class TaskList extends PureComponent {
           }
         });
       } else {
-        taskList = task.data.list;
+        list.map((item,i) => {
+            item.key = i;
+            taskList.push(item);
+        });
       }
       return taskList;
     }
@@ -456,46 +461,46 @@ export default class TaskList extends PureComponent {
           <Tabs tabBarExtraContent={salesExtra}>
             {/*アセスメント*/}
             <TabPane tab="アセスメント" key="assessment">
-                <Button type="primary">時間(予定)</Button>
-                <Divider type="vertical" />
-                <DatePicker
-                  defaultValue={moment(new Date(), 'YYYY-MM-DD')}
-                  onChange={dateChange}
-                  // dateRender={current => {
-                  //   const style = {};
-                  //   if (current.date() === 1) {
-                  //     style.border = '1px solid #1890ff';
-                  //     style.borderRadius = '50%';
-                  //   }
-                  //   return (
-                  //     <div className="ant-calendar-date" style={style}>
-                  //       {current.date()}
-                  //     </div>
-                  //   );
-                  // }}
-                />
-                <Table rowKey={record => record._id} dataSource={task.data.list} onChange={dataSource()} columns={columns} />
+              <Button type="primary">時間(予定)</Button>
+              <Divider type="vertical" />
+              <DatePicker
+                defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                onChange={dateChange}
+              />
+              <Table
+                dataSource={dataSource()}
+                columns={columns}
+                pagination={{ pageSize: 5 }}
+              />
             </TabPane>
             {/*計画書*/}
             <TabPane tab="計画書" key="plan">
-                <Button type="primary">時間(予定)</Button>
-                <Divider type="vertical" />
-                <DatePicker
-                  defaultValue={moment(new Date(), 'YYYY-MM-DD')}
-                  onChange={this.dayDate}
-                />
-                <Table  dataSource={dataSource()} columns={columns} />
+              <Button type="primary">時間(予定)</Button>
+              <Divider type="vertical" />
+              <DatePicker
+                defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                onChange={this.dayDate}
+              />
+              <Table
+                dataSource={dataSource()}
+                columns={columns}
+                pagination={{ pageSize: 5 }}
+              />
             </TabPane>
             {/*実施記録*/}
             <TabPane tab="実施記録" key="record">
-                <Button type="primary">時間(予定)</Button>
-                <Divider type="vertical" />
-                <DatePicker
-                  defaultValue={moment(new Date(), 'YYYY-MM-DD')}
-                  onChange={this.dayDate}
-                />
-                <Table dataSource={dataSource()} columns={columns} />
-            </TabPane>
+              <Button type="primary">時間(予定)</Button>
+              <Divider type="vertical" />
+              <DatePicker
+                defaultValue={moment(new Date(), 'YYYY-MM-DD')}
+                onChange={this.dayDate}
+              />
+              <Table
+                dataSource={dataSource()}
+                columns={columns}
+                pagination={{ pageSize: 5 }}
+              />
+            </TabPane>            
           </Tabs>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />

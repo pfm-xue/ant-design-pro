@@ -158,14 +158,14 @@ export default class PlanAdd extends PureComponent {
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
                     {form.getFieldDecorator('createDate', {
                       rules: [{ required: true, message: '作成日入力してください' }],
-                    })(<DatePicker defaultValue={moment(new Date(), 'YYYY-MM-DD')} />)}
+                    })(<DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />)}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
                     {form.getFieldDecorator('createLastTime', {
                       rules: [{ required: true, message: '前回作成日入力してください' }],
-                    })(<DatePicker defaultValue={moment(new Date(), 'YYYY-MM-DD')} />)}
+                    })(<DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />)}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
@@ -289,14 +289,14 @@ export default class PlanAdd extends PureComponent {
                   <Form.Item wrapperCol={{ span: 20 }} label="障害老人の日常生活自立度：">
                     {getFieldDecorator('disorder', {
                       rules: [{ required: true, message: '入力してください' }],
-                    })(<Slider marks={disorderList} max={8} step={null} defaultValue={0} />)}
+                    })(<Slider marks={disorderList} max={8} step={null} initialValue={0} />)}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                   <Form.Item wrapperCol={{ span: 20 }} label="認知症老人の日常生活自立度：">
                     {getFieldDecorator('dementia', {
                       rules: [{ required: true, message: '入力してください' }],
-                    })(<Slider marks={dementiaList} max={6} step={null} defaultValue={0} />)}
+                    })(<Slider marks={dementiaList} max={6} step={null} initialValue={0} />)}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
@@ -345,7 +345,7 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker defaultValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
                     )}
                   </Form.Item>
                 </Col>
@@ -377,7 +377,7 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker defaultValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
                     )}
                   </Form.Item>
                 </Col>
@@ -429,7 +429,7 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker defaultValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
                     )}
                   </Form.Item>
                 </Col>
@@ -461,7 +461,7 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker defaultValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
                     )}
                   </Form.Item>
                 </Col>
