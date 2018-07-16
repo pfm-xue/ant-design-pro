@@ -107,7 +107,11 @@ export default class PlanDictionary extends PureComponent {
             </Card>
             <Card style={{ marginTop: 16 }} title="データ一覧">
               {/*アセスメント*/}
-              <Table dataSource={template.data.list} columns={columns} />
+              <Table
+                rowKey={record => record._id}
+                dataSource={template.data.list}
+                columns={columns}
+              />
             </Card>
           </Col>
         </Row>

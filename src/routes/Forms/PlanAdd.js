@@ -55,6 +55,8 @@ const dementiaList = {
 export default class PlanAdd extends PureComponent {
   state = {
     width: '100%',
+    suggestions: [],
+    loading: false,
   };
 
   componentDidMount() {
@@ -64,22 +66,45 @@ export default class PlanAdd extends PureComponent {
     });
   }
 
-  componentDidMount() {
-    window.addEventListener('resize', this.resizeFooterToolbar);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeFooterToolbar);
-  }
-  resizeFooterToolbar = () => {
-    const sider = document.querySelectorAll('.ant-layout-sider')[0];
-    const width = `calc(100% - ${sider.style.width})`;
-    if (this.state.width !== width) {
-      this.setState({ width });
+  // componentDidMount() {
+  //   window.addEventListener('resize', this.resizeFooterToolbar);
+  // }
+  // componentWillUnmount() {
+  //   window.removeEventListener('resize', this.resizeFooterToolbar);
+  // }
+  // resizeFooterToolbar = () => {
+  //   const sider = document.querySelectorAll('.ant-layout-sider')[0];
+  //   const width = `calc(100% - ${sider.style.width})`;
+  //   if (this.state.width !== width) {
+  //     this.setState({ width });
+  //   }
+  // };
+
+  // fetchSuggestions = (value, callback) => {
+  //   let list = this.props.template.data.list;
+  //   setTimeout(() => {
+  //     callback(list.filter(item => item.indexOf(value) !== -1));
+  //   }, 500);
+  // }
+
+  onSearchChange = (value) => {
+    let list = this.props.template.data.list;
+    if (typeof list !== 'undefined' && list.length !== 0 ) {
+      list.map((item,i) => {
+        item.key = i;
+        const name = item.project;
+        if (name === value) {
+        this.setState({
+          suggestions: item.projectData,
+        });
+        }
+      });
     }
-  };
+  }
+
   render() {
     const { form, dispatch, submitting, template } = this.props;
-    // const { getFieldValue } = this.props.form;
+    const { suggestions } = this.state;
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form;
 
     const validate = () => {
@@ -177,8 +202,8 @@ export default class PlanAdd extends PureComponent {
                       <Mention
                         style={{ width: '100%' }}
                         // onChange={onChange}
-                        suggestions={template.data.list}
-                        onSelect={onSelect}
+                        suggestions={suggestions}
+                        onSearchChange={this.onSearchChange('計画作成者')}
                       />
                     )}
                   </Form.Item>
