@@ -1,8 +1,8 @@
-// import { queryRole, removeRole, addRole } from '../services/api';
-import { addAssessment } from '../services/api';
+// import { addAssessment, queryAssessment, removeAssessment } from '../services/api';
+import { addAssessment, queryAssessment } from '../services/api';  
 
 export default {
-  namespace: 'assessment',
+  namespace: 'assessment', 
 
   state: {
     data: {
@@ -13,7 +13,7 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(queryRole, payload);
+      const response = yield call(queryAssessment, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -28,7 +28,7 @@ export default {
       if (callback) callback();
     },
     *remove({ payload, callback }, { call, put }) {
-      const response = yield call(removeRole, payload);
+      const response = yield call(removeAssessment, payload);
       yield put({
         type: 'save',
         payload: response,

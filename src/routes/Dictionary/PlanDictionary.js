@@ -82,6 +82,15 @@ export default class PlanDictionary extends PureComponent {
         dataIndex: 'projectData',
         key: 'projectData',
         render: text => <Fragment>{text}</Fragment>,
+        // render: (text, record) => (
+        //   <Fragment>
+        //     {
+        //       text.map((item) => {
+        //         <p>{item},</p>
+        //       })
+        //     }
+        //   </Fragment>
+        // ),        
       },
       {
         title: '操作',

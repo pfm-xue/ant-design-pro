@@ -13,15 +13,50 @@ import styles from './style.less';
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
-  handleSubmit = () => {
-    this.props.dispatch({
-      type: 'assessment/add',
-      payload: this.props.form.getFieldsValue(),
-    });
+
+  state = {
+    width: '100%',
   };
 
+  componentDidMount() {
+    window.addEventListener('resize', this.resizeFooterToolbar);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeFooterToolbar);
+  }
+  resizeFooterToolbar = () => {
+    const sider = document.querySelectorAll('.ant-layout-sider')[0];
+    const width = `calc(100% - ${sider.style.width})`;
+    if (this.state.width !== width) {
+      this.setState({ width });
+    }
+  };
+
+  // handleSubmit = () => {
+  //   this.props.dispatch({
+  //     type: 'assessment/add',
+  //     payload: this.props.form.getFieldsValue(),
+  //   });
+  // };
+
   render() {
-    const { form } = this.props;
+    const { form, submitting } = this.props;
+    const { validateFieldsAndScroll } = form;
+
+    const validate = () => {
+      validateFieldsAndScroll((error, values) => {
+        if (!error) {
+          this.props.dispatch({
+            type: 'assessment/add',
+            payload: {
+              assessmentData:values,
+            },
+          });
+        }
+      });
+    };
+  
+
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -43,7 +78,7 @@ export default class BasicForms extends PureComponent {
 
     return (
       <PageHeaderLayout title="アセスメント" content="">
-        <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+        <Form hideRequiredMark style={{ marginTop: 8 }}>
           <Card style={{ marginBottom: 24 }} title="関節可動域" bordered={false}>
             <FormItem {...formItemLayout} label="上肢">
               {form.getFieldDecorator('joint_arm', {
@@ -498,15 +533,17 @@ export default class BasicForms extends PureComponent {
               </Col>
             </Row>
           </Card>
+        </Form>
           <FooterToolbar {...submitFormLayout} style={{ marginTop: 32 }}>
-            <Button type="primary" htmlType="submit">
-              <Link to="/home">保存</Link>
+            <Button type="primary" onClick={validate} loading={submitting}>
+            <Link to="/home">
+              保存
+            </Link>
             </Button>
             <Link to="/home">
               <Button style={{ marginLeft: 8 }}>キャンセル</Button>
             </Link>
           </FooterToolbar>
-        </Form>
       </PageHeaderLayout>
     );
   }

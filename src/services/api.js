@@ -25,6 +25,10 @@ export async function queryTemplate() {
   return request(`http://localhost:3001/mp/template/?page=1`);
 }
 
+export async function queryAssessment() {
+  return request(`http://localhost:3001/mp/assessment/?page=1`);
+}
+
 export async function queryPlan() {
   return request(`http://localhost:3001/mp/plan/?page=1`);
 }

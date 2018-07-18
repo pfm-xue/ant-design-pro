@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import {
   Card,
   Tabs,
+  Row,
+  Col,
   Button,
   Calendar,
   Steps,
@@ -60,10 +62,11 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-@connect(({ user, task, plan }) => ({
+@connect(({ user, task, plan, assessment }) => ({
   task,
   user,
   plan,
+  assessment,
 }))
 @Form.create()
 export default class UserShow extends PureComponent {
@@ -86,6 +89,9 @@ export default class UserShow extends PureComponent {
     });
     dispatch({
       type: 'plan/fetch',
+    });
+    dispatch({
+      type: 'assessment/fetch',
     });
   }
 
@@ -136,6 +142,7 @@ export default class UserShow extends PureComponent {
       user: { data },
       task,
       plan,
+      assessment,
       dispatch,
       match,
     } = this.props;
@@ -270,28 +277,58 @@ export default class UserShow extends PureComponent {
               </Card>
             </TabPane>
             {/*計画書*/}
-            <TabPane tab="計画書" key="plan">
+            <TabPane tab="ファイル一覧" key="plan">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Link to="/form/advanced-form">
-                  <Button type="primary" icon="plus">
-                    新規
-                  </Button>
-                </Link>
-                <br />
-                <br />
-                <Steps direction="vertical">
-                  {plan.data.list.map(item => (
-                    <Step
-                      title={moment(item.createDate).format('YYYY-MM-DD')}
-                      description={item.planAuthor}
-                      icon={
-                        <Link to={'/profile/plan-show/' + item._id}>
-                          <Icon type="edit" />
-                        </Link>
-                      }
-                    />
-                  ))}
-                </Steps>
+                <Row>
+                <Col  sm={12} xs={24} style={{ marginBottom: 24 }} >
+                <Card title="計画書" style={{ marginBottom: 24 }} bordered={false}>
+                  <Link to="/form/advanced-form">
+                    <Button type="primary" icon="plus">
+                      新規
+                    </Button>
+                  </Link>
+                  <br />
+                  <br />
+                  <Steps direction="vertical">
+                    {plan.data.list.map(item => (
+                      <Step
+                        title={moment(item.createDate).format('YYYY-MM-DD')}
+                        description={item.planAuthor}
+                        icon={
+                          <Link to={'/profile/plan-show/' + item._id}>
+                            <Icon type="edit" />
+                          </Link>
+                        }
+                      />
+                    ))}
+                  </Steps>
+                  </Card>
+                </Col>
+                <Col  sm={12} xs={24} style={{ marginBottom: 24 }} >
+                <Card title="アセスメント" style={{ marginBottom: 24 }} bordered={false}>
+                  <Link to="/dashboard/assessment">
+                    <Button type="primary" icon="plus">
+                      新規
+                    </Button>
+                  </Link>
+                  <br />
+                  <br />                
+                  <Steps direction="vertical">
+                    {assessment.data.list.map(item => (
+                      <Step
+                        title={moment(item.total_Short).format('YYYY-MM-DD')}
+                        description={item.joint_arm}
+                        icon={
+                          <Link to={'/profile/plan-show/' + item._id}>
+                            <Icon type="edit" />
+                          </Link>
+                        }
+                      />
+                    ))}
+                  </Steps>
+                  </Card>
+                </Col>
+                </Row>
               </Card>
             </TabPane>
             {/*画像*/}

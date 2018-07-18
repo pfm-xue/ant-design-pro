@@ -181,7 +181,7 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['patient'], () => import('../routes/Patient/UserList')),
     },
     '/patient/show-patient/:id': {
-      component: dynamicWrapper(app, ['patient', 'user', 'show', 'plan'], () =>
+      component: dynamicWrapper(app, ['patient', 'user', 'show', 'plan', 'assessment'], () =>
         import('../routes/Patient/UserShow')
       ),
     },
@@ -234,7 +234,7 @@ export const getRouterData = app => {
     // },
 
     '/dashboard/assessment': {
-      component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Assessment')),
+      component: dynamicWrapper(app, ['assessment'], () => import('../routes/Dashboard/Assessment')),
     },
 
     '/profile/plan-show/:id': {

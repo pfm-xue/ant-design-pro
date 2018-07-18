@@ -46,6 +46,8 @@ export default class PlanShow extends PureComponent {
     });
   }
 
+  // window.location.href = '/個別機能訓綶計画書.xlsx';
+
   render() {
     const { plan } = this.props;
     let parameter = plan.data.list;
@@ -65,8 +67,8 @@ export default class PlanShow extends PureComponent {
                 消除
               </Button>
             </Popconfirm>
-            {/* <Divider type="vertical" />
-        <Link to="/profile/plan-printing"><Button type="primary" icon="printer" >プレビュー</Button></Link> */}
+            <Divider type="vertical" />
+            <Button type="primary" icon="printer" >プレビュー</Button>
           </Card>
           <Row>
             <Col>

@@ -97,9 +97,14 @@ export default class ContentAdd extends PureComponent {
     };
 
     let children = [];
-    // if (parameter !== "") {
-    //   children = parameter.projectData;
-    // }
+
+    if (typeof parameter !== 'undefined') {
+      const data = parameter.projectData;
+      data.map((item,i) => {
+        // children.push(item);
+        children.push(<Option key={i}>{item}</Option>);
+      });
+    }
 
     function handleChange(value) {
       console.log(`selected ${value}`);
@@ -134,8 +139,7 @@ export default class ContentAdd extends PureComponent {
                     mode="tags"
                     style={{ width: '100%' }}
                     onChange={handleChange}
-                    defaultValue={parameter.projectData}
-                    tokenSeparators={[',']}
+                    defaultValue={['qqq', 'eee']}
                   >
                     {children}
                   </Select>
