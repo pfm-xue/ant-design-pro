@@ -21,7 +21,7 @@ import {
 } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './PlanShow.less';
+import styles from './AssessmentShow.less';
 import moment from 'moment';
 import StandardTable from 'components/StandardTable';
 import { Link } from 'dva/router';
@@ -33,7 +33,7 @@ const FormItem = Form.Item;
   planLoading: loading.models.plan,
 }))
 @Form.create()
-export default class PlanShow extends PureComponent {
+export default class AssessmentShow extends PureComponent {
   state = {
     modalVisible1: false,
   };
@@ -46,23 +46,7 @@ export default class PlanShow extends PureComponent {
     });
   }
 
-  
-
-  onClick = () => {
-    let value = this.props.plan.data.list[0];
-    value.printing = true;
-    value.pattern = "plan";
-    this.props.dispatch({
-      type: 'plan/add',
-      payload: {
-        planData: value,
-      },
-    });
-
-    message.success(
-      <a href="/個別機能訓綶計画書.xlsx" download="個別機能訓綶計画書.xlsx">「個別機能訓綶計画書.xlsx」作成成功。  ダウンロード</a>
-    );
-  };
+  // window.location.href = '/個別機能訓綶計画書.xlsx';
 
   render() {
     const { plan } = this.props;
@@ -84,7 +68,7 @@ export default class PlanShow extends PureComponent {
               </Button>
             </Popconfirm>
             <Divider type="vertical" />
-            <Button type="primary" icon="printer" onClick={this.onClick} >プレビュー</Button>
+            <Button type="primary" icon="printer" >プレビュー</Button>
           </Card>
           <Row>
             <Col>

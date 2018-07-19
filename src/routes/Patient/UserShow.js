@@ -306,20 +306,20 @@ export default class UserShow extends PureComponent {
                 </Col>
                 <Col  sm={12} xs={24} style={{ marginBottom: 24 }} >
                 <Card title="アセスメント" style={{ marginBottom: 24 }} bordered={false}>
-                  <Link to="/dashboard/assessment">
+                  {/* <Link to="/assessment/show-assessment">
                     <Button type="primary" icon="plus">
                       新規
                     </Button>
                   </Link>
                   <br />
-                  <br />                
+                  <br />                 */}
                   <Steps direction="vertical">
                     {assessment.data.list.map(item => (
                       <Step
                         title={moment(item.total_Short).format('YYYY-MM-DD')}
                         description={item.joint_arm}
                         icon={
-                          <Link to={'/profile/plan-show/' + item._id}>
+                          <Link to={'/assessment/edit-assessment/' + item._id}>
                             <Icon type="edit" />
                           </Link>
                         }

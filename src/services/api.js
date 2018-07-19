@@ -49,6 +49,10 @@ export async function showPlan(params) {
   return request(`http://localhost:3001/mp/plan/${params}`);
 }
 
+export async function showAssessment(params) {
+  return request(`http://localhost:3001/mp/assessment/${params}`);
+}
+
 export async function queryTaskUser(params) {
   return request(`http://localhost:3001/mp/task/${params}`);
 }

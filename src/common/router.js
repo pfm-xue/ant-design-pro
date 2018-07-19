@@ -233,9 +233,24 @@ export const getRouterData = app => {
     //   component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/Analysis5')),
     // },
 
+    // assessment アセスメント
+
     '/dashboard/assessment': {
       component: dynamicWrapper(app, ['assessment'], () => import('../routes/Dashboard/Assessment')),
     },
+
+    '/assessment/edit-assessment/:id': {
+      component: dynamicWrapper(app, ['assessment'], () => import('../routes/Assessment/AssessmentEdit')),
+    },
+
+    '/assessment/show-assessment/:id': {
+      component: dynamicWrapper(app, ['assessment'], () => import('../routes/Assessment/AssessmentShow')),
+    },
+
+
+
+
+
 
     '/profile/plan-show/:id': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/PlanShow')),
