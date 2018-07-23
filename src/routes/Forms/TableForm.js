@@ -3,6 +3,10 @@ import { Table, Button, Input, message, Popconfirm, Divider } from 'antd';
 import styles from './style.less';
 
 export default class TableForm extends PureComponent {
+  index = 0;
+
+  cacheOriginData = {};
+
   constructor(props) {
     super(props);
 
@@ -11,6 +15,7 @@ export default class TableForm extends PureComponent {
       loading: false,
     };
   }
+
   componentWillReceiveProps(nextProps) {
     if ('value' in nextProps) {
       this.setState({
@@ -18,14 +23,16 @@ export default class TableForm extends PureComponent {
       });
     }
   }
+
   getRowByKey(key, newData) {
-    return (newData || this.state.data).filter(item => item.key === key)[0];
+    const { data } = this.state;
+    return (newData || data).filter(item => item.key === key)[0];
   }
-  index = 0;
-  cacheOriginData = {};
+
   toggleEditable = (e, key) => {
     e.preventDefault();
-    const newData = this.state.data.map(item => ({ ...item }));
+    const { data } = this.state;
+    const newData = data.map(item => ({ ...item }));
     const target = this.getRowByKey(key, newData);
     if (target) {
       // 进入编辑状态时保存原始数据
@@ -36,41 +43,51 @@ export default class TableForm extends PureComponent {
       this.setState({ data: newData });
     }
   };
-  remove(key) {
-    const newData = this.state.data.filter(item => item.key !== key);
-    this.setState({ data: newData });
-    this.props.onChange(newData);
-  }
-  create(record) {
-    let value = record;
-  }  
 
   newMember = () => {
-    const newData = this.state.data.map(item => ({ ...item }));
+    const { data } = this.state;
+    let newData = [];
+    if (data !== "") {
+      newData = data.map(item => ({ ...item }));
+    }
     newData.push({
       key: `NEW_TEMP_ID_${this.index}`,
-      workId: '',
-      name: '',
-      department: '',
+      programContent: '',
+      attention: '',
+      frequency: '',
+      time: '',
+      personLiable: '',
       editable: true,
       isNew: true,
     });
     this.index += 1;
     this.setState({ data: newData });
   };
+
+  remove(key) {
+    const { data } = this.state;
+    const { onChange } = this.props;
+    const newData = data.filter(item => item.key !== key);
+    this.setState({ data: newData });
+    onChange(newData);
+  }
+
   handleKeyPress(e, key) {
     if (e.key === 'Enter') {
       this.saveRow(e, key);
     }
   }
+
   handleFieldChange(e, fieldName, key) {
-    const newData = this.state.data.map(item => ({ ...item }));
+    const { data } = this.state;
+    const newData = data.map(item => ({ ...item }));
     const target = this.getRowByKey(key, newData);
     if (target) {
       target[fieldName] = e.target.value;
       this.setState({ data: newData });
     }
   }
+
   saveRow(e, key) {
     e.persist();
     this.setState({
@@ -82,26 +99,31 @@ export default class TableForm extends PureComponent {
         return;
       }
       const target = this.getRowByKey(key) || {};
-      if (!target.workId || !target.name || !target.department) {
-        message.error('请填写完整成员信息。');
+
+      if (!target.programContent || !target.attention || !target.frequency || !target.time || !target.personLiable ) {
+        message.error('完全な情報を記入してください。');
         e.target.focus();
         this.setState({
           loading: false,
         });
         return;
       }
+      const { data } = this.state;
+      const { onChange } = this.props;
       delete target.isNew;
       this.toggleEditable(e, key);
-      this.props.onChange(this.state.data);
+      onChange(data);
       this.setState({
         loading: false,
       });
     }, 500);
   }
+
   cancel(e, key) {
     this.clickedCancel = true;
     e.preventDefault();
-    const newData = this.state.data.map(item => ({ ...item }));
+    const { data } = this.state;
+    const newData = data.map(item => ({ ...item }));
     const target = this.getRowByKey(key, newData);
     if (this.cacheOriginData[key]) {
       Object.assign(target, this.cacheOriginData[key]);
@@ -111,12 +133,13 @@ export default class TableForm extends PureComponent {
     this.setState({ data: newData });
     this.clickedCancel = false;
   }
+
   render() {
     const columns = [
       {
         title: 'プログラム内容',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'programContent',
+        key: 'programContent',
         width: '35%',
         render: (text, record) => {
           if (record.editable) {
@@ -124,7 +147,7 @@ export default class TableForm extends PureComponent {
               <Input
                 value={text}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'name', record.key)}
+                onChange={e => this.handleFieldChange(e, 'programContent', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="プログラム内容"
               />
@@ -135,15 +158,15 @@ export default class TableForm extends PureComponent {
       },
       {
         title: '留意点',
-        dataIndex: 'workId',
-        key: 'workId',
+        dataIndex: 'attention',
+        key: 'attention',
         width: '15%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'workId', record.key)}
+                onChange={e => this.handleFieldChange(e, 'attention', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="留意点"
               />
@@ -154,15 +177,15 @@ export default class TableForm extends PureComponent {
       },
       {
         title: '頻度',
-        dataIndex: 'department',
-        key: 'department',
+        dataIndex: 'frequency',
+        key: 'frequency',
         width: '10%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'department', record.key)}
+                onChange={e => this.handleFieldChange(e, 'frequency', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="頻度"
               />
@@ -173,15 +196,15 @@ export default class TableForm extends PureComponent {
       },
       {
         title: '時間',
-        dataIndex: 'department',
-        key: 'department',
+        dataIndex: 'time',
+        key: 'time',
         width: '10%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'department', record.key)}
+                onChange={e => this.handleFieldChange(e, 'time', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="時間"
               />
@@ -192,15 +215,15 @@ export default class TableForm extends PureComponent {
       },
       {
         title: '主な実施者',
-        dataIndex: 'department',
-        key: 'department',
+        dataIndex: 'personLiable',
+        key: 'personLiable',
         width: '15%',
         render: (text, record) => {
           if (record.editable) {
             return (
               <Input
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'department', record.key)}
+                onChange={e => this.handleFieldChange(e, 'personLiable', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="主な実施者"
               />
@@ -208,44 +231,56 @@ export default class TableForm extends PureComponent {
           }
           return text;
         },
-      },
+      },            
       {
         title: '操作',
         key: 'action',
-        render: record => {
-          if (!!record.editable && this.state.loading) {
+        render: (text, record) => {
+          const { loading } = this.state;
+          if (!!record.editable && loading) {
             return null;
           }
           if (record.editable) {
             if (record.isNew) {
               return (
                 <span>
-                  <Popconfirm
-                    title="これを削除しますか？"
-                    onConfirm={() => this.remove(record.key)}
-                  >
+                  <a onClick={e => this.saveRow(e, record.key)}>追加</a>
+                  <Divider type="vertical" />
+                  <Popconfirm title="これを削除しますか？" onConfirm={() => this.remove(record.key)}>
                     <a>削除</a>
                   </Popconfirm>
-                  <Divider type="vertical" />
-                  <Popconfirm
-                    title="保存するかどうか？"
-                    onConfirm={() => this.create(record)}
-                  >
-                    <a>保存</a>
-                  </Popconfirm>                  
                 </span>
               );
             }
+            return (
+              <span>
+                <a onClick={e => this.saveRow(e, record.key)}>保存</a>
+                <Divider type="vertical" />
+                <a onClick={e => this.cancel(e, record.key)}>キャンセル</a>
+              </span>
+            );
           }
+          return (
+            <span>
+              <a onClick={e => this.toggleEditable(e, record.key)}>編集</a>
+              <Divider type="vertical" />
+              <Popconfirm title="これを削除しますか？" onConfirm={() => this.remove(record.key)}>
+                <a>削除</a>
+              </Popconfirm>
+            </span>
+          );
         },
       },
     ];
+
+    const { loading, data } = this.state;
+
     return (
       <Fragment>
         <Table
-          loading={this.state.loading}
+          loading={loading}
           columns={columns}
-          dataSource={this.state.data}
+          dataSource={data}
           pagination={false}
           rowClassName={record => {
             return record.editable ? styles.editable : '';

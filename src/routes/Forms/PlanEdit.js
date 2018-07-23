@@ -498,7 +498,7 @@ export default class PlanEdit extends PureComponent {
             </Card>
           </Form>
           <FooterToolbar style={{ width: this.state.width }}>
-            {getErrorInfo()}
+            {/* {getErrorInfo()} */}
             <Link to="/patient/list-patient">
               <Button type="primary" onClick={validate} loading={submitting}>
                 保存

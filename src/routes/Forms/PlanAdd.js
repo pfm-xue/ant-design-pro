@@ -198,13 +198,13 @@ export default class PlanAdd extends PureComponent {
                     {form.getFieldDecorator('planAuthor', {
                       rules: [{ required: true, message: '計画作成者入力してください' }],
                     })(
-                      // <Input placeholder="入力してください"/>
-                      <Mention
-                        style={{ width: '100%' }}
-                        // onChange={onChange}
-                        suggestions={suggestions}
-                        onSearchChange={this.onSearchChange('計画作成者')}
-                      />
+                      <Input placeholder="入力してください"/>
+                      // <Mention
+                      //   style={{ width: '100%' }}
+                      //   // onChange={onChange}
+                      //   suggestions={suggestions}
+                      //   onSearchChange={this.onSearchChange('計画作成者')}
+                      // />
                     )}
                   </Form.Item>
                 </Col>
@@ -238,13 +238,13 @@ export default class PlanAdd extends PureComponent {
                     {form.getFieldDecorator('certification', {
                       rules: [{ required: true, message: '介護認定入力してください' }],
                     })(
-                      // <Input placeholder="入力してください"/>
-                      <Mention
-                        style={{ width: '100%' }}s
-                        // onChange={onChange}
-                        suggestions={['介護','介護1','介護2','介護3','介護4']}
-                        onSelect={onSelect}
-                      />
+                      <Input placeholder="入力してください"/>
+                      // <Mention
+                      //   style={{ width: '100%' }}s
+                      //   // onChange={onChange}
+                      //   suggestions={['介護','介護1','介護2','介護3','介護4']}
+                      //   onSelect={onSelect}
+                      // />
                     )}
                   </Form.Item>
                 </Col>
@@ -429,20 +429,20 @@ export default class PlanAdd extends PureComponent {
               </Row>
               <Row gutter={16}>
                 <Card title="プログラム" bordered={false}>
-                  {getFieldDecorator('members', {
-                    initialValue: tableData,
-                  })(<TableForm />)}
-                </Card>
+                    {getFieldDecorator('additionalTraining.enum', {
+                      initialValue: "",
+                    })(<TableForm />)}
+                </Card>                
               </Row>
               <Row gutter={16}>
                 <Col lg={6} md={12} sm={24} />
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                  {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
-                  {form.getFieldDecorator('additionalTraining.enum', {
+                  <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('additionalTraining.mastermind', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input placeholder="入力してください" />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
               </Row>
             </Card>
@@ -513,8 +513,8 @@ export default class PlanAdd extends PureComponent {
               </Row>
               <Row gutter={16}>
                 <Card title="プログラム" bordered={false}>
-                  {getFieldDecorator('members', {
-                    initialValue: tableData,
+                  {getFieldDecorator('planTow.enum', {
+                    initialValue: "",
                   })(<TableForm />)}
                 </Card>
               </Row>
@@ -522,11 +522,11 @@ export default class PlanAdd extends PureComponent {
                 <Col lg={6} md={12} sm={24} />
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                  {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
-                  {form.getFieldDecorator('planTow.enum', {
+                  <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('planTow.mastermind', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input placeholder="入力してください" />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
               </Row>
             </Card>
