@@ -51,7 +51,7 @@ export default class TableForm extends PureComponent {
       newData = data.map(item => ({ ...item }));
     }
     newData.push({
-      key: `NEW_TEMP_ID_${this.index}`,
+      key: `Enum_ID_${this.index}`,
       programContent: '',
       attention: '',
       frequency: '',

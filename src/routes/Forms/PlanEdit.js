@@ -131,7 +131,7 @@ export default class PlanEdit extends PureComponent {
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
                     {form.getFieldDecorator('_id', {
                       initialValue: parameter[0]._id,
-                      rules: [{ required: true, message: '作成日入力してください' }],
+                      rules: [{ required: true, message: 'ID入力してください' }],
                     })(<Input type="hidden" placeholder="入力してください" />)}
                   </Form.Item>
                 </Col>
@@ -384,8 +384,8 @@ export default class PlanEdit extends PureComponent {
               </Row>
               <Row gutter={16}>
                 <Card title="プログラム" bordered={false}>
-                  {getFieldDecorator('members', {
-                    initialValue: tableData,
+                  {getFieldDecorator('additionalTraining.enum', {
+                    initialValue: parameter[0].additionalTraining.enum,
                   })(<TableForm />)}
                 </Card>
               </Row>
@@ -393,11 +393,12 @@ export default class PlanEdit extends PureComponent {
                 <Col lg={6} md={12} sm={24} />
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                  {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
-                  {form.getFieldDecorator('additionalTraining.enum', {
+                  <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('additionalTraining.mastermind', {
+                    initialValue: parameter[0].additionalTraining.mastermind,
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input placeholder="入力してください" />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
               </Row>
             </Card>
@@ -466,8 +467,8 @@ export default class PlanEdit extends PureComponent {
               </Row>
               <Row gutter={16}>
                 <Card title="プログラム" bordered={false}>
-                  {getFieldDecorator('members', {
-                    initialValue: tableData,
+                  {getFieldDecorator('planTow.enum', {
+                    initialValue: parameter[0].planTow.enum,
                   })(<TableForm />)}
                 </Card>
               </Row>
@@ -475,11 +476,12 @@ export default class PlanEdit extends PureComponent {
                 <Col lg={6} md={12} sm={24} />
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                  {/* <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
-                  {form.getFieldDecorator('planTow.enum', {
+                  <Form.Item labelCol={{ span: 6 }} wrapperCol={{ span: 15 }} label="プログラム立案者：">
+                  {form.getFieldDecorator('planTow.mastermind', {
+                    initialValue: parameter[0].planTow.mastermind,
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input placeholder="入力してください" />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
               </Row>
             </Card>
