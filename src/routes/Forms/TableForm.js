@@ -41,6 +41,10 @@ export default class TableForm extends PureComponent {
     this.setState({ data: newData });
     this.props.onChange(newData);
   }
+  create(record) {
+    let value = record;
+  }  
+
   newMember = () => {
     const newData = this.state.data.map(item => ({ ...item }));
     newData.push({
@@ -222,6 +226,13 @@ export default class TableForm extends PureComponent {
                   >
                     <a>削除</a>
                   </Popconfirm>
+                  <Divider type="vertical" />
+                  <Popconfirm
+                    title="保存するかどうか？"
+                    onConfirm={() => this.create(record)}
+                  >
+                    <a>保存</a>
+                  </Popconfirm>                  
                 </span>
               );
             }

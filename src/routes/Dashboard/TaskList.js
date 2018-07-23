@@ -456,7 +456,10 @@ export default class TaskList extends PureComponent {
     }
 
     return (
-      <PageHeaderLayout content={pageHeaderContent} extraContent={extraContent}>
+      <PageHeaderLayout
+          content={pageHeaderContent}
+          extraContent={extraContent}
+         >
         <Card>
           <Tabs tabBarExtraContent={salesExtra}>
             {/*アセスメント*/}
@@ -468,9 +471,10 @@ export default class TaskList extends PureComponent {
                 onChange={dateChange}
               />
               <Table
+                // size="middle"
                 dataSource={dataSource()}
                 columns={columns}
-                pagination={{ pageSize: 5 }}
+                pagination={{ pageSize: 10 }}
               />
             </TabPane>
             {/*計画書*/}
@@ -482,6 +486,8 @@ export default class TaskList extends PureComponent {
                 onChange={this.dayDate}
               />
               <Table
+                // 紧凑型
+                size="middle"
                 dataSource={dataSource()}
                 columns={columns}
                 pagination={{ pageSize: 5 }}
@@ -499,6 +505,8 @@ export default class TaskList extends PureComponent {
                 dataSource={dataSource()}
                 columns={columns}
                 pagination={{ pageSize: 5 }}
+                // 边框
+                // bordered
               />
             </TabPane>            
           </Tabs>

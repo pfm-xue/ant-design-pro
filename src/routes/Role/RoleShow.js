@@ -207,6 +207,12 @@ export default class RoleShow extends PureComponent {
       }
     }
 
+    function phone(value) {
+      // 139-4093-2459
+      var newNumber= value.substr(0, 3) + "-" + value.substr(3, 4) + "-" + value.substr(6, 10);
+      return newNumber;
+    }  
+
     return (
       <PageHeaderLayout title="管理者詳細情報">
         <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false}>
@@ -214,7 +220,9 @@ export default class RoleShow extends PureComponent {
             <Description term="名前">{data.list[0].adminName}</Description>
             <Description term="職務">{data.list[0].post}</Description>
             <Description term="role">{data.list[0].role}</Description>
-            <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
+            <Description term="電話番号">
+            {phone(data.list[0].telephoneNumber)}
+            </Description>
             <Description term="Email">{data.list[0].email}</Description>
             <Description term="アドレス">{data.list[0].address}</Description>
           </DescriptionList>

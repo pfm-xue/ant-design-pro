@@ -297,6 +297,12 @@ export default class UserList extends PureComponent {
       );
     });
 
+    function phone(value) {
+      // 139-4093-2459
+      var newNumber= value.substr(0, 3) + "-" + value.substr(3, 4) + "-" + value.substr(6, 10);
+      return newNumber;
+    }    
+
     const columns = [
       {
         title: '利用者氏名',
@@ -318,6 +324,7 @@ export default class UserList extends PureComponent {
       {
         title: '電話番号',
         dataIndex: 'telephoneNumber',
+        render: text => <Fragment>{phone(text)}</Fragment>,        
       },
       {
         title: 'アドレス',
@@ -364,6 +371,7 @@ export default class UserList extends PureComponent {
               </Popconfirm>
             </div>
             <Table
+              size="middle"
               rowKey={record => record._id}
               dataSource={data.list}
               columns={columns}

@@ -287,6 +287,12 @@ export default class RoleList extends PureComponent {
       );
     });
 
+    function phone(value) {
+      // 139-4093-2459
+      var newNumber= value.substr(0, 3) + "-" + value.substr(3, 4) + "-" + value.substr(6, 10);
+      return newNumber;
+    }  
+
     const columns = [
       {
         title: '管理者名前',
@@ -303,6 +309,7 @@ export default class RoleList extends PureComponent {
       {
         title: '電話番号',
         dataIndex: 'telephoneNumber',
+        render: text => <Fragment>{phone(text)}</Fragment>,
       },
       {
         title: 'アドレス',

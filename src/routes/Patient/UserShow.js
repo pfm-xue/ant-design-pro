@@ -243,6 +243,12 @@ export default class UserShow extends PureComponent {
       }
     }
 
+    function phone(value) {
+      // 139-4093-2459
+      var newNumber= value.substr(0, 3) + "-" + value.substr(3, 4) + "-" + value.substr(6, 10);
+      return newNumber;
+    }  
+
     return (
       <PageHeaderLayout title="利用者詳細情報">
         <Card style={{ marginBottom: 24 }} title="利用者情報" bordered={false}>
@@ -258,7 +264,9 @@ export default class UserShow extends PureComponent {
                 {moment(data.list[0].birth).format('YYYY-MM-DD')}
               </Description>
               <Description term="性別">{data.list[0].sex}</Description>
-              <Description term="電話番号">{data.list[0].telephoneNumber}</Description>
+              <Description term="電話番号">
+                {phone(data.list[0].telephoneNumber)}
+              </Description>
               <Description term="住所">{data.list[0].address}</Description>
             </DescriptionList>
           )}
