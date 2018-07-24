@@ -2,31 +2,31 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
   Card,
-  Badge,
-  Table,
   Divider,
-  Tabs,
   Button,
-  Calendar,
-  Steps,
-  Icon,
   Form,
-  Modal,
-  Input,
-  TimePicker,
   message,
   Popconfirm,
   Row,
   Col,
+  // Badge,
+  // Table,  
+  // Tabs,  
+  // Calendar,
+  // Steps,
+  // Icon,  
+  // Modal,
+  // Input,
+  // TimePicker,  
 } from 'antd';
-import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './PlanShow.less';
-import moment from 'moment';
-import StandardTable from 'components/StandardTable';
 import { Link } from 'dva/router';
-const { Description } = DescriptionList;
-const FormItem = Form.Item;
+import moment from 'moment';
+// import DescriptionList from 'components/DescriptionList';
+// import StandardTable from 'components/StandardTable';
+// const { Description } = DescriptionList;
+// const FormItem = Form.Item;
 
 @connect(({ plan, loading }) => ({
   plan,
@@ -195,23 +195,27 @@ export default class PlanShow extends PureComponent {
                       <b>目標逹成度:</b>
                       {parameter[0].additionalTraining.shortTermGoalsDegree}
                     </p>
-                    <p>
-                      <b>①プログラム内容:</b>
-                    </p>
-                    <p>
-                      <b>留意点:</b>
-                    </p>
-                    <p>
-                      <b>頻度:</b>
-                    </p>
-                    <p>
-                      <b>時間:</b>
-                    </p>
-                    <p>
-                      <b>主な実施者:</b>
-                    </p>
+                    {parameter[0].additionalTraining.enum.map((item, i) => (
+                      <ul>
+                        <li>
+                          <b>NO.{i+1}プログラム内容:</b>{item.programContent}
+                        </li>
+                        <li>
+                          <b>留意点:</b>{item.attention}
+                        </li>
+                        <li>
+                          <b>頻度:</b>{item.frequency}
+                        </li>
+                        <li>
+                          <b>時間:</b>{item.time}
+                        </li>
+                        <li>
+                          <b>主な実施者:</b>{item.personLiable}
+                        </li>
+                      </ul>
+                        ))}
                     <p className={styles.right}>
-                      <b>プログラム立案者:</b>
+                      <b>プログラム立案者:</b>{parameter[0].additionalTraining.mastermind}
                     </p>
                   </Card>
                 </Col>
@@ -233,23 +237,27 @@ export default class PlanShow extends PureComponent {
                       <b>目標逹成度:</b>
                       {parameter[0].planTow.shortTermGoalsDegree}
                     </p>
-                    <p>
-                      <b>①プログラム内容:</b>
-                    </p>
-                    <p>
-                      <b>留意点:</b>
-                    </p>
-                    <p>
-                      <b>頻度:</b>
-                    </p>
-                    <p>
-                      <b>時間:</b>
-                    </p>
-                    <p>
-                      <b>主な実施者:</b>
-                    </p>
+                    {parameter[0].planTow.enum.map((item, i) => (
+                          <ul>
+                            <li>
+                              <b>NO.{i+1}プログラム内容:</b>{item.programContent}
+                            </li>
+                            <li>
+                              <b>留意点:</b>{item.attention}
+                            </li>
+                            <li>
+                              <b>頻度:</b>{item.frequency}
+                            </li>
+                            <li>
+                              <b>時間:</b>{item.time}
+                            </li>
+                            <li>
+                              <b>主な実施者:</b>{item.personLiable}
+                            </li>
+                          </ul>
+                        ))}
                     <p className={styles.right}>
-                      <b>プログラム立案者:</b>
+                      <b>プログラム立案者:</b>{parameter[0].planTow.mastermind}
                     </p>
                   </Card>
                 </Col>
