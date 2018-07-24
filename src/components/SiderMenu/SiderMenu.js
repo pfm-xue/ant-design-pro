@@ -216,7 +216,7 @@ export default class SiderMenu extends PureComponent {
         <div className={styles.logo} key="logo">
           <Link to="/home">
             <img src="https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png" alt="logo" />
-            <h1>DgS Medical</h1>
+            <h1>Dgs Medical</h1>
           </Link>
         </div>
         <Menu

@@ -124,7 +124,7 @@ class BasicLayout extends React.PureComponent {
       }
     });
     if (currRouterData && currRouterData.name) {
-      title = `${currRouterData.name} - DgS Medical`;
+      title = `${currRouterData.name} - Dgs Medical`;
     }
     return title;
   }

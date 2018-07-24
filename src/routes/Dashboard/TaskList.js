@@ -145,27 +145,6 @@ export default class TaskList extends PureComponent {
     location.reload();
   };
 
-  // save(form, key) {
-  //   form.validateFields((error, row) => {
-  //     if (error) {
-  //       return;
-  //     }
-  //     const newData = [...this.state.data];
-  //     const index = newData.findIndex(item => key === item.key);
-  //     if (index > -1) {
-  //       const item = newData[index];
-  //       newData.splice(index, 1, {
-  //         ...item,
-  //         ...row,
-  //       });
-  //       this.setState({ data: newData, editingKey: '' });
-  //     } else {
-  //       newData.push(data);
-  //       this.setState({ data: newData, editingKey: '' });
-  //     }
-  //   });
-  // }
-
   render() {
     const { task } = this.props;
     const { modalVisible1, modalVisible, data } = this.state;
@@ -471,7 +450,7 @@ export default class TaskList extends PureComponent {
                 onChange={dateChange}
               />
               <Table
-                // size="middle"
+                size="middle"
                 dataSource={dataSource()}
                 columns={columns}
                 pagination={{ pageSize: 10 }}
