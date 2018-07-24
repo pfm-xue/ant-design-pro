@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Form, Icon, Col, Row, Input, Select, Divider, Popover, Slider } from 'antd';
+import { Card, Button, Form, Icon, Col, Row, Input, Select, Divider, Popover, Slider, DatePicker } from 'antd';
 import { connect } from 'dva';
 import FooterToolbar from 'components/FooterToolbar';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import TableForm from './TableForm';
 import styles from './PlanEdit.less';
 import { Link } from 'dva/router';
+import moment from 'moment';
 const { Option } = Select;
-const tableData = [];
 
 const disorderList = {
   0: '正常',
@@ -102,7 +102,7 @@ export default class PlanEdit extends PureComponent {
       return (
         <span className={styles.errorIcon}>
           <Popover
-            title="表单校验信息"
+            title="テキストチェック"
             content={errorList}
             overlayClassName={styles.errorPopover}
             trigger="click"
@@ -132,7 +132,7 @@ export default class PlanEdit extends PureComponent {
                     {form.getFieldDecorator('_id', {
                       initialValue: parameter[0]._id,
                       rules: [{ required: true, message: 'ID入力してください' }],
-                    })(<Input type="hidden" placeholder="入力してください" />)}
+                    })(<Input type="hidden"/>)}
                   </Form.Item>
                 </Col>
               </Row>
@@ -141,14 +141,20 @@ export default class PlanEdit extends PureComponent {
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
                     {form.getFieldDecorator('createDate', {
                       rules: [{ required: true, message: '作成日入力してください' }],
-                    })(<Input type="Date" placeholder="入力してください" />)}
+                    })(
+                    // <Input type="Date" placeholder="入力してください" />
+                    <DatePicker defaultValue={moment(parameter[0].createDate, 'YYYY-MM-DD')} />
+                    )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
                     {form.getFieldDecorator('createLastTime', {
                       rules: [{ required: true, message: '前回作成日入力してください' }],
-                    })(<Input type="Date" placeholder="入力してください" />)}
+                    })(
+                    // <Input type="Date" placeholder="入力してください" />
+                    <DatePicker defaultValue={moment(parameter[0].createLastTime, 'YYYY-MM-DD')} />
+                    )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>

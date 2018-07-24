@@ -361,10 +361,12 @@ export default class RoleList extends PureComponent {
               </Popconfirm>
             </div>
             <Table
+              // 紧凑型
+              size="middle"
               rowKey={record => record._id}
               dataSource={data.list}
               columns={columns}
-              pagination={{ pageSize: 5 }}
+              pagination={{ pageSize: 10 }}
             />
           </div>
         </Card>
