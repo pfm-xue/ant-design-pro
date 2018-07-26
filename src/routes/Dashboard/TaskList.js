@@ -450,6 +450,7 @@ export default class TaskList extends PureComponent {
                 onChange={dateChange}
               />
               <Table
+                // 紧凑型
                 size="middle"
                 dataSource={dataSource()}
                 columns={columns}
@@ -481,6 +482,8 @@ export default class TaskList extends PureComponent {
                 onChange={this.dayDate}
               />
               <Table
+                // 紧凑型
+                size="middle"              
                 dataSource={dataSource()}
                 columns={columns}
                 pagination={{ pageSize: 5 }}

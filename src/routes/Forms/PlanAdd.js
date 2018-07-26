@@ -7,12 +7,12 @@ import {
   Col,
   Row,
   Input,
-  Mention,
   Select,
   Divider,
   Popover,
   Slider,
   DatePicker,
+  // Mention,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import FooterToolbar from 'components/FooterToolbar';
@@ -22,7 +22,6 @@ import { Link } from 'dva/router';
 import { connect } from 'dva';
 import moment from 'moment';
 const { Option } = Select;
-const tableData = [];
 
 const disorderList = {
   0: '正常',
@@ -80,32 +79,12 @@ export default class PlanAdd extends PureComponent {
   //   }
   // };
 
-  // fetchSuggestions = (value, callback) => {
-  //   let list = this.props.template.data.list;
-  //   setTimeout(() => {
-  //     callback(list.filter(item => item.indexOf(value) !== -1));
-  //   }, 500);
-  // }
-
-  onSearchChange = (value) => {
-    let list = this.props.template.data.list;
-    if (typeof list !== 'undefined' && list.length !== 0 ) {
-      list.map((item,i) => {
-        item.key = i;
-        const name = item.project;
-        if (name === value) {
-        this.setState({
-          suggestions: item.projectData,
-        });
-        }
-      });
-    }
-  }
-
   render() {
     const { form, dispatch, submitting, template } = this.props;
     const { suggestions } = this.state;
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form;
+
+    let children = [];
 
     const validate = () => {
       validateFieldsAndScroll((error, values) => {
@@ -165,9 +144,37 @@ export default class PlanAdd extends PureComponent {
     //   console.log(toString(contentState));
     // }
 
-    function onSelect(suggestion) {
-      console.log('onSelect', suggestion);
+    // function onSelect(suggestion) {
+    //   console.log('onSelect', suggestion);
+    // }
+
+    function handleChange(value) {
+      console.log(`selected ${value}`);
     }
+
+    function onSearchChange(value) {
+      let list = template.data.list;
+      if (typeof list !== 'undefined' && list.length !== 0 ) {
+        for (let i = 0; i < list.length; i += 1) {
+          const name = list[i].project;
+          if (name === value) {
+            suggestions = list[i].projectData;
+          // this.setState({
+          //   suggestions: list[i].projectData,
+          // });
+          break;
+          }        
+        }
+        // list.map((item) => {
+        //   const name = item.project;
+        //   if (name === value) {
+        //   this.setState({
+        //     suggestions: item.projectData,
+        //   });
+        //   }
+        // });
+      }
+    }    
 
     return (
       template && (
@@ -198,13 +205,21 @@ export default class PlanAdd extends PureComponent {
                     {form.getFieldDecorator('planAuthor', {
                       rules: [{ required: true, message: '計画作成者入力してください' }],
                     })(
-                      <Input placeholder="入力してください"/>
+                      // <Input placeholder="入力してください"/>
                       // <Mention
                       //   style={{ width: '100%' }}
                       //   // onChange={onChange}
                       //   suggestions={suggestions}
                       //   onSearchChange={this.onSearchChange('計画作成者')}
                       // />
+                      <Select
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                        onChange={handleChange}
+                        onMouseEnter={() => onSearchChange('計画作成者')}
+                      >
+                        {suggestions}
+                      </Select>                      
                     )}
                   </Form.Item>
                 </Col>
@@ -370,16 +385,20 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      // <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <Select placeholder="目標期間">
+                        <Option value="3">3ヵ月</Option>
+                        <Option value="6">6ヵ月</Option>
+                      </Select>
                     )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {getFieldDecorator('url2', {
+                  <Form.Item>
+                  {getFieldDecorator('additionalTraining.longCalculation', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
@@ -402,16 +421,20 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      // <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <Select placeholder="目標期間">
+                        <Option value="3">3ヵ月</Option>
+                        <Option value="6">6ヵ月</Option>
+                      </Select>
                     )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {getFieldDecorator('url2', {
+                  <Form.Item>
+                  {getFieldDecorator('additionalTraining.shortCalculation', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
@@ -454,16 +477,20 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      // <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <Select placeholder="目標期間">
+                        <Option value="3">3ヵ月</Option>
+                        <Option value="6">6ヵ月</Option>
+                      </Select>
                     )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {form.getFieldDecorator('url2', {
+                  <Form.Item>
+                  {form.getFieldDecorator('planTow.longCalculation', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
@@ -486,16 +513,20 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(
                       // <Input type="Date" placeholder="長期目標" />
-                      <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      // <DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />
+                      <Select placeholder="目標期間">
+                        <Option value="3">3ヵ月</Option>
+                        <Option value="6">6ヵ月</Option>
+                      </Select>
                     )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {form.getFieldDecorator('url2', {
+                  <Form.Item>
+                  {form.getFieldDecorator('planTow.shortCalculation', {
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">

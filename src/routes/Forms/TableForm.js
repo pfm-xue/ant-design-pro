@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Table, Button, Input, message, Popconfirm, Divider } from 'antd';
+import { Table, Button, Input, message, Popconfirm, Divider, Select } from 'antd';
 import styles from './style.less';
 
 export default class TableForm extends PureComponent {
@@ -83,7 +83,11 @@ export default class TableForm extends PureComponent {
     const newData = data.map(item => ({ ...item }));
     const target = this.getRowByKey(key, newData);
     if (target) {
-      target[fieldName] = e.target.value;
+      if (typeof e.target !== 'undefined') {
+        target[fieldName] = e.target.value;
+      } else {
+        target[fieldName] = e;
+      }
       this.setState({ data: newData });
     }
   }
@@ -183,12 +187,24 @@ export default class TableForm extends PureComponent {
         render: (text, record) => {
           if (record.editable) {
             return (
-              <Input
-                value={text}
+              <Select 
+                // value={text}
                 onChange={e => this.handleFieldChange(e, 'frequency', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="頻度"
-              />
+              >
+                <Option value="1">週1回</Option>
+                <Option value="2">週2回</Option>
+                <Option value="3">週3回</Option>
+                <Option value="4">週4回</Option>
+                <Option value="5">週5回</Option>
+              </Select>              
+              // <Input
+              //   value={text}
+              //   onChange={e => this.handleFieldChange(e, 'frequency', record.key)}
+              //   onKeyPress={e => this.handleKeyPress(e, record.key)}
+              //   placeholder="頻度"
+              // />
             );
           }
           return text;
@@ -202,12 +218,25 @@ export default class TableForm extends PureComponent {
         render: (text, record) => {
           if (record.editable) {
             return (
-              <Input
-                value={text}
+              <Select 
+                // value={text}
                 onChange={e => this.handleFieldChange(e, 'time', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="時間"
-              />
+              >
+                <Option value="10">10分</Option>
+                <Option value="20">20分</Option>
+                <Option value="30">30分</Option>
+                <Option value="40">40分</Option>
+                <Option value="50">50分</Option>
+                <Option value="60">60分</Option>
+              </Select>                
+              // <Input
+              //   value={text}
+              //   onChange={e => this.handleFieldChange(e, 'time', record.key)}
+              //   onKeyPress={e => this.handleKeyPress(e, record.key)}
+              //   placeholder="時間"
+              // />
             );
           }
           return text;
