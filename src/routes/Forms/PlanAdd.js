@@ -79,6 +79,29 @@ export default class PlanAdd extends PureComponent {
   //   }
   // };
 
+    onSearchChange = (value) => {
+    let dateValue = [];
+    let list = this.props.template.data.list;
+    if (typeof list !== 'undefined' && list.length !== 0 ) {
+      for (let i = 0; i < list.length; i += 1) {
+        const name = list[i].project;
+        if (name === value) {
+          list[i].projectData.map((item,i) => {
+            dateValue.push(<Option key={i}>{item}</Option>);
+          });
+        this.setState({
+          suggestions: dateValue,
+        });
+        break;
+        }        
+      }
+    } else {
+      this.setState({
+        suggestions: dateValue,
+      });      
+    }
+  }    
+
   render() {
     const { form, dispatch, submitting, template } = this.props;
     const { suggestions } = this.state;
@@ -150,31 +173,7 @@ export default class PlanAdd extends PureComponent {
 
     function handleChange(value) {
       console.log(`selected ${value}`);
-    }
-
-    function onSearchChange(value) {
-      let list = template.data.list;
-      if (typeof list !== 'undefined' && list.length !== 0 ) {
-        for (let i = 0; i < list.length; i += 1) {
-          const name = list[i].project;
-          if (name === value) {
-            suggestions = list[i].projectData;
-          // this.setState({
-          //   suggestions: list[i].projectData,
-          // });
-          break;
-          }        
-        }
-        // list.map((item) => {
-        //   const name = item.project;
-        //   if (name === value) {
-        //   this.setState({
-        //     suggestions: item.projectData,
-        //   });
-        //   }
-        // });
-      }
-    }    
+    }  
 
     return (
       template && (
@@ -213,10 +212,10 @@ export default class PlanAdd extends PureComponent {
                       //   onSearchChange={this.onSearchChange('計画作成者')}
                       // />
                       <Select
-                        mode="multiple"
+                        // mode="multiple"
                         style={{ width: '100%' }}
                         onChange={handleChange}
-                        onMouseEnter={() => onSearchChange('計画作成者')}
+                        onMouseEnter={() => this.onSearchChange('計画作成者')}
                       >
                         {suggestions}
                       </Select>                      
@@ -253,13 +252,21 @@ export default class PlanAdd extends PureComponent {
                     {form.getFieldDecorator('certification', {
                       rules: [{ required: true, message: '介護認定入力してください' }],
                     })(
-                      <Input placeholder="入力してください"/>
+                      // <Input placeholder="入力してください"/>
                       // <Mention
                       //   style={{ width: '100%' }}s
                       //   // onChange={onChange}
                       //   suggestions={['介護','介護1','介護2','介護3','介護4']}
                       //   onSelect={onSelect}
                       // />
+                      <Select
+                        // mode="multiple"
+                        style={{ width: '100%' }}
+                        onChange={handleChange}
+                        onMouseEnter={() => this.onSearchChange('介護認定')}
+                      >
+                        {suggestions}
+                      </Select>                        
                     )}
                   </Form.Item>
                 </Col>
@@ -267,14 +274,34 @@ export default class PlanAdd extends PureComponent {
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者：">
                     {form.getFieldDecorator('admin', {
                       rules: [{ required: true, message: '管理者入力してください' }],
-                    })(<Input placeholder="入力してください" />)}
+                    })(
+                      // <Input placeholder="入力してください" />
+                      <Select
+                        // mode="multiple"
+                        style={{ width: '100%' }}
+                        onChange={handleChange}
+                        onMouseEnter={() => this.onSearchChange('管理者')}
+                      >
+                        {suggestions}
+                      </Select>                       
+                      )}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="看護：">
                     {form.getFieldDecorator('nursing', {
                       rules: [{ required: true, message: '看護入力してください' }],
-                    })(<Input placeholder="入力してください" />)}
+                    })(
+                      // <Input placeholder="入力してください" />
+                      <Select
+                        // mode="multiple"
+                        style={{ width: '100%' }}
+                        onChange={handleChange}
+                        onMouseEnter={() => this.onSearchChange('看護')}
+                      >
+                        {suggestions}
+                      </Select>                          
+                      )}
                   </Form.Item>
                 </Col>
               </Row>

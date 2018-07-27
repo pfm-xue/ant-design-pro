@@ -139,7 +139,7 @@ export default class ContentAdd extends PureComponent {
                     mode="tags"
                     style={{ width: '100%' }}
                     onChange={handleChange}
-                    defaultValue={['qqq', 'eee']}
+                    defaultValue={parameter.projectData}
                   >
                     {children}
                   </Select>

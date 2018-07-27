@@ -143,7 +143,9 @@ export default class PlanEdit extends PureComponent {
                       rules: [{ required: true, message: '作成日入力してください' }],
                     })(
                     // <Input type="Date" placeholder="入力してください" />
-                    <DatePicker defaultValue={moment(parameter[0].createDate, 'YYYY-MM-DD')} />
+                      <DatePicker 
+                        initialValue={moment(parameter[0].createDate, 'YYYY-MM-DD')}
+                      />
                     )}
                   </Form.Item>
                 </Col>
@@ -153,7 +155,10 @@ export default class PlanEdit extends PureComponent {
                       rules: [{ required: true, message: '前回作成日入力してください' }],
                     })(
                     // <Input type="Date" placeholder="入力してください" />
-                    <DatePicker defaultValue={moment(parameter[0].createLastTime, 'YYYY-MM-DD')} />
+                      <DatePicker
+                       initialValue={moment(parameter[0].createLastTime, format)}
+                       format="YYYY-MM-DD"
+                      />
                     )}
                   </Form.Item>
                 </Col>
