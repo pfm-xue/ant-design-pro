@@ -1,4 +1,5 @@
 // import { queryRole, removeRole, addRole } from '../services/api';
+import { routerRedux } from 'dva/router';
 import { queryRole, addRole, roleShow } from '../services/api';
 
 export default {
@@ -26,6 +27,10 @@ export default {
         payload: response,
       });
       if (callback) callback();
+      // if (response.status === 'ok') {
+      //   reloadAuthorized();
+      //   yield put(routerRedux.push('/home'));
+      // }      
     },
     *show({ payload, callback }, { call, put }) {
       const response = yield call(roleShow, payload);

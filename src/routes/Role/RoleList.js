@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import { Row, Col, Card, Form, Input, Select, Button, Modal, Popconfirm, Divider, Table } from 'antd';
 // import StandardTable from 'components/StandardTable';
@@ -252,6 +253,12 @@ export default class RoleList extends PureComponent {
                 rules: [{ required: true, message: 'Please input some description...' }],
               })(<Input placeholder="请输入" />)}
             </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="パスワード">
+              {form.getFieldDecorator('password', {
+                initialValue: roleData.password,
+                rules: [{ required: true, message: 'Please input some description...' }],
+              })(<Input type="password" placeholder="请输入" />)}
+            </FormItem>            
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="Email">
               {form.getFieldDecorator('email', { initialValue: roleData.email })(
                 <Input placeholder="请输入" />

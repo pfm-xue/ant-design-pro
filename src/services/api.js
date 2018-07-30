@@ -174,9 +174,13 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+  return request('http://localhost:3001/mp/admin/', {
     method: 'POST',
-    body: params,
+    body: {
+      ...params,
+      method: 'post',
+      login: true,
+    },
   });
 }
 

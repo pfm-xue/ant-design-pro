@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
 import { Checkbox, Alert, Icon } from 'antd';
 import Login from 'components/Login';
 import styles from './Login.less';
@@ -24,7 +23,7 @@ export default class LoginPage extends Component {
   handleSubmit = (err, values) => {
     const { type } = this.state;
     if (!err) {
-      this.props.dispatch({
+      this.props.dispatch({                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
         type: 'login/login',
         payload: {
           ...values,
@@ -54,9 +53,9 @@ export default class LoginPage extends Component {
             {login.status === 'error' &&
               login.type === 'account' &&
               !login.submitting &&
-              this.renderMessage('Account or password error（admin/888888）')}
-            <UserName name="userName" placeholder="admin/user" />
-            <Password name="password" placeholder="888888/123456" />
+              this.renderMessage('Account or password error')}
+            <UserName name="userName" placeholder="メールアドレス" />
+            <Password name="password" placeholder="パスワード" />
           </Tab>
           <div>
             <Checkbox checked={this.state.autoLogin} onChange={this.changeAutoLogin}>
