@@ -46,8 +46,6 @@ export default class PlanShow extends PureComponent {
     });
   }
 
-  
-
   onClick = () => {
     let value = this.props.plan.data.list[0];
     value.printing = true;
@@ -145,10 +143,10 @@ export default class PlanShow extends PureComponent {
                       <b>前回作成日:</b>
                       {parameter[0].createLastTime}
                     </p>
-                    <p>
+                    {/* <p>
                       <b>計画作成者:</b>
                       {parameter[0].planAuthor}
-                    </p>
+                    </p> */}
                     <p>
                       <b>障害老人の日常生活自立度:</b>
                       {parameter[0].disorder}
@@ -184,6 +182,10 @@ export default class PlanShow extends PureComponent {
                       {parameter[0].additionalTraining.longTermGoals}
                     </p>
                     <p>
+                      <b>長期算定:</b>
+                      {parameter[0].additionalTraining.longCalculation}
+                    </p>                    
+                    <p>
                       <b>目標逹成度:</b>
                       {parameter[0].additionalTraining.longTermGoalsDegree}
                     </p>
@@ -191,6 +193,10 @@ export default class PlanShow extends PureComponent {
                       <b>短期目標:</b>
                       {parameter[0].additionalTraining.shortTermGoals}
                     </p>
+                    <p>
+                      <b>短期算定:</b>
+                      {parameter[0].additionalTraining.shortCalculation}
+                    </p>                      
                     <p>
                       <b>目標逹成度:</b>
                       {parameter[0].additionalTraining.shortTermGoalsDegree}
@@ -207,7 +213,7 @@ export default class PlanShow extends PureComponent {
                           <b>頻度:</b>{item.frequency}
                         </li>
                         <li>
-                          <b>時間:</b>{item.time}
+                          <b>時間:</b>{item.time} min
                         </li>
                         <li>
                           <b>主な実施者:</b>{item.personLiable}
@@ -226,6 +232,10 @@ export default class PlanShow extends PureComponent {
                       {parameter[0].planTow.longTermGoals}
                     </p>
                     <p>
+                      <b>長期算定:</b>
+                      {parameter[0].planTow.longCalculation}
+                    </p>                      
+                    <p>
                       <b>目標逹成度:</b>
                       {parameter[0].planTow.longTermGoalsDegree}
                     </p>
@@ -233,6 +243,10 @@ export default class PlanShow extends PureComponent {
                       <b>短期目標:</b>
                       {parameter[0].planTow.shortTermGoals}
                     </p>
+                    <p>
+                      <b>短期算定:</b>
+                      {parameter[0].planTow.shortCalculation}
+                    </p>                         
                     <p>
                       <b>目標逹成度:</b>
                       {parameter[0].planTow.shortTermGoalsDegree}
@@ -249,7 +263,7 @@ export default class PlanShow extends PureComponent {
                               <b>頻度:</b>{item.frequency}
                             </li>
                             <li>
-                              <b>時間:</b>{item.time}
+                              <b>時間:</b>{item.time} min
                             </li>
                             <li>
                               <b>主な実施者:</b>{item.personLiable}

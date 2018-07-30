@@ -149,11 +149,11 @@ export default class TableForm extends PureComponent {
           if (record.editable) {
             return (
               <Input
-                value={text}
                 autoFocus
+                value={text}
+                placeholder="プログラム内容"
                 onChange={e => this.handleFieldChange(e, 'programContent', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="プログラム内容"
               />
             );
           }
@@ -170,9 +170,9 @@ export default class TableForm extends PureComponent {
             return (
               <Input
                 value={text}
+                placeholder="留意点"
                 onChange={e => this.handleFieldChange(e, 'attention', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="留意点"
               />
             );
           }
@@ -188,23 +188,17 @@ export default class TableForm extends PureComponent {
           if (record.editable) {
             return (
               <Select 
-                // value={text}
+                value={text}
+                placeholder="頻度"
                 onChange={e => this.handleFieldChange(e, 'frequency', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="頻度"
               >
                 <Option value="1">週1回</Option>
                 <Option value="2">週2回</Option>
                 <Option value="3">週3回</Option>
                 <Option value="4">週4回</Option>
                 <Option value="5">週5回</Option>
-              </Select>              
-              // <Input
-              //   value={text}
-              //   onChange={e => this.handleFieldChange(e, 'frequency', record.key)}
-              //   onKeyPress={e => this.handleKeyPress(e, record.key)}
-              //   placeholder="頻度"
-              // />
+              </Select>
             );
           }
           return text;
@@ -219,10 +213,10 @@ export default class TableForm extends PureComponent {
           if (record.editable) {
             return (
               <Select 
-                // value={text}
+                value={text}
+                placeholder="時間"
                 onChange={e => this.handleFieldChange(e, 'time', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="時間"
               >
                 <Option value="10">10分</Option>
                 <Option value="20">20分</Option>
@@ -230,13 +224,7 @@ export default class TableForm extends PureComponent {
                 <Option value="40">40分</Option>
                 <Option value="50">50分</Option>
                 <Option value="60">60分</Option>
-              </Select>                
-              // <Input
-              //   value={text}
-              //   onChange={e => this.handleFieldChange(e, 'time', record.key)}
-              //   onKeyPress={e => this.handleKeyPress(e, record.key)}
-              //   placeholder="時間"
-              // />
+              </Select>
             );
           }
           return text;
@@ -252,9 +240,9 @@ export default class TableForm extends PureComponent {
             return (
               <Input
                 value={text}
+                placeholder="主な実施者"
                 onChange={e => this.handleFieldChange(e, 'personLiable', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="主な実施者"
               />
             );
           }

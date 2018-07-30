@@ -3,15 +3,15 @@ import {
   Card,
   Button,
   Form,
-  Icon,
   Col,
   Row,
   Input,
   Select,
   Divider,
-  Popover,
   Slider,
-  DatePicker,
+  // Icon,
+  // Popover,
+  // DatePicker,
   // Mention,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -20,8 +20,9 @@ import TableForm from './TableForm';
 import styles from './PlanAdd.less';
 import { Link } from 'dva/router';
 import { connect } from 'dva';
-import moment from 'moment';
 const { Option } = Select;
+
+// import moment from 'moment';
 
 const disorderList = {
   0: '正常',
@@ -54,7 +55,7 @@ const dementiaList = {
 export default class PlanAdd extends PureComponent {
   state = {
     width: '100%',
-    suggestions: [],
+    // suggestions: [],
     loading: false,
   };
 
@@ -65,49 +66,49 @@ export default class PlanAdd extends PureComponent {
     });
   }
 
-  // componentDidMount() {
-  //   window.addEventListener('resize', this.resizeFooterToolbar);
-  // }
-  // componentWillUnmount() {
-  //   window.removeEventListener('resize', this.resizeFooterToolbar);
-  // }
-  // resizeFooterToolbar = () => {
-  //   const sider = document.querySelectorAll('.ant-layout-sider')[0];
-  //   const width = `calc(100% - ${sider.style.width})`;
-  //   if (this.state.width !== width) {
-  //     this.setState({ width });
-  //   }
-  // };
-
-    onSearchChange = (value) => {
-    let dateValue = [];
-    let list = this.props.template.data.list;
-    if (typeof list !== 'undefined' && list.length !== 0 ) {
-      for (let i = 0; i < list.length; i += 1) {
-        const name = list[i].project;
-        if (name === value) {
-          list[i].projectData.map((item,i) => {
-            dateValue.push(<Option key={i}>{item}</Option>);
-          });
-        this.setState({
-          suggestions: dateValue,
-        });
-        break;
-        }        
-      }
-    } else {
-      this.setState({
-        suggestions: dateValue,
-      });      
-    }
-  }    
-
   render() {
     const { form, dispatch, submitting, template } = this.props;
-    const { suggestions } = this.state;
-    const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form;
+    const { getFieldDecorator, validateFieldsAndScroll } = form;
 
-    let children = [];
+    // 計画作成者
+    let planAuthor = [];
+    // 介護認定
+    let certification = [];
+    // 管理者
+    let admin = [];
+
+    if (typeof template !== 'undefined') {
+      pushDate("計画作成者");
+      pushDate("介護認定");
+      pushDate("管理者");
+    }
+
+    function pushDate(value) {
+      let list = template.data.list;
+      if (typeof list !== 'undefined' && list.length !== 0 ) {
+        for (let i = 0; i < list.length; i += 1) {
+          const name = list[i].project;
+          if (name === value && value === "計画作成者" ) {
+            list[i].projectData.map((item,i) => {
+              planAuthor.push(<Option key={i}>{item}</Option>);
+            });
+          break;
+          }
+          if (name === value && value === "介護認定" ) {
+            list[i].projectData.map((item,i) => {
+              certification.push(<Option key={i}>{item}</Option>);
+            });
+          break;
+          }
+          if (name === value && value === "管理者" ) {
+            list[i].projectData.map((item,i) => {
+              admin.push(<Option key={i}>{item}</Option>);
+            });
+          break;
+          }
+        }
+      }
+    }
 
     const validate = () => {
       validateFieldsAndScroll((error, values) => {
@@ -122,58 +123,10 @@ export default class PlanAdd extends PureComponent {
         }
       });
     };
-    const errors = getFieldsError();
-    const getErrorInfo = () => {
-      const errorCount = Object.keys(errors).filter(key => errors[key]).length;
-      if (!errors || errorCount === 0) {
-        return null;
-      }
-      const scrollToField = fieldKey => {
-        const labelNode = document.querySelector(`label[for="${fieldKey}"]`);
-        if (labelNode) {
-          labelNode.scrollIntoView(true);
-        }
-      };
-      const errorList = Object.keys(errors).map(key => {
-        if (!errors[key]) {
-          return null;
-        }
-        return (
-          <li key={key} className={styles.errorListItem} onClick={() => scrollToField(key)}>
-            <Icon type="cross-circle-o" className={styles.errorIcon} />
-            <div className={styles.errorMessage}>{errors[key][0]}</div>
-          </li>
-        );
-      });
-
-      return (
-        <span className={styles.errorIcon}>
-          <Popover
-            title="表单校验信息"
-            content={errorList}
-            overlayClassName={styles.errorPopover}
-            trigger="click"
-            getPopupContainer={trigger => trigger.parentNode}
-          >
-            <Icon type="exclamation-circle" />
-          </Popover>
-          {errorCount}
-        </span>
-      );
-    };
-
-    // function onChange(contentState) {
-    //   const srting111 = contentState;
-    //   console.log(toString(contentState));
-    // }
-
-    // function onSelect(suggestion) {
-    //   console.log('onSelect', suggestion);
-    // }
 
     function handleChange(value) {
       console.log(`selected ${value}`);
-    }  
+    }
 
     return (
       template && (
@@ -189,14 +142,14 @@ export default class PlanAdd extends PureComponent {
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
                     {form.getFieldDecorator('createDate', {
                       rules: [{ required: true, message: '作成日入力してください' }],
-                    })(<DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />)}
+                    })(<Input type="Date" />)}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="前回作成日：">
                     {form.getFieldDecorator('createLastTime', {
                       rules: [{ required: true, message: '前回作成日入力してください' }],
-                    })(<DatePicker initialValue={moment(new Date(), 'YYYY-MM-DD')} />)}
+                    })(<Input type="Date" />)}
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
@@ -204,21 +157,13 @@ export default class PlanAdd extends PureComponent {
                     {form.getFieldDecorator('planAuthor', {
                       rules: [{ required: true, message: '計画作成者入力してください' }],
                     })(
-                      // <Input placeholder="入力してください"/>
-                      // <Mention
-                      //   style={{ width: '100%' }}
-                      //   // onChange={onChange}
-                      //   suggestions={suggestions}
-                      //   onSearchChange={this.onSearchChange('計画作成者')}
-                      // />
                       <Select
                         // mode="multiple"
                         style={{ width: '100%' }}
                         onChange={handleChange}
-                        onMouseEnter={() => this.onSearchChange('計画作成者')}
                       >
-                        {suggestions}
-                      </Select>                      
+                        {planAuthor}
+                      </Select>
                     )}
                   </Form.Item>
                 </Col>
@@ -252,21 +197,13 @@ export default class PlanAdd extends PureComponent {
                     {form.getFieldDecorator('certification', {
                       rules: [{ required: true, message: '介護認定入力してください' }],
                     })(
-                      // <Input placeholder="入力してください"/>
-                      // <Mention
-                      //   style={{ width: '100%' }}s
-                      //   // onChange={onChange}
-                      //   suggestions={['介護','介護1','介護2','介護3','介護4']}
-                      //   onSelect={onSelect}
-                      // />
                       <Select
                         // mode="multiple"
                         style={{ width: '100%' }}
                         onChange={handleChange}
-                        onMouseEnter={() => this.onSearchChange('介護認定')}
                       >
-                        {suggestions}
-                      </Select>                        
+                        {certification}
+                      </Select>
                     )}
                   </Form.Item>
                 </Col>
@@ -275,15 +212,13 @@ export default class PlanAdd extends PureComponent {
                     {form.getFieldDecorator('admin', {
                       rules: [{ required: true, message: '管理者入力してください' }],
                     })(
-                      // <Input placeholder="入力してください" />
                       <Select
                         // mode="multiple"
                         style={{ width: '100%' }}
                         onChange={handleChange}
-                        onMouseEnter={() => this.onSearchChange('管理者')}
                       >
-                        {suggestions}
-                      </Select>                       
+                        {admin}
+                      </Select>
                       )}
                   </Form.Item>
                 </Col>
@@ -291,17 +226,7 @@ export default class PlanAdd extends PureComponent {
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="看護：">
                     {form.getFieldDecorator('nursing', {
                       rules: [{ required: true, message: '看護入力してください' }],
-                    })(
-                      // <Input placeholder="入力してください" />
-                      <Select
-                        // mode="multiple"
-                        style={{ width: '100%' }}
-                        onChange={handleChange}
-                        onMouseEnter={() => this.onSearchChange('看護')}
-                      >
-                        {suggestions}
-                      </Select>                          
-                      )}
+                    })(<Input placeholder="入力してください" />)}
                   </Form.Item>
                 </Col>
               </Row>
@@ -604,7 +529,9 @@ export default class PlanAdd extends PureComponent {
           <FooterToolbar style={{ width: this.state.width }}>
             {/* {getErrorInfo()} */}
             <Button type="primary" onClick={validate} loading={submitting}>
-              保存
+              <Link to="/patient/list-patient">
+                保存
+              </Link>
             </Button>
             <Divider type="vertical" />
             <Link to="/patient/list-patient">

@@ -140,11 +140,12 @@ export default class PlanEdit extends PureComponent {
                 <Col lg={6} md={12} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
                     {form.getFieldDecorator('createDate', {
+                      initialValue: parameter[0]._id,
                       rules: [{ required: true, message: '作成日入力してください' }],
                     })(
-                    // <Input type="Date" placeholder="入力してください" />
+                      // <Input type="Date" placeholder="入力してください" />
                       <DatePicker 
-                        initialValue={moment(parameter[0].createDate, 'YYYY-MM-DD')}
+                      defaultValue={moment(parameter[0].createDate, 'YYYY-MM-DD')}
                       />
                     )}
                   </Form.Item>
@@ -154,11 +155,8 @@ export default class PlanEdit extends PureComponent {
                     {form.getFieldDecorator('createLastTime', {
                       rules: [{ required: true, message: '前回作成日入力してください' }],
                     })(
-                    // <Input type="Date" placeholder="入力してください" />
-                      <DatePicker
-                       initialValue={moment(parameter[0].createLastTime, format)}
-                       format="YYYY-MM-DD"
-                      />
+                      <Input type="Date" placeholder="入力してください" />
+                      // <DatePicker initialValue={moment(parameter[0].createLastTime, "YYYY-MM-DD")} />
                     )}
                   </Form.Item>
                 </Col>
@@ -341,11 +339,12 @@ export default class PlanEdit extends PureComponent {
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {getFieldDecorator('url2', {
+                  <Form.Item>
+                  {getFieldDecorator('additionalTraining.longCalculation', {
+                    initialValue: parameter[0].additionalTraining.longCalculation,
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
@@ -372,11 +371,12 @@ export default class PlanEdit extends PureComponent {
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {getFieldDecorator('url2', {
+                  <Form.Item>
+                  {getFieldDecorator('additionalTraining.shortCalculation', {
+                    initialValue: parameter[0].additionalTraining.shortCalculation,
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
@@ -424,11 +424,12 @@ export default class PlanEdit extends PureComponent {
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {form.getFieldDecorator('url2', {
+                  <Form.Item>
+                  {form.getFieldDecorator('planTow.longCalculation', {
+                    initialValue: parameter[0].planTow.longCalculation,
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
@@ -455,11 +456,12 @@ export default class PlanEdit extends PureComponent {
                   </Form.Item>
                 </Col>
                 <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                  {/* <Form.Item>
-                  {form.getFieldDecorator('url2', {
+                  <Form.Item>
+                  {form.getFieldDecorator('planTow.shortCalculation', {
+                    initialValue: parameter[0].planTow.shortCalculation,
                     rules: [{ required: true, message: '入力してください' }],
                   })(<Input />)}
-                </Form.Item> */}
+                </Form.Item>
                 </Col>
                 <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="目標逹成度：">
