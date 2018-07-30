@@ -216,7 +216,9 @@ export default class RoleShow extends PureComponent {
     return (
       <PageHeaderLayout title="管理者詳細情報">
         <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false}>
-          <DescriptionList loading={roleLoading} size="large" title="" style={{ marginBottom: 32 }}>
+          <DescriptionList
+            // loading={roleLoading}
+            size="large" title="" style={{ marginBottom: 32 }}>
             <Description term="名前">{data.list[0].adminName}</Description>
             <Description term="職務">{data.list[0].post}</Description>
             <Description term="role">{data.list[0].role}</Description>

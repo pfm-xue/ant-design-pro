@@ -143,10 +143,10 @@ export default class PlanEdit extends PureComponent {
                       initialValue: parameter[0]._id,
                       rules: [{ required: true, message: '作成日入力してください' }],
                     })(
-                      // <Input type="Date" placeholder="入力してください" />
-                      <DatePicker 
-                      defaultValue={moment(parameter[0].createDate, 'YYYY-MM-DD')}
-                      />
+                      <Input type="Date" placeholder="入力してください" />
+                      // <DatePicker 
+                      // defaultValue={moment(parameter[0].createDate, 'YYYY-MM-DD')}
+                      // />
                     )}
                   </Form.Item>
                 </Col>
