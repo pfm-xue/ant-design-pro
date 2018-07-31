@@ -171,6 +171,7 @@ export default class RoleList extends PureComponent {
       modalVisible: false,
       modalVisible1: false,
     });
+    location.reload();
   };
 
   renderSimpleForm() {

@@ -274,7 +274,32 @@ export default class UserShow extends PureComponent {
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="">
           <Tabs>
             {/*スケジュール*/}
-            <TabPane tab="スケジュール" key="assessment">
+            <TabPane tab="計画書" key="plan">
+              <Card title="" style={{ marginBottom: 24 }} bordered={false}>
+                <Link to="/form/advanced-form">
+                  <Button type="primary" icon="plus">
+                    新規
+                  </Button>
+                </Link>
+                <br />
+                <br />
+                <Steps direction="">
+                  {plan.data.list.map(item => (
+                    <Step
+                      title={moment(item.createDate).format('YYYY-MM-DD')}
+                      description={item.planAuthor}
+                      icon={
+                        <Link to={'/profile/plan-show/' + item._id}>
+                          <Icon type="edit" />
+                        </Link>
+                      }
+                    />
+                  ))}
+                </Steps>
+              </Card>
+            </TabPane>
+            {/*スケジュール*/}
+            <TabPane tab="スケジュール" key="schedule">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
                 <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
                   新規
@@ -284,36 +309,9 @@ export default class UserShow extends PureComponent {
                 <Calendar dateCellRender={dateCellRender} />
               </Card>
             </TabPane>
-            {/*計画書*/}
-            <TabPane tab="ファイル一覧" key="plan">
-              <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Row>
-                <Col  sm={12} xs={24} style={{ marginBottom: 24 }} >
-                <Card title="計画書" style={{ marginBottom: 24 }} bordered={false}>
-                  <Link to="/form/advanced-form">
-                    <Button type="primary" icon="plus">
-                      新規
-                    </Button>
-                  </Link>
-                  <br />
-                  <br />
-                  <Steps direction="vertical">
-                    {plan.data.list.map(item => (
-                      <Step
-                        title={moment(item.createDate).format('YYYY-MM-DD')}
-                        description={item.planAuthor}
-                        icon={
-                          <Link to={'/profile/plan-show/' + item._id}>
-                            <Icon type="edit" />
-                          </Link>
-                        }
-                      />
-                    ))}
-                  </Steps>
-                  </Card>
-                </Col>
-                <Col  sm={12} xs={24} style={{ marginBottom: 24 }} >
-                <Card title="アセスメント" style={{ marginBottom: 24 }} bordered={false}>
+            {/*アセスメント*/}
+            <TabPane tab="アセスメント" key="assessment">
+                <Card title="" style={{ marginBottom: 24 }} bordered={false}>
                   {/* <Link to="/assessment/show-assessment">
                     <Button type="primary" icon="plus">
                       新規
@@ -334,9 +332,6 @@ export default class UserShow extends PureComponent {
                       />
                     ))}
                   </Steps>
-                  </Card>
-                </Col>
-                </Row>
               </Card>
             </TabPane>
             {/*画像*/}

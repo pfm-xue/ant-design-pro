@@ -4,6 +4,7 @@ import moment from 'moment';
 import {
   Row,
   Col,
+  Icon,
   Card,
   Form,
   Input,
@@ -14,6 +15,8 @@ import {
   Popconfirm,
   Divider,
   Table,
+  Upload,
+  message,
 } from 'antd';
 import { Link } from 'dva/router';
 // import StandardTable from 'components/StandardTable';
@@ -229,9 +232,41 @@ export default class UserList extends PureComponent {
     return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
+  onClick = () => {
+    let fields = {printing: true};
+    this.props.dispatch({
+      type: 'user/add',
+      payload: {
+        fields,
+      },
+    });
+
+    message.success(
+      <a href="/使用者List.DAT" download="使用者List.DAT">「使用者List.DAT」出力成功。  ダウンロード</a>
+    );
+  };
+
   render() {
     const { user: { data }, loading } = this.props;
     const { modalVisible, modalVisible1, userData } = this.state;
+
+    const props = {
+      name: 'file',
+      action: 'http://localhost:3001/mp/user/upload',
+      multiple: true,
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          location.reload();
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+    
 
     // 利用者 编辑
     const CreateForm1 = Form.create()(props => {
@@ -369,6 +404,18 @@ export default class UserList extends PureComponent {
                   消除
                 </Button>
               </Popconfirm>
+              <Divider type="vertical" />              
+              <a href="/利用者Import.xlsx" download="利用者Import.xlsx">
+              <Button icon="cloud-download" type="primary">
+                テンプレート
+              </Button>
+              </a>              
+              <Upload {...props}>
+                <Button>
+                  <Icon type="upload" /> 利用者導入
+                </Button>
+              </Upload>
+              {/* className={styles.right} */}
             </div>
             <Table
               size="middle"
@@ -377,6 +424,7 @@ export default class UserList extends PureComponent {
               columns={columns}
               pagination={{ pageSize: 5 }}
             />
+            <Button type="primary" icon="cloud-download" onClick={this.onClick} >利用者出力</Button>         
           </div>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />

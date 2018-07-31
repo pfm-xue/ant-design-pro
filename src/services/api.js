@@ -1,6 +1,10 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
 
+import { REMOTE_URL } from '../utils/utils';
+
+  // return request(`${REMOTE_URL}/delivery/?${stringify(params)}`);
+
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }
