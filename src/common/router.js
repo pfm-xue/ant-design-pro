@@ -106,7 +106,7 @@ export const getRouterData = app => {
       name: '分步表单（完成）',
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
     },
-    '/form/advanced-form': {
+    '/form/advanced-form/:id': {
       component: dynamicWrapper(app, ['form', 'plan'], () => import('../routes/Forms/PlanAdd')),
     },
     '/form/plan-edit/:id': {

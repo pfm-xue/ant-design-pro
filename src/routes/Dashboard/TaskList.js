@@ -23,8 +23,11 @@ const { Search } = Input;
 import styles from './TaskList.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-@connect(({ task, loading }) => ({
+@connect(({ task, plan, role, user, loading }) => ({
   task,
+  role,
+  user,
+  plan,
   loading: loading.models.task,
 }))
 @Form.create()
@@ -60,6 +63,15 @@ export default class TaskList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'task/fetch',
+    });
+    dispatch({
+      type: 'plan/fetch',
+    });
+    dispatch({
+      type: 'role/fetch',
+    });
+    dispatch({
+      type: 'user/fetch',
     });
   }
 
@@ -145,8 +157,21 @@ export default class TaskList extends PureComponent {
     location.reload();
   };
 
+  dateChange = (value) => {
+    let fields = {
+      dateChange: true,
+      time: moment(value._d).format('YYYY-MM-DD'),
+    };
+    this.props.dispatch({
+      type: 'task/add',
+      payload: {
+        fields,
+      },
+    });
+  };
+
   render() {
-    const { task } = this.props;
+    const { task, plan, role, user } = this.props;
     const { modalVisible1, modalVisible, data } = this.state;
 
     const CreateForm1 = Form.create()(props => {
@@ -285,15 +310,15 @@ export default class TaskList extends PureComponent {
       <div className={styles.extraContent}>
         <div className={styles.statItem}>
           <p>利用者人数</p>
-          <p>188</p>
+          <p>{this.props.user.data.pagination.rowCount}</p>
         </div>
         <div className={styles.statItem}>
           <p>社員人数</p>
-          <p>20</p>
+          <p>{this.props.role.data.pagination.rowCount}</p>
         </div>
         <div className={styles.statItem}>
           <p>計画書総数</p>
-          <p>123</p>
+          <p>{this.props.plan.data.pagination.rowCount}</p>
         </div>
       </div>
     );
@@ -398,6 +423,43 @@ export default class TaskList extends PureComponent {
       },
     ];
 
+    const planColumns = [
+      {
+        title: '作成日',
+        dataIndex: 'createDate',
+        render: (text, record) => (
+          <Fragment>
+            {moment(text).format('YYYY-MM-DD')}
+          </Fragment>
+        ),
+      },
+      {
+        title: '計画作成者',
+        dataIndex: 'planAuthor',
+        key: 'planAuthor',
+      },
+      {
+        title: '利用者',
+        dataIndex: 'user.name',
+        key: 'user.name',
+      },
+      {
+        title: '特記事項',
+        dataIndex: 'specialNotes',
+        key: 'specialNotes',
+      },
+      {
+        title: '操作',
+        render: (record) => (
+          <Fragment>
+            <Link to={'/profile/plan-show/' + record._id}>
+              <Button type="primary">詳細</Button>
+            </Link>
+          </Fragment>
+        ),
+      },
+    ];
+
     const parentMethods1 = {
       handleAdd: this.handleAdd,
       handleModalVisible1: this.handleModalVisible1,
@@ -429,10 +491,13 @@ export default class TaskList extends PureComponent {
       return taskList;
     }
 
-    function dateChange(value) {
-      const time = value;
-      dataSource(time);
-    }
+    // function dateChange(value) {
+
+    //   const time = value;
+
+
+    //   dataSource(time);
+    // }
 
     return (
       <PageHeaderLayout
@@ -442,17 +507,18 @@ export default class TaskList extends PureComponent {
         <Card>
           <Tabs tabBarExtraContent={salesExtra}>
             {/*アセスメント*/}
-            <TabPane tab="アセスメント" key="assessment">
+            <TabPane tab="来訪の利用者" key="assessment">
               <Button type="primary">時間(予定)</Button>
               <Divider type="vertical" />
               <DatePicker
                 defaultValue={moment(new Date(), 'YYYY-MM-DD')}
-                onChange={dateChange}
+                onChange={this.dateChange}
               />
+              {/* <br /> */}
               <Table
                 // 紧凑型
                 size="middle"
-                dataSource={dataSource()}
+                dataSource={task.data.list}
                 columns={columns}
                 pagination={{ pageSize: 10 }}
               />
@@ -468,13 +534,13 @@ export default class TaskList extends PureComponent {
               <Table
                 // 紧凑型
                 size="middle"
-                dataSource={dataSource()}
-                columns={columns}
+                dataSource={plan.data.list}
+                columns={planColumns}
                 pagination={{ pageSize: 5 }}
               />
             </TabPane>
             {/*実施記録*/}
-            <TabPane tab="実施記録" key="record">
+            {/* <TabPane tab="実施記録" key="record">
               <Button type="primary">時間(予定)</Button>
               <Divider type="vertical" />
               <DatePicker
@@ -490,7 +556,7 @@ export default class TaskList extends PureComponent {
                 // 边框
                 // bordered
               />
-            </TabPane>            
+            </TabPane> */}
           </Tabs>
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />

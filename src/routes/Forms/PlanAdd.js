@@ -139,6 +139,16 @@ export default class PlanAdd extends PureComponent {
             <Card title="" className={styles.card} bordered={false}>
               <Row gutter={16}>
                 <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
+                    {form.getFieldDecorator('user', {
+                      initialValue: this.props.match.params.id,
+                      rules: [{ required: true, message: 'ID入力してください' }],
+                    })(<Input type="hidden" />)}
+                  </Form.Item>
+                </Col>
+              </Row>            
+              <Row gutter={16}>              
+                <Col lg={6} md={12} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="作成日：">
                     {form.getFieldDecorator('createDate', {
                       rules: [{ required: true, message: '作成日入力してください' }],

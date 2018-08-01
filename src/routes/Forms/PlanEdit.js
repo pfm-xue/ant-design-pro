@@ -135,6 +135,14 @@ export default class PlanEdit extends PureComponent {
                     })(<Input type="hidden"/>)}
                   </Form.Item>
                 </Col>
+                <Col lg={6} md={12} sm={24}>
+                  <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
+                    {form.getFieldDecorator('user', {
+                      initialValue: parameter[0].user._id,
+                      rules: [{ required: true, message: 'ID入力してください' }],
+                    })(<Input />)}
+                  </Form.Item>
+                </Col>                
               </Row>
               <Row gutter={16}>
                 <Col lg={6} md={12} sm={24}>

@@ -274,7 +274,7 @@ export default class UserShow extends PureComponent {
             {/*計画書*/}
             <TabPane tab="計画書" key="plan">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Link to="/form/advanced-form">
+                <Link to= {'/form/advanced-form' + this.props.match.params.id} >
                   <Button type="primary" icon="plus">
                     新規
                   </Button>

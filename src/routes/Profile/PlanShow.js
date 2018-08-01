@@ -101,9 +101,22 @@ export default class PlanShow extends PureComponent {
                       <b>計画作成者:</b>
                       {parameter[0].planAuthor}
                     </p>
-                    {/* <p><b>ふりがな:</b>{parameter[0].}</p>
-                  <p><b>性別:</b>{parameter[0].}</p>
-                  <p><b>生年月日:</b>{parameter[0].}</p> */}
+                    <p>
+                      <b>氏名:</b>
+                      {parameter[0].user.name}
+                    </p>                    
+                    <p>
+                      <b>ふりがな:</b>
+                      {parameter[0].user.phonetic}
+                    </p>
+                    <p>
+                      <b>性別:</b>
+                      {parameter[0].user.sex}
+                    </p>
+                    <p>
+                      <b>生年月日:</b>
+                      {parameter[0].user.birth}
+                    </p>
                     <p>
                       <b>介護認定:</b>
                       {parameter[0].certification}
@@ -119,18 +132,17 @@ export default class PlanShow extends PureComponent {
                     <p>
                       <b>介護:</b>
                       {parameter[0].nursingCare}
-                    </p>
+                    </p>                    
+                  </Col>
+                  <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
                     <p>
                       <b>機能訓練:</b>
                       {parameter[0].functionalTraining}
-                    </p>
-                  </Col>
-                  <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
+                    </p>                  
                     <p>
                       <b>相談員:</b>
                       {parameter[0].counselor}
                     </p>
-                    {/* <p><b>氏名:</b>{parameter[0].}</p> */}
                     <p>
                       <b>本人の希望:</b>
                       {parameter[0].oneselfDesire}
@@ -143,10 +155,6 @@ export default class PlanShow extends PureComponent {
                       <b>前回作成日:</b>
                       {parameter[0].createLastTime}
                     </p>
-                    {/* <p>
-                      <b>計画作成者:</b>
-                      {parameter[0].planAuthor}
-                    </p> */}
                     <p>
                       <b>障害老人の日常生活自立度:</b>
                       {parameter[0].disorder}
