@@ -234,9 +234,9 @@ export default class RoleShow extends PureComponent {
             {/*スケジュール*/}
             <TabPane tab="スケジュール" key="assessment">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
+                {/* <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
                   新規
-                </Button>
+                </Button> */}
                 <br />
                 <br />
                 <Calendar dateCellRender={dateCellRender} />

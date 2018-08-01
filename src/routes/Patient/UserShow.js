@@ -301,9 +301,9 @@ export default class UserShow extends PureComponent {
             {/*スケジュール*/}
             <TabPane tab="スケジュール" key="schedule">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
+                {/* <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
                   新規
-                </Button>
+                </Button> */}
                 <br />
                 <br />
                 <Calendar dateCellRender={dateCellRender} />
