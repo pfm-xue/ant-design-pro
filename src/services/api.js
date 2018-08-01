@@ -18,55 +18,55 @@ export async function queryRule(params) {
 }
 
 export async function queryRole() {
-  return request(`http://localhost:3001/mp/admin/?page=1`);
+  return request(`${REMOTE_URL}/mp/admin/?page=1`);
 }
 
 export async function queryTask() {
-  return request(`http://localhost:3001/mp/task/?page=1`);
+  return request(`${REMOTE_URL}/mp/task/?page=1`);
 }
 
 export async function queryTemplate() {
-  return request(`http://localhost:3001/mp/template/?page=1`);
+  return request(`${REMOTE_URL}/mp/template/?page=1`);
 }
 
 export async function queryAssessment() {
-  return request(`http://localhost:3001/mp/assessment/?page=1`);
+  return request(`${REMOTE_URL}/mp/assessment/?page=1`);
 }
 
 export async function queryPlan() {
-  return request(`http://localhost:3001/mp/plan/?page=1`);
+  return request(`${REMOTE_URL}/mp/plan/?page=1`);
 }
 
 export async function queryUser() {
-  return request(`http://localhost:3001/mp/user/?page=1`);
+  return request(`${REMOTE_URL}/mp/user/?page=1`);
 }
 
 export async function showUser(params) {
-  return request(`http://localhost:3001/mp/user/${params}`);
+  return request(`${REMOTE_URL}/mp/user/${params}`);
 }
 
 export async function showTemplate(params) {
-  return request(`http://localhost:3001/mp/template/${params}`);
+  return request(`${REMOTE_URL}/mp/template/${params}`);
 }
 
 export async function showPlan(params) {
-  return request(`http://localhost:3001/mp/plan/${params}`);
+  return request(`${REMOTE_URL}/mp/plan/${params}`);
 }
 
 export async function showAssessment(params) {
-  return request(`http://localhost:3001/mp/assessment/${params}`);
+  return request(`${REMOTE_URL}/mp/assessment/${params}`);
 }
 
 export async function queryTaskUser(params) {
-  return request(`http://localhost:3001/mp/task/${params}`);
+  return request(`${REMOTE_URL}/mp/task/${params}`);
 }
 
 export async function userShow(params) {
-  return request(`http://localhost:3001/mp/user/${params}`);
+  return request(`${REMOTE_URL}/mp/user/${params}`);
 }
 
 export async function roleShow(params) {
-  return request(`http://localhost:3001/mp/admin/${params}`);
+  return request(`${REMOTE_URL}/mp/admin/${params}`);
 }
 
 export async function removeRule(params) {
@@ -91,7 +91,7 @@ export async function addRule(params) {
 }
 
 export async function addAssessment(params) {
-  return request('http://localhost:3001/mp/assessment/', {
+  return request(`${REMOTE_URL}/mp/assessment/`, {
     method: 'POST',
     body: {
       ...params,
@@ -101,7 +101,7 @@ export async function addAssessment(params) {
 }
 
 export async function addTemplate(params) {
-  return request('http://localhost:3001/mp/template/', {
+  return request(`${REMOTE_URL}/mp/template/`, {
     method: 'POST',
     body: {
       ...params,
@@ -111,7 +111,7 @@ export async function addTemplate(params) {
 }
 
 export async function addPlan(params) {
-  return request('http://localhost:3001/mp/plan/', {
+  return request(`${REMOTE_URL}/mp/plan/`, {
     method: 'POST',
     body: {
       ...params,
@@ -121,7 +121,7 @@ export async function addPlan(params) {
 }
 
 export async function addUser(params) {
-  return request('http://localhost:3001/mp/user/', {
+  return request(`${REMOTE_URL}/mp/user/`, {
     method: 'POST',
     body: {
       ...params,
@@ -131,7 +131,7 @@ export async function addUser(params) {
 }
 
 export async function addRole(params) {
-  return request('http://localhost:3001/mp/admin/', {
+  return request(`${REMOTE_URL}/mp/admin/`, {
     method: 'POST',
     body: {
       ...params,
@@ -141,7 +141,7 @@ export async function addRole(params) {
 }
 
 export async function addTask(params) {
-  return request('http://localhost:3001/mp/task/', {
+  return request(`${REMOTE_URL}/mp/task/`, {
     method: 'POST',
     body: {
       ...params,
@@ -178,7 +178,7 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('http://localhost:3001/mp/admin/', {
+  return request(`${REMOTE_URL}/mp/admin/`, {
     method: 'POST',
     body: {
       ...params,

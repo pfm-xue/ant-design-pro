@@ -153,15 +153,15 @@ export function getRoutes(path, routerData) {
   return renderRoutes;
 }
 
-// const REMOTE_URL =
-//   process.env.NODE_ENV === 'development'
-//     ? 'http://localhost:3050/api'
-//     : 'https://dlcgvva1001.dir.svc.accenture.com/api';
-// const FILE_URL =
-//   process.env.NODE_ENV === 'development'
-//     ? 'http://localhost:3022'
-//     : 'https://dlcgvva1001.dir.svc.accenture.com/artifacts';
-// export { REMOTE_URL, FILE_URL };
+const REMOTE_URL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3001'
+    : 'http://211.149.218.190:3001';
+const FILE_URL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3001'
+    : 'http://211.149.218.190:3001';
+export { REMOTE_URL, FILE_URL };
 
 /* eslint no-useless-escape:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g;
