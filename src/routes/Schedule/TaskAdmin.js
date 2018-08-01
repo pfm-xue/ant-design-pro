@@ -28,10 +28,8 @@ const getValue = obj =>
     .map(key => obj[key])
     .join(',');
 
-@connect(({ task, rule, loading }) => ({
-  rule,
+@connect(({ task, loading }) => ({
   task,
-  loading: loading.models.rule,
   taskLoading: loading.models.task,
 }))
 @Form.create()
@@ -44,9 +42,9 @@ export default class TableListAdmin extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'rule/fetch',
-    });
+    // dispatch({
+    //   type: 'rule/fetch',
+    // });
     dispatch({
       type: 'task/fetch',
     });
@@ -58,10 +56,10 @@ export default class TableListAdmin extends PureComponent {
     this.setState({
       formValues: {},
     });
-    dispatch({
-      type: 'rule/fetch',
-      payload: {},
-    });
+    // dispatch({
+    //   type: 'rule/fetch',
+    //   payload: {},
+    // });
   };
 
   handleSearch = e => {
@@ -81,10 +79,10 @@ export default class TableListAdmin extends PureComponent {
         formValues: values,
       });
 
-      dispatch({
-        type: 'rule/fetch',
-        payload: values,
-      });
+      // dispatch({
+      //   type: 'rule/fetch',
+      //   payload: values,
+      // });
     });
   };
 

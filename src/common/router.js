@@ -198,11 +198,11 @@ export const getRouterData = app => {
     },
 
     '/schedule/roles': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TaskAdmin')),
+      component: dynamicWrapper(app, ['role'], () => import('../routes/Schedule/TaskAdmin')),
     },
 
     '/schedule/patient': {
-      component: dynamicWrapper(app, ['schedule'], () => import('../routes/Schedule/TaskUser')),
+      component: dynamicWrapper(app, ['user'], () => import('../routes/Schedule/TaskUser')),
     },
 
     '/dictionary/plan-dictionary': {

@@ -13,9 +13,9 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-export async function queryRule(params) {
-  return request(`/api/rule?${stringify(params)}`);
-}
+// export async function queryRule(params) {
+//   return request(`/api/rule?${stringify(params)}`);
+// }
 
 export async function queryRole() {
   return request(`${REMOTE_URL}/mp/admin/?page=1`);
@@ -69,26 +69,26 @@ export async function roleShow(params) {
   return request(`${REMOTE_URL}/mp/admin/${params}`);
 }
 
-export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'delete',
-    },
-  });
-}
+// export async function removeRule(params) {
+//   return request('/api/rule', {
+//     method: 'POST',
+//     body: {
+//       ...params,
+//       method: 'delete',
+//     },
+//   });
+// }
 
-export async function addRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    body: params,
-    // body: {
-    //   ...params,
-    //   method: 'post',
-    // },
-  });
-}
+// export async function addRule(params) {
+//   return request('/api/rule', {
+//     method: 'POST',
+//     body: params,
+//     // body: {
+//     //   ...params,
+//     //   method: 'post',
+//     // },
+//   });
+// }
 
 export async function addAssessment(params) {
   return request(`${REMOTE_URL}/mp/assessment/`, {
