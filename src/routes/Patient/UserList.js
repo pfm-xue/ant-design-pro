@@ -19,6 +19,7 @@ import {
   message,
 } from 'antd';
 import { Link } from 'dva/router';
+import { REMOTE_URL } from '../../utils/utils';
 // import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -252,7 +253,7 @@ export default class UserList extends PureComponent {
 
     const props = {
       name: 'file',
-      action: 'http://localhost:3001/mp/user/upload',
+      action: `${REMOTE_URL}/mp/user/upload`,
       multiple: true,
       onChange(info) {
         if (info.file.status !== 'uploading') {
