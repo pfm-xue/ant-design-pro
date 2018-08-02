@@ -171,7 +171,7 @@ export default class TableListAdmin extends PureComponent {
               <div>
                 <ul className="events">
                   <li>利用者氏名：{data.task_user.name}</li>
-                  <li>管理者氏名：{data.task_admin.adminName}</li>
+                  {/* <li>管理者氏名：{data.task_admin.adminName}</li> */}
                 </ul>
               </div>
             </Card>
@@ -203,7 +203,7 @@ export default class TableListAdmin extends PureComponent {
             <a onClick={() => confirm(list)}>
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
-              <li>管理者：{list.task_admin.adminName}</li>
+              {/* <li>管理者：{list.task_admin.adminName}</li> */}
             </a>
           </ul>
         );

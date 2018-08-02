@@ -423,7 +423,7 @@ export default class UserList extends PureComponent {
               rowKey={record => record._id}
               dataSource={data.list}
               columns={columns}
-              pagination={{ pageSize: 5 }}
+              pagination={{ pageSize: 10 }}
             />
             <Button type="primary" icon="cloud-download" onClick={this.onClick} >利用者出力</Button>         
           </div>

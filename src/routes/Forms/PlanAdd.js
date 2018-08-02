@@ -90,7 +90,7 @@ export default class PlanAdd extends PureComponent {
           const name = list[i].project;
           if (name === value && value === "計画作成者" ) {
             list[i].projectData.map((item,i) => {
-              planAuthor.push(<Option key={i}>{item}</Option>);
+              planAuthor.push(<Option key={item}>{item}</Option>);
             });
           break;
           }

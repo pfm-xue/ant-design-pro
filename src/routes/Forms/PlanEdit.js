@@ -140,7 +140,7 @@ export default class PlanEdit extends PureComponent {
                     {form.getFieldDecorator('user', {
                       initialValue: parameter[0].user._id,
                       rules: [{ required: true, message: 'ID入力してください' }],
-                    })(<Input />)}
+                    })(<Input type="hidden" />)}
                   </Form.Item>
                 </Col>                
               </Row>

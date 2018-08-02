@@ -61,8 +61,13 @@ export default class TaskList extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'task/fetch',
+    this.props.dispatch({
+      type: 'task/time',
+      payload: {
+        fields:{
+          time: moment(new Date()).format('YYYY-MM-DD'),
+        }
+      },
     });
     dispatch({
       type: 'plan/fetch',
@@ -158,14 +163,12 @@ export default class TaskList extends PureComponent {
   };
 
   dateChange = (value) => {
-    let fields = {
-      dateChange: true,
-      time: moment(value._d).format('YYYY-MM-DD'),
-    };
     this.props.dispatch({
-      type: 'task/add',
+      type: 'task/time',
       payload: {
-        fields,
+        fields: {
+          time: moment(value._d).format('YYYY-MM-DD'),
+        },
       },
     });
   };
@@ -219,7 +222,7 @@ export default class TaskList extends PureComponent {
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
               {form.getFieldDecorator('recording.endTime', {})(
                 <DatePicker
-                  defaultValue={moment(data.recording.endTime, 'YYYY-MM-DD HH:mm:ss')}
+                  initialValue={moment(data.recording.endTime, 'YYYY-MM-DD HH:mm:ss')}
                   placeholder="実施時間(End)"
                   format="YYYY-MM-DD HH:mm:ss"
                   showTime
@@ -310,15 +313,21 @@ export default class TaskList extends PureComponent {
       <div className={styles.extraContent}>
         <div className={styles.statItem}>
           <p>利用者人数</p>
-          <p>{this.props.user.data.pagination.rowCount}</p>
+          <p>
+            {user.data.list.length}
+          </p>
         </div>
         <div className={styles.statItem}>
           <p>社員人数</p>
-          <p>{this.props.role.data.pagination.rowCount}</p>
+          <p>
+            {role.data.list.length}
+          </p>
         </div>
         <div className={styles.statItem}>
           <p>計画書総数</p>
-          <p>{this.props.plan.data.pagination.rowCount}</p>
+          <p>
+            {plan.data.list.length}
+          </p>
         </div>
       </div>
     );
@@ -334,9 +343,6 @@ export default class TaskList extends PureComponent {
         <Menu.Item key="new">
           <Link to="/dashboard/assessment">初回</Link>
         </Menu.Item>
-        {/* <Menu.Item key="update">
-          <Link to="/dashboard/assessment">更新</Link>
-        </Menu.Item> */}
       </Menu>
     );
 
@@ -490,14 +496,6 @@ export default class TaskList extends PureComponent {
       }
       return taskList;
     }
-
-    // function dateChange(value) {
-
-    //   const time = value;
-
-
-    //   dataSource(time);
-    // }
 
     return (
       <PageHeaderLayout

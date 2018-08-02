@@ -102,7 +102,7 @@ export default class ContentAdd extends PureComponent {
       const data = parameter.projectData;
       data.map((item,i) => {
         // children.push(item);
-        children.push(<Option key={i}>{item}</Option>);
+        children.push(<Option key={item}>{item}</Option>);
       });
     }
 

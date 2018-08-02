@@ -53,6 +53,10 @@ export async function showPlan(params) {
   return request(`${REMOTE_URL}/mp/plan/${params}`);
 }
 
+export async function userPlan(params) {
+  return request(`${REMOTE_URL}/mp/plan/user/${params}`);
+}
+
 export async function showAssessment(params) {
   return request(`${REMOTE_URL}/mp/assessment/${params}`);
 }
@@ -142,6 +146,16 @@ export async function addRole(params) {
 
 export async function addTask(params) {
   return request(`${REMOTE_URL}/mp/task/`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function timeTask(params) {
+  return request(`${REMOTE_URL}/mp/task/time/`, {
     method: 'POST',
     body: {
       ...params,

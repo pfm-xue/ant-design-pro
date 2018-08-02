@@ -1,4 +1,4 @@
-import { queryPlan, addPlan, showPlan } from '../services/api';
+import { queryPlan, addPlan, showPlan, userPlan } from '../services/api';
 
 export default {
   namespace: 'plan',
@@ -26,6 +26,14 @@ export default {
       });
       if (callback) callback();
     },
+    *user({ payload, callback }, { call, put }) {
+      const response = yield call(userPlan, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      if (callback) callback();
+    },    
     *show({ payload }, { call, put }) {
       const response = yield call(showPlan, payload);
       yield put({

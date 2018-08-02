@@ -87,8 +87,18 @@ export default class UserShow extends PureComponent {
       type: 'user/show',
       payload: this.props.match.params.id,
     });
+    // dispatch({
+    //   type: 'plan/add',
+    //   payload: {
+    //     planData:{
+    //       uerPlan: true,
+    //       user_id: this.props.match.params.id,
+    //     },
+    //   },
+    // });
     dispatch({
-      type: 'plan/fetch',
+      type: 'plan/user',
+      payload: this.props.match.params.id,　　
     });
     dispatch({
       type: 'assessment/fetch',
@@ -203,7 +213,7 @@ export default class UserShow extends PureComponent {
               <div>
                 <ul className="events">
                   <li>利用者氏名：{data.task_user.name}</li>
-                  <li>管理者氏名：{data.task_admin.adminName}</li>
+                  {/* <li>管理者氏名：{data.task_admin.adminName}</li> */}
                 </ul>
               </div>
             </Card>
@@ -236,7 +246,7 @@ export default class UserShow extends PureComponent {
             <a onClick={() => confirm(list)}>
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
-              <li>管理者：{list.task_admin.adminName}</li>
+              {/* <li>管理者：{list.task_admin.adminName}</li> */}
             </a>
           </ul>
         );
@@ -283,7 +293,7 @@ export default class UserShow extends PureComponent {
                 </Link>
                 <br />
                 <br />
-                <Steps direction="">
+                <Steps direction="vertical">
                   {plan.data.list.map(item => (
                     <Step
                       title={moment(item.createDate).format('YYYY-MM-DD')}
