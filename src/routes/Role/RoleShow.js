@@ -111,9 +111,10 @@ export default class RoleShow extends PureComponent {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    const { task, roleLoading, role: { data }, dispatch, match } = this.props;
+    const { task, role: { data }, dispatch, match } = this.props;
     const { previewVisible, previewImage, fileList, modalVisible } = this.state;
     let scheduleTime = '';
+    const roleDate = data.list[0];
 
     const uploadButton = (
       <div>
@@ -215,20 +216,20 @@ export default class RoleShow extends PureComponent {
       return newNumber;
     }  
 
-    return (
+    return roleDate && (
       <PageHeaderLayout title="管理者詳細情報">
         <Card style={{ marginBottom: 24 }} title="管理者情報" bordered={false}>
           <DescriptionList
             // loading={roleLoading}
             size="large" title="" style={{ marginBottom: 32 }}>
-            <Description term="名前">{data.list[0].adminName}</Description>
-            <Description term="職務">{data.list[0].post}</Description>
-            <Description term="role">{data.list[0].role}</Description>
+            <Description term="名前">{roleDate.adminName}</Description>
+            <Description term="職務">{roleDate.post}</Description>
+            <Description term="role">{roleDate.role}</Description>
             <Description term="電話番号">
-            {phone(data.list[0].telephoneNumber)}
+            {phone(roleDate.telephoneNumber)}
             </Description>
-            <Description term="Email">{data.list[0].email}</Description>
-            <Description term="アドレス">{data.list[0].address}</Description>
+            <Description term="Email">{roleDate.email}</Description>
+            <Description term="アドレス">{roleDate.address}</Description>
           </DescriptionList>
         </Card>
         <Card bodyStyle={{ padding: 0 }} bordered={false} title="">

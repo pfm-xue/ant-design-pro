@@ -124,8 +124,28 @@ export async function addPlan(params) {
   });
 }
 
+export async function searchUser(params) {
+  return request(`${REMOTE_URL}/mp/user/search/`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 export async function addUser(params) {
   return request(`${REMOTE_URL}/mp/user/`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function searchRole(params) {
+  return request(`${REMOTE_URL}/mp/admin/search/`, {
     method: 'POST',
     body: {
       ...params,

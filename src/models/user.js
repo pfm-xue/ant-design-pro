@@ -1,4 +1,4 @@
-import { queryUser, showUser, addUser } from '../services/api';
+import { queryUser, showUser, searchUser, addUser } from '../services/api';
 
 export default {
   namespace: 'user',
@@ -18,6 +18,13 @@ export default {
         payload: response,
       });
     },
+    *search({ payload }, { call, put }) {
+      const response = yield call(searchUser, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },    
     *show({ payload }, { call, put }) {
       const response = yield call(showUser, payload);
       yield put({

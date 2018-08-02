@@ -159,7 +159,7 @@ export default class TaskList extends PureComponent {
         fields: record,
       },
     });
-    location.reload();
+    // location.reload();
   };
 
   dateChange = (value) => {
@@ -516,6 +516,7 @@ export default class TaskList extends PureComponent {
               <Table
                 // 紧凑型
                 size="middle"
+                rowKey="_id"
                 dataSource={task.data.list}
                 columns={columns}
                 pagination={{ pageSize: 10 }}
@@ -532,6 +533,7 @@ export default class TaskList extends PureComponent {
               <Table
                 // 紧凑型
                 size="middle"
+                rowKey="_id"
                 dataSource={plan.data.list}
                 columns={planColumns}
                 pagination={{ pageSize: 5 }}

@@ -96,13 +96,13 @@ export default class ContentAdd extends PureComponent {
       );
     };
 
-    let children = [];
+    let projectData = [];
 
     if (typeof parameter !== 'undefined') {
       const data = parameter.projectData;
       data.map((item,i) => {
         // children.push(item);
-        children.push(<Option key={item}>{item}</Option>);
+        projectData.push(<Option key={item}>{item}</Option>);
       });
     }
 
@@ -138,10 +138,10 @@ export default class ContentAdd extends PureComponent {
                   <Select
                     mode="tags"
                     style={{ width: '100%' }}
+                    initialValue={parameter.projectData}
                     onChange={handleChange}
-                    defaultValue={parameter.projectData}
                   >
-                    {children}
+                    {projectData}
                   </Select>
                 )}
               </FormItem>

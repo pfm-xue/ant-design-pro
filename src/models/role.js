@@ -1,6 +1,6 @@
 // import { queryRole, removeRole, addRole } from '../services/api';
 import { routerRedux } from 'dva/router';
-import { queryRole, addRole, roleShow } from '../services/api';
+import { queryRole, addRole, roleShow, searchRole } from '../services/api';
 
 export default {
   namespace: 'role',
@@ -20,6 +20,13 @@ export default {
         payload: response,
       });
     },
+    *search({ payload }, { call, put }) {
+      const response = yield call(searchRole, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },    
     *add({ payload, callback }, { call, put }) {
       const response = yield call(addRole, payload);
       yield put({

@@ -103,17 +103,16 @@ export default class RoleList extends PureComponent {
       type: 'role/fetch',
     });
   }
-
   handleFormReset = () => {
-    const { form, dispatch } = this.props;
+    const { form } = this.props;
     form.resetFields();
     this.setState({
       formValues: {},
     });
-    dispatch({
-      type: 'role/fetch',
-      payload: {},
-    });
+    // dispatch({
+    //   type: 'role/fetch',
+    //   payload: {},
+    // });
   };
 
   handleSearch = e => {
@@ -124,19 +123,28 @@ export default class RoleList extends PureComponent {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
 
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+      const fields = {
+        adminName: fieldsValue.adminName,
+        role: fieldsValue.role,
       };
 
       this.setState({
-        formValues: values,
+        formValues: fields,
       });
 
-      dispatch({
-        type: 'role/fetch',
-        payload: values,
-      });
+      if (typeof fieldsValue.adminName === 'undefined'
+       && typeof fieldsValue.role === 'undefined') {
+        dispatch({
+          type: 'role/fetch',
+        });
+      } else {
+        dispatch({
+          type: 'role/search',
+          payload: {
+            fields,
+          },
+        });
+      }
     });
   };
 
@@ -171,7 +179,7 @@ export default class RoleList extends PureComponent {
       modalVisible: false,
       modalVisible1: false,
     });
-    location.reload();
+    // location.reload();
   };
 
   renderSimpleForm() {
@@ -180,8 +188,8 @@ export default class RoleList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="管理者ID">
-              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+            <FormItem label="管理者名前">
+              {getFieldDecorator('adminName')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>

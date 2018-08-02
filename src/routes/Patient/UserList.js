@@ -106,10 +106,10 @@ export default class UserList extends PureComponent {
     this.setState({
       formValues: {},
     });
-    dispatch({
-      type: 'user/fetch',
-      payload: {},
-    });
+    // dispatch({
+    //   type: 'user/fetch',
+    //   payload: {},
+    // });
   };
 
   handleMenuClick = e => {
@@ -145,19 +145,28 @@ export default class UserList extends PureComponent {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
 
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+      const fields = {
+        sex: fieldsValue.sex,
+        name: fieldsValue.name,
       };
 
       this.setState({
-        formValues: values,
+        formValues: fields,
       });
 
-      dispatch({
-        type: 'user/fetch',
-        payload: values,
-      });
+      if (typeof fieldsValue.sex === 'undefined'
+       && typeof fieldsValue.name === 'undefined') {
+        dispatch({
+          type: 'user/fetch',
+        });
+      } else {
+        dispatch({
+          type: 'user/search',
+          payload: {
+            fields,
+          },
+        });
+      }
     });
   };
 
@@ -201,12 +210,12 @@ export default class UserList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="利用者氏名">
-              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="性別">
-              {getFieldDecorator('no')(
+              {getFieldDecorator('sex')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="男">男</Option>
                   <Option value="女">女</Option>

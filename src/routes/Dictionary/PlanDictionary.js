@@ -68,6 +68,8 @@ export default class PlanDictionary extends PureComponent {
     location.reload();
   };
 
+
+
   render() {
     const { template, loading } = this.props;
 
@@ -81,16 +83,14 @@ export default class PlanDictionary extends PureComponent {
         title: 'データ',
         dataIndex: 'projectData',
         key: 'projectData',
-        render: text => <Fragment>{text}</Fragment>,
-        // render: (text, record) => (
-        //   <Fragment>
-        //     {
-        //       text.map((item) => {
-        //         <p>{item},</p>
-        //       })
-        //     }
-        //   </Fragment>
-        // ),        
+        // render: text => <Fragment>{text}</Fragment>,
+        render: (text, record) => (
+          <Fragment>
+            {text.map(item => (
+              <p>{item}</p>
+            ))}
+          </Fragment>
+        ),        
       },
       {
         title: '操作',
