@@ -15,6 +15,7 @@ import {
   Modal,
   Dropdown,
   Menu,
+  Icon,
   DatePicker,
 } from 'antd';
 const { TabPane } = Tabs;
@@ -35,6 +36,7 @@ export default class TaskList extends PureComponent {
   state = {
     modalVisible1: false,
     modalVisible: false,
+    Tabskey: 'task',
     data: '',
   };
 
@@ -62,10 +64,11 @@ export default class TaskList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     this.props.dispatch({
-      type: 'task/time',
+      type: 'task/search',
       payload: {
         fields:{
-          time: moment(new Date()).format('YYYY-MM-DD'),
+            value: moment(new Date()).format('YYYY-MM-DD'),
+            type: "time",
         }
       },
     });
@@ -163,14 +166,48 @@ export default class TaskList extends PureComponent {
   };
 
   dateChange = (value) => {
-    this.props.dispatch({
-      type: 'task/time',
-      payload: {
-        fields: {
-          time: moment(value._d).format('YYYY-MM-DD'),
+    if (value) {
+      this.props.dispatch({
+        type: 'task/search',
+        payload: {
+          fields: {
+            value: moment(value._d).format('YYYY-MM-DD'),
+            type: "time",
+          },
         },
-      },
+      });
+    }
+  };
+
+  callback = (value) => {
+    this.setState({
+      Tabskey: value,
     });
+  };
+
+  search = (value) => {
+    const { dispatch } = this.props;
+      if (this.state.Tabskey === "task") {
+        dispatch({
+          type: 'task/search',
+          payload: {
+            fields: {
+              value: value,
+              type: "search",
+            },
+          },          
+        });
+      }
+      if (this.state.Tabskey === "plan") {
+        dispatch({
+          type: 'plan/search',
+          payload: {
+            planData: {
+              value: value,
+            },
+          },
+        });
+      }
   };
 
   render() {
@@ -334,7 +371,7 @@ export default class TaskList extends PureComponent {
 
     const salesExtra = (
       <div className={styles.salesExtraWrap}>
-        <Search className={styles.extraContentSearch} placeholder="Search" onSearch={() => ({})} />
+        <Search placeholder="Search" onSearch={value => this.search(value)}/>
       </div>
     );
 
@@ -476,36 +513,14 @@ export default class TaskList extends PureComponent {
       handleModalVisible: this.handleModalVisible,
     };
 
-    function dataSource(value) {
-      let taskList = [];
-      let list = task.data.list;
-      if (value !== '' && typeof value !== 'undefined') {
-        list.map((item,i) => {
-          item.key = i;
-          const executeTime = moment(item.executeTime).format('YYYY-MM-DD');
-          const valueTime = moment(value._d).format('YYYY-MM-DD');
-          if (executeTime === valueTime) {
-            taskList.push(item);
-          }
-        });
-      } else {
-        list.map((item,i) => {
-            item.key = i;
-            taskList.push(item);
-        });
-      }
-      return taskList;
-    }
-
     return (
-      <PageHeaderLayout
-          content={pageHeaderContent}
-          extraContent={extraContent}
-         >
+      <PageHeaderLayout content={pageHeaderContent} extraContent={extraContent} >
         <Card>
-          <Tabs tabBarExtraContent={salesExtra}>
+          <Tabs onChange={this.callback} tabBarExtraContent={salesExtra} >
             {/*アセスメント*/}
-            <TabPane tab="来訪の利用者" key="assessment">
+            <TabPane 
+              key="task"
+              tab={<span><Icon type="team" />来訪の利用者</span>}>
               <Button type="primary">時間(予定)</Button>
               <Divider type="vertical" />
               <DatePicker
@@ -523,7 +538,9 @@ export default class TaskList extends PureComponent {
               />
             </TabPane>
             {/*計画書*/}
-            <TabPane tab="計画書" key="plan">
+            <TabPane 
+              key="plan"
+              tab={<span><Icon type="solution" />計画書</span>}>
               <Button type="primary">時間(予定)</Button>
               <Divider type="vertical" />
               <DatePicker

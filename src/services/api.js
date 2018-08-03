@@ -114,6 +114,16 @@ export async function addTemplate(params) {
   });
 }
 
+export async function searchPlan(params) {
+  return request(`${REMOTE_URL}/mp/plan/search/`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
 export async function addPlan(params) {
   return request(`${REMOTE_URL}/mp/plan/`, {
     method: 'POST',
@@ -174,8 +184,8 @@ export async function addTask(params) {
   });
 }
 
-export async function timeTask(params) {
-  return request(`${REMOTE_URL}/mp/task/time/`, {
+export async function searchTask(params) {
+  return request(`${REMOTE_URL}/mp/task/search/`, {
     method: 'POST',
     body: {
       ...params,
