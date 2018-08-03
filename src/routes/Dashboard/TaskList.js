@@ -541,12 +541,12 @@ export default class TaskList extends PureComponent {
             <TabPane 
               key="plan"
               tab={<span><Icon type="solution" />計画書</span>}>
-              <Button type="primary">時間(予定)</Button>
+              {/* <Button type="primary">時間(予定)</Button>
               <Divider type="vertical" />
               <DatePicker
                 defaultValue={moment(new Date(), 'YYYY-MM-DD')}
                 onChange={this.dayDate}
-              />
+              /> */}
               <Table
                 // 紧凑型
                 size="middle"

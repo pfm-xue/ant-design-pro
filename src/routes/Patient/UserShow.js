@@ -18,7 +18,7 @@ import {
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { Link } from 'dva/router';
-// import styles from './UserShow.less';
+import styles from './UserShow.less';
 import moment from 'moment';
 
 const { Description } = DescriptionList;
@@ -293,27 +293,30 @@ export default class UserShow extends PureComponent {
                 </Link>
                 <br />
                 <br />
-                <Steps direction="vertical">
                   {plan.data.list.map(item => (
-                    <Step
-                      title={moment(item.createDate).format('YYYY-MM-DD')}
-                      description={item.planAuthor}
-                      icon={
-                        <Link to={'/profile/plan-show/' + item._id}>
-                          <Icon type="edit" />
-                        </Link>
-                      }
-                    />
+                    <Card.Grid
+                      className={styles.gridStyle}>
+                      <p>作成日:{moment(item.createDate).format('YYYY-MM-DD')}</p>
+                      <p>計画作成者:{item.planAuthor}</p>
+                      <p>管理者:{item.admin}</p>
+                      <p>利用者:{item.user.name}</p>
+                      <p>特記事項:{item.specialNotes}</p>
+                      <p className={styles.center} >
+                      <Link to={'/profile/plan-show/' + item._id}>
+                        <Icon type="printer" /> プレビュー
+                      </Link>
+                      <Icon type="pause" />
+                      <Link to={'/form/plan-edit/' + item._id}>
+                        <Icon type="edit" /> 編集
+                      </Link>
+                      </p>
+                    </Card.Grid>
                   ))}
-                </Steps>
               </Card>
             </TabPane>
             {/*スケジュール*/}
             <TabPane tab="スケジュール" key="schedule">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                {/* <Button type="primary" icon="plus" onClick={() => this.handleModalVisible(true)}>
-                  新規
-                </Button> */}
                 <br />
                 <br />
                 <Calendar dateCellRender={dateCellRender} />
@@ -322,26 +325,21 @@ export default class UserShow extends PureComponent {
             {/*アセスメント*/}
             <TabPane tab="アセスメント" key="assessment">
                 <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                  {/* <Link to="/assessment/show-assessment">
-                    <Button type="primary" icon="plus">
-                      新規
-                    </Button>
-                  </Link>
-                  <br />
-                  <br />                 */}
-                  <Steps direction="vertical">
-                    {assessment.data.list.map(item => (
-                      <Step
-                        title={moment(item.total_Short).format('YYYY-MM-DD')}
-                        description={item.joint_arm}
-                        icon={
-                          <Link to={'/assessment/edit-assessment/' + item._id}>
-                            <Icon type="edit" />
-                          </Link>
-                        }
-                      />
-                    ))}
-                  </Steps>
+                {assessment.data.list.map(item => (
+                    <Card.Grid
+                      className={styles.gridStyle}>
+                      <p>テスト作成日:{moment(item.total_Short).format('YYYY-MM-DD')}</p>
+                      {/* <p>計画作成者:{item.planAuthor}</p>
+                      <p>管理者:{item.admin}</p>
+                      <p>利用者:{item.user.name}</p>
+                      <p>特記事項:{item.specialNotes}</p> */}
+                      <p className={styles.center} >
+                      <Link to={'/assessment/edit-assessment/' + item._id}>
+                        <Icon type="edit" /> 編集
+                      </Link>
+                      </p>
+                    </Card.Grid>
+                  ))}
               </Card>
             </TabPane>
             {/*画像*/}

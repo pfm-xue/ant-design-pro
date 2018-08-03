@@ -402,7 +402,7 @@ export default class UserList extends PureComponent {
 
     return (
       <PageHeaderLayout title="利用者一覧">
-        <Card bordered={false}>
+        <Card bordered={false} >
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
@@ -425,7 +425,6 @@ export default class UserList extends PureComponent {
                   <Icon type="upload" /> 利用者導入
                 </Button>
               </Upload>
-              {/* className={styles.right} */}
             </div>
             <Table
               size="middle"
