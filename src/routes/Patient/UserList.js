@@ -48,31 +48,29 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
         {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '氏名入力してください' }],
-        })(<Input placeholder="请输入" />)}
+        })(<Input placeholder="入力してください" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
-        {form.getFieldDecorator('phonetic', {})(<Input placeholder="请输入" />)}
+        {form.getFieldDecorator('phonetic',)(<Input placeholder="入力してください" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
         {form.getFieldDecorator('birth', {
           rules: [{ required: true, message: '生年月日を選択してください' }],
-        })(<Input type="Date" placeholder="请输入" />)}
+        })(<Input type="Date" placeholder="入力してください" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
         {form.getFieldDecorator('sex', {
           rules: [{ required: true, message: '性別を選択してください' }],
-        })(
-          <Select placeholder="请选择" style={{ width: '100%' }}>
+        })(<Select placeholder="選択してください" style={{ width: '100%' }}>
             <Option value="男">男</Option>
             <Option value="女">女</Option>
-          </Select>
-        )}
+          </Select>)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
-        {form.getFieldDecorator('telephoneNumber', {})(<Input placeholder="请输入" />)}
+        {form.getFieldDecorator('telephoneNumber', {})(<Input placeholder="入力してください" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アドレス">
-        {form.getFieldDecorator('address', {})(<Input placeholder="请输入" />)}
+        {form.getFieldDecorator('address', {})(<Input placeholder="入力してください" />)}
       </FormItem>
     </Modal>
   );
@@ -210,13 +208,13 @@ export default class UserList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="利用者氏名">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('name')(<Input placeholder="入力してください" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="性別">
               {getFieldDecorator('sex')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Select placeholder="選択してください" style={{ width: '100%' }}>
                   <Option value="男">男</Option>
                   <Option value="女">女</Option>
                 </Select>
@@ -269,7 +267,6 @@ export default class UserList extends PureComponent {
           console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
-          location.reload();
           message.success(`${info.file.name} file uploaded successfully`);
         } else if (info.file.status === 'error') {
           message.error(`${info.file.name} file upload failed.`);
@@ -300,28 +297,28 @@ export default class UserList extends PureComponent {
               {form.getFieldDecorator('_id', {
                 initialValue: userData._id,
                 rules: [{ required: true, message: 'Please input some description...' }],
-              })(<Input type="hidden" disabled placeholder="请输入" />)}
+              })(<Input type="hidden" disabled placeholder="入力してください" />)}
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="利用者氏名">
               {form.getFieldDecorator('name', {
                 initialValue: userData.name,
-              })(<Input placeholder="请输入" />)}
+              })(<Input placeholder="入力してください" />)}
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな">
               {form.getFieldDecorator('phonetic', {
                 initialValue: userData.phonetic,
-              })(<Input placeholder="请输入" />)}
+              })(<Input placeholder="入力してください" />)}
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日">
-              {form.getFieldDecorator('birth', {})(
-                <DatePicker defaultValue={moment(userData.birth, 'YYYY-MM-DD')} />
-              )}
+              {form.getFieldDecorator('birth', {
+                initialValue: moment(userData.birth).format('YYYY-MM-DD'),
+              })(<Input type="Date" placeholder="入力してください" />)}
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別">
               {form.getFieldDecorator('sex', {
                 initialValue: userData.sex,
               })(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Select placeholder="選択してください" style={{ width: '100%' }}>
                   <Option value="男">男</Option>
                   <Option value="女">女</Option>
                 </Select>
@@ -330,12 +327,12 @@ export default class UserList extends PureComponent {
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="電話番号">
               {form.getFieldDecorator('telephoneNumber', {
                 initialValue: userData.telephoneNumber,
-              })(<Input placeholder="请输入" />)}
+              })(<Input placeholder="入力してください" />)}
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="アドレス">
               {form.getFieldDecorator('address', {
                 initialValue: userData.address,
-              })(<Input placeholder="请输入" />)}
+              })(<Input placeholder="入力してください" />)}
             </FormItem>
           </Modal>
         )
@@ -407,11 +404,11 @@ export default class UserList extends PureComponent {
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
-                新建
+                新規
               </Button>
               <Popconfirm title="これを削除しますか？">
                 <Button icon="delete" type="danger">
-                  消除
+                  削除
                 </Button>
               </Popconfirm>
               <Divider type="vertical" />              
@@ -419,7 +416,7 @@ export default class UserList extends PureComponent {
               <Button icon="cloud-download" type="primary">
                 テンプレート
               </Button>
-              </a>              
+              </a>
               <Upload {...props}>
                 <Button>
                   <Icon type="upload" /> 利用者導入

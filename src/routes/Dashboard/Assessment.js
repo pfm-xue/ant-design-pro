@@ -316,7 +316,7 @@ export default class BasicForms extends PureComponent {
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="歩行">
-              {form.getFieldDecorator('title', {
+              {form.getFieldDecorator('walking', {
                 rules: [
                   {
                     required: true,
@@ -466,21 +466,21 @@ export default class BasicForms extends PureComponent {
                 <FormItem {...formItemLayout} label="閉脚立位">
                   {form.getFieldDecorator('closedStance', {
                     rules: [{ required: true, message: '閉脚立位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="セミタンデム位">
                   {form.getFieldDecorator('semiTandem', {
                     rules: [{ required: true, message: 'セミタンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="タンデム位">
                   {form.getFieldDecorator('tandem', {
                     rules: [{ required: true, message: 'タンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
             </Row>
@@ -490,21 +490,21 @@ export default class BasicForms extends PureComponent {
                 <FormItem {...formItemLayout} label="補助具の使用">
                   {form.getFieldDecorator('subsidize', {
                     rules: [{ required: true, message: '閉脚立位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="1回目">
                   {form.getFieldDecorator('noOne', {
                     rules: [{ required: true, message: 'セミタンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="2回目">
                   {form.getFieldDecorator('noTwo', {
                     rules: [{ required: true, message: 'タンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
             </Row>
@@ -514,7 +514,7 @@ export default class BasicForms extends PureComponent {
                 <FormItem {...formItemLayout} label="椅子立ち上がりテスト 5回">
                   {form.getFieldDecorator('chair', {
                     rules: [{ required: true, message: '閉脚立位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
@@ -528,7 +528,7 @@ export default class BasicForms extends PureComponent {
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="評価日">
                   {form.getFieldDecorator('total_Short', {
                     rules: [{ required: true, message: 'セミタンデム位入力してください' }],
-                  })(<Input type="Date" placeholder="请输入" />)}
+                  })(<Input type="Date" placeholder="入力してください" />)}
                 </FormItem>
               </Col>
             </Row>

@@ -15,8 +15,10 @@ import {
   Modal,
   Dropdown,
   Menu,
+  Select,
   Icon,
   DatePicker,
+  TimePicker,
 } from 'antd';
 const { TabPane } = Tabs;
 const FormItem = Form.Item;
@@ -214,6 +216,11 @@ export default class TaskList extends PureComponent {
     const { task, plan, role, user } = this.props;
     const { modalVisible1, modalVisible, data } = this.state;
 
+    let implement_admin = [];
+    role.data.list.map((item,) => {
+      implement_admin.push(<Option key={item._id}>{item.adminName}</Option>);
+    });
+
     const CreateForm1 = Form.create()(props => {
       const { modalVisible1, form } = props;
 
@@ -239,38 +246,38 @@ export default class TaskList extends PureComponent {
                 rules: [{ required: true, message: '入力してください。' }],
               })(<Input type="hidden" disabled />)}
             </FormItem>
-            {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
-            {form.getFieldDecorator('recording.implement_admin', {
-              initialValue:data.task_admin._id,
-              rules: [{ required: true, message: '入力してください。' }],
-            })(<Input disabled placeholder="実施者" />)}
-          </FormItem> */}
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
-              {form.getFieldDecorator('recording.startTime', {})(
-                <DatePicker
-                  initialValue={moment(data.recording.startTime, 'YYYY-MM-DD HH:mm:ss')}
-                  placeholder="実施時間(Start)"
-                  format="YYYY-MM-DD HH:mm:ss"
-                  showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-                  style={{ width: '100%' }}
-                />
+            <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施者">
+              {form.getFieldDecorator('implement_admin', {
+                initialValue: data.recording.implement_admin,
+              })(
+                <Select placeholder="選択してください" style={{ width: '100%' }}>
+                  {implement_admin}
+                </Select>                    
               )}
-            </FormItem>
+            </Form.Item>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="開始実施">
+              {form.getFieldDecorator('recording.startTime', {
+                initialValue: data.recording.startTime,
+              })(
+                <TimePicker />
+              )}
+            </FormItem>                
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実施終了">
-              {form.getFieldDecorator('recording.endTime', {})(
-                <DatePicker
-                  initialValue={moment(data.recording.endTime, 'YYYY-MM-DD HH:mm:ss')}
-                  placeholder="実施時間(End)"
-                  format="YYYY-MM-DD HH:mm:ss"
-                  showTime
-                  style={{ width: '100%' }}
-                />
+              {form.getFieldDecorator('recording.endTime', {
+                initialValue: data.recording.endTime,
+              })(
+                <TimePicker />
               )}
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="プログラム">
               {form.getFieldDecorator('recording.program', {
                 initialValue: data.recording.program,
-              })(<Input placeholder="プログラム" />)}
+              })(
+              <Input placeholder="プログラム" />
+              // <Select placeholder="選択してください" style={{ width: '100%' }}>
+              //   {implement_admin}
+              // </Select>                 
+              )}
             </FormItem>
             {/* <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="特記事項">
             {form.getFieldDecorator('program'
@@ -468,7 +475,22 @@ export default class TaskList extends PureComponent {
 
     const planColumns = [
       {
-        title: '作成日',
+        title: '利用者名',
+        dataIndex: 'user.name',
+        key: 'user.name',
+      },
+      {
+        title: '計画作成者',
+        dataIndex: 'planAuthor',
+        key: 'planAuthor',
+      },
+      {
+        title: '特記事項',
+        dataIndex: 'specialNotes',
+        key: 'specialNotes',
+      },
+      {
+        title: '作成年月日',
         dataIndex: 'createDate',
         render: (text, record) => (
           <Fragment>
@@ -477,20 +499,10 @@ export default class TaskList extends PureComponent {
         ),
       },
       {
-        title: '計画作成者',
-        dataIndex: 'planAuthor',
-        key: 'planAuthor',
-      },
-      {
-        title: '利用者',
-        dataIndex: 'user.name',
-        key: 'user.name',
-      },
-      {
-        title: '特記事項',
-        dataIndex: 'specialNotes',
-        key: 'specialNotes',
-      },
+        title: '作成状態',
+        dataIndex: 'state',
+        key: 'state',
+      },      
       {
         title: '操作',
         render: (record) => (
@@ -553,7 +565,7 @@ export default class TaskList extends PureComponent {
                 rowKey="_id"
                 dataSource={plan.data.list}
                 columns={planColumns}
-                pagination={{ pageSize: 5 }}
+                pagination={{ pageSize: 10 }}
               />
             </TabPane>
             {/*実施記録*/}

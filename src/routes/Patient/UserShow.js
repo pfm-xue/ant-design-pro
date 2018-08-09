@@ -1,66 +1,30 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import {
+  DatePicker,
+  Calendar,
+  Button,
+  Modal,
   Card,
   Tabs,
-  Row,
-  Col,
-  Button,
-  Calendar,
-  Steps,
   Icon,
   Form,
-  Modal,
-  Input,
   Upload,
-  DatePicker,
+  Avatar,
+  // Steps,
+  // Input,
+  // Row,
+  // Col,
 } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import { Link } from 'dva/router';
+import { REMOTE_URL } from '../../utils/utils';
 import styles from './UserShow.less';
+import { Link } from 'dva/router';
 import moment from 'moment';
-
 const { Description } = DescriptionList;
 const { TabPane } = Tabs;
-const { Step } = Steps;
-
 const FormItem = Form.Item;
-
-const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="タスク新規"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実行時間">
-        {form.getFieldDecorator('executeTime', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="使用者">
-        {form.getFieldDecorator('task_user', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者">
-        {form.getFieldDecorator('task_admin', {
-          rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-    </Modal>
-  );
-});
 
 @connect(({ user, task, plan, assessment }) => ({
   task,
@@ -71,9 +35,7 @@ const CreateForm = Form.create()(props => {
 @Form.create()
 export default class UserShow extends PureComponent {
   state = {
-    modalVisible: false,
     formValues: {},
-    fileList: [],
     previewVisible: false,
     previewImage: '',
   };
@@ -87,15 +49,6 @@ export default class UserShow extends PureComponent {
       type: 'user/show',
       payload: this.props.match.params.id,
     });
-    // dispatch({
-    //   type: 'plan/add',
-    //   payload: {
-    //     planData:{
-    //       uerPlan: true,
-    //       user_id: this.props.match.params.id,
-    //     },
-    //   },
-    // });
     dispatch({
       type: 'plan/user',
       payload: this.props.match.params.id,　　
@@ -117,25 +70,6 @@ export default class UserShow extends PureComponent {
     });
   };
 
-  handleModalVisible = flag => {
-    this.setState({
-      modalVisible: !!flag,
-    });
-  };
-
-  handleAdd = fields => {
-    this.props.dispatch({
-      type: 'task/add',
-      payload: {
-        fields,
-      },
-    });
-
-    this.setState({
-      modalVisible: false,
-    });
-  };
-
   handleCancel = () => this.setState({ previewVisible: false });
 
   handlePreview = file => {
@@ -144,8 +78,6 @@ export default class UserShow extends PureComponent {
       previewVisible: true,
     });
   };
-
-  handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
     const {
@@ -156,19 +88,30 @@ export default class UserShow extends PureComponent {
       dispatch,
       match,
     } = this.props;
-    const { modalVisible, fileList, previewVisible, previewImage } = this.state;
+    const { previewVisible, previewImage } = this.state;
     let scheduleTime = '';
+    let imageList = [];
+    
+    
+    if (data.list[0].image) {
+      let list = data.list[0].image;
+      for (let i = 0; i < list.length; i += 1) {
+        let image = {};
+        image = {
+          uid: list[i]._id,
+          name: list[i].fileName,
+          status: 'done',
+          url: list[i].path,
+        };
+        imageList.push(image);
+      }
+    }
 
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-
-    const parentMethods = {
-      handleAdd: this.handleAdd,
-      handleModalVisible: this.handleModalVisible,
+    const props = {
+      name: 'logo',
+      action: `${REMOTE_URL}/mp/user/uploadCover/${this.props.match.params.id}`,
+      listType: 'picture',
+      defaultFileList: [...imageList],
     };
 
     function editData(data) {
@@ -246,7 +189,6 @@ export default class UserShow extends PureComponent {
             <a onClick={() => confirm(list)}>
               <li>予定時間:{moment(list.executeTime).format('YYYY-MM-DD')}</li>
               <li>利用者氏名：{list.task_user.name}</li>
-              {/* <li>管理者：{list.task_admin.adminName}</li> */}
             </a>
           </ul>
         );
@@ -329,10 +271,6 @@ export default class UserShow extends PureComponent {
                     <Card.Grid
                       className={styles.gridStyle}>
                       <p>テスト作成日:{moment(item.total_Short).format('YYYY-MM-DD')}</p>
-                      {/* <p>計画作成者:{item.planAuthor}</p>
-                      <p>管理者:{item.admin}</p>
-                      <p>利用者:{item.user.name}</p>
-                      <p>特記事項:{item.specialNotes}</p> */}
                       <p className={styles.center} >
                       <Link to={'/assessment/edit-assessment/' + item._id}>
                         <Icon type="edit" /> 編集
@@ -345,23 +283,22 @@ export default class UserShow extends PureComponent {
             {/*画像*/}
             <TabPane tab="画像" key="record">
               <Card title="" style={{ marginBottom: 24 }} bordered={false}>
-                <Upload
-                  action="//jsonplaceholder.typicode.com/posts/"
-                  listType="picture-card"
-                  fileList={fileList}
-                  onPreview={this.handlePreview}
-                  onChange={this.handleChange}
-                >
-                  {uploadButton}
-                </Upload>
+                <Upload {...props}>
+                  <Button>
+                    <Icon type="upload" /> Upload
+                  </Button>
+                </Upload>                
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                   <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
+                {/* <Avatar
+                  size="large"
+                  src="G:\\service-api\\public\\image\\a9507a1a1f96620a0ebeb03530044de1"
+                /> */}
               </Card>
             </TabPane>
           </Tabs>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
       </PageHeaderLayout>
     );
   }

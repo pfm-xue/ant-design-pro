@@ -53,7 +53,7 @@ class Step1 extends React.PureComponent {
               {getFieldDecorator('receiverAccount', {
                 initialValue: data.receiverAccount,
                 rules: [
-                  { required: true, message: '请输入收款人账户' },
+                  { required: true, message: '入力してください收款人账户' },
                   { type: 'email', message: '账户名应为邮箱格式' },
                 ],
               })(<Input style={{ width: 'calc(100% - 100px)' }} placeholder="test@example.com" />)}
@@ -62,20 +62,20 @@ class Step1 extends React.PureComponent {
           <Form.Item {...formItemLayout} label="收款人姓名">
             {getFieldDecorator('receiverName', {
               initialValue: data.receiverName,
-              rules: [{ required: true, message: '请输入收款人姓名' }],
-            })(<Input placeholder="请输入收款人姓名" />)}
+              rules: [{ required: true, message: '入力してください收款人姓名' }],
+            })(<Input placeholder="入力してください收款人姓名" />)}
           </Form.Item>
           <Form.Item {...formItemLayout} label="转账金额">
             {getFieldDecorator('amount', {
               initialValue: data.amount,
               rules: [
-                { required: true, message: '请输入转账金额' },
+                { required: true, message: '入力してください转账金额' },
                 {
                   pattern: /^(\d+)((?:\.\d+)?)$/,
-                  message: '请输入合法金额数字',
+                  message: '入力してください合法金额数字',
                 },
               ],
-            })(<Input prefix="￥" placeholder="请输入金额" />)}
+            })(<Input prefix="￥" placeholder="入力してください金额" />)}
           </Form.Item>
           <Form.Item
             wrapperCol={{

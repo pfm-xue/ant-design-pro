@@ -31,7 +31,7 @@ export default class PlanDictionary extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="プロジェクト">
-              {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('no')(<Input placeholder="入力してください" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>

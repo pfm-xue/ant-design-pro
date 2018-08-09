@@ -94,7 +94,7 @@ export default class TableListAdmin extends PureComponent {
           <Col md={8} sm={24}>
             <FormItem label="管理者のRole">
               {getFieldDecorator('role')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
+                <Select placeholder="選択してください" style={{ width: '100%' }}>
                   <Option value="0">介護士</Option>
                   <Option value="1">施設内システム管理者</Option>
                   <Option value="2">看護師</Option>
@@ -105,7 +105,7 @@ export default class TableListAdmin extends PureComponent {
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="管理者の氏名">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('name')(<Input placeholder="入力してください" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>

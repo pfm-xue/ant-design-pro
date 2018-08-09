@@ -178,29 +178,6 @@ export default class PlanAdd extends PureComponent {
                   </Form.Item>
                 </Col>
               </Row>
-              {/* <Row gutter={16}>
-              <Col lg={6} md={12} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="ふりがな：">
-                  {form.getFieldDecorator('phonetic', {
-                    rules: [{ required: true, message: 'ふりがな入力してください' }],
-                  })(<Input placeholder="入力してください" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="性別：">
-                  {form.getFieldDecorator('sex', {
-                    rules: [{ required: true, message: '性別入力してください' }],
-                  })(<Input placeholder="入力してください" />)}
-                </Form.Item>
-              </Col>
-              <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生年月日：">
-                  {form.getFieldDecorator('birth', {
-                    rules: [{ required: true, message: '生年月日入力してください' }],
-                  })(<Input type="Date" placeholder="入力してください" />)}
-                </Form.Item>
-              </Col>
-            </Row> */}
               <Row gutter={16}>
                 <Col lg={6} md={12} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="介護認定：">
@@ -265,70 +242,63 @@ export default class PlanAdd extends PureComponent {
               </Row>
               <Row gutter={16}>
                 <Col lg={6} md={12} sm={24}>
-                  {/* <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="氏名：">
-                  {form.getFieldDecorator('name', {
-                    rules: [{ required: true, message: '氏名入力してください' }],
-                  })(<Input placeholder="入力してください" />)}
-                </Form.Item> */}
-                </Col>
-                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="本人の希望：">
                     {form.getFieldDecorator('oneselfDesire', {
                       rules: [{ required: true, message: '本人の希望入力してください' }],
                     })(<Input placeholder="入力してください" />)}
-                  </Form.Item>
+                  </Form.Item>                
                 </Col>
-                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                   <Form.Item labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="家族の希望：">
                     {form.getFieldDecorator('familyDesire', {
                       rules: [{ required: true, message: '家族の希望入力してください' }],
                     })(<Input placeholder="入力してください" />)}
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col lg={6} md={12} sm={24}>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                   <Form.Item wrapperCol={{ span: 20 }} label="障害老人の日常生活自立度：">
                     {getFieldDecorator('disorder', {
                       rules: [{ required: true, message: '入力してください' }],
                     })(<Slider marks={disorderList} max={8} step={null} initialValue={0} />)}
                   </Form.Item>
                 </Col>
-                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
                   <Form.Item wrapperCol={{ span: 20 }} label="認知症老人の日常生活自立度：">
                     {getFieldDecorator('dementia', {
                       rules: [{ required: true, message: '入力してください' }],
                     })(<Slider marks={dementiaList} max={6} step={null} initialValue={0} />)}
                   </Form.Item>
                 </Col>
-                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                   <Form.Item wrapperCol={{ span: 20 }} label="病名、合併症(心疾患、吸器疾患等)：">
                     {form.getFieldDecorator('diseaseName', {
                       rules: [{ required: true, message: '入力してください' }],
                     })(<Input placeholder="入力してください" />)}
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col lg={6} md={12} sm={24}>
-                  <Form.Item
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
+                <Form.Item
                     wrapperCol={{ span: 20 }}
                     label="運動時のリスク(血圧、不整脈、呼吸等)："
                   >
                     {form.getFieldDecorator('exerciseRisk', {
                       rules: [{ required: true, message: '入力してください' }],
                     })(<Input placeholder="入力してください" />)}
-                  </Form.Item>
+                  </Form.Item>                  
                 </Col>
-                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+              </Row>
+              <Row gutter={16}>
+                <Col lg={6} md={12} sm={24}>
                   <Form.Item wrapperCol={{ span: 20 }} label="生活課題：">
                     {form.getFieldDecorator('lifeIssues', {
                       rules: [{ required: true, message: '入力してください' }],
                     })(<Input placeholder="入力してください" />)}
                   </Form.Item>
                 </Col>
-                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
-                  <Form.Item
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
+                <Form.Item
                     wrapperCol={{ span: 20 }}
                     label="在宅環境(生活課題に関連する在宅環境課題)："
                   >
@@ -336,6 +306,8 @@ export default class PlanAdd extends PureComponent {
                       rules: [{ required: true, message: '入力してください' }],
                     })(<Input placeholder="入力してください" />)}
                   </Form.Item>
+                </Col>
+                <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 </Col>
               </Row>
             </Card>
@@ -532,7 +504,18 @@ export default class PlanAdd extends PureComponent {
                     })(<Input placeholder="入力してください" />)}
                   </Form.Item>
                 </Col>
-                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} />
+                <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24} >
+                  <Form.Item wrapperCol={{ span: 20 }} label="作成状態">
+                    {form.getFieldDecorator('state', {
+                      rules: [{ required: true, message: '入力してください' }],
+                    })(
+                      <Select placeholder="作成状態">
+                        <Option value="作成中">作成中</Option>
+                        <Option value="作成済み">作成済み</Option>
+                      </Select>                    
+                    )}
+                  </Form.Item>
+                </Col>
               </Row>
             </Card>
           </Form>

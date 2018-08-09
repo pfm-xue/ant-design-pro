@@ -110,6 +110,7 @@ export default class AssessmentEdit extends PureComponent {
             </Form.Item>
             <FormItem {...formItemLayout} label="上肢">
               {form.getFieldDecorator('joint_arm', {
+                initialValue: parameter[0].joint_arm,
                 rules: [
                   {
                     required: true,
@@ -117,16 +118,17 @@ export default class AssessmentEdit extends PureComponent {
                   },
                 ],
               })(
-                <Radio.Group initialValue={parameter[0].joint_arm} >
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                <Radio.Group>
+                  <Radio value={1}>著名な制限なし</Radio>
+                  <Radio value={2}>軽度</Radio>
+                  <Radio value={3}>中等度</Radio>
+                  <Radio value={4}>重度</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="下肢">
               {form.getFieldDecorator('joint_legs', {
+                initialValue: parameter[0].joint_legs,
                 rules: [
                   {
                     required: true,
@@ -135,15 +137,16 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value={1}>著名な制限なし</Radio>
+                  <Radio value={2}>軽度</Radio>
+                  <Radio value={3}>中等度</Radio>
+                  <Radio value={4}>重度</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="体幹">
               {form.getFieldDecorator('joint_runk', {
+                initialValue: parameter[0].joint_runk,
                 rules: [
                   {
                     required: true,
@@ -152,10 +155,10 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value={1}>著名な制限なし</Radio>
+                  <Radio value={2}>軽度</Radio>
+                  <Radio value={3}>中等度</Radio>
+                  <Radio value={4}>重度</Radio>
                 </Radio.Group>
               )}
             </FormItem>
@@ -163,6 +166,7 @@ export default class AssessmentEdit extends PureComponent {
           <Card style={{ marginBottom: 24 }} title="筋力" bordered={false}>
             <FormItem {...formItemLayout} label="上肢">
               {form.getFieldDecorator('tendon_arm', {
+                initialValue: parameter[0].tendon_arm,
                 rules: [
                   {
                     required: true,
@@ -171,15 +175,16 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value={1}>著名な制限なし</Radio>
+                  <Radio value={2}>軽度</Radio>
+                  <Radio value={3}>中等度</Radio>
+                  <Radio value={4}>重度</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="下肢">
               {form.getFieldDecorator('tendon_legs', {
+                initialValue: parameter[0].tendon_legs,
                 rules: [
                   {
                     required: true,
@@ -188,15 +193,16 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value={1}>著名な制限なし</Radio>
+                  <Radio value={2}>軽度</Radio>
+                  <Radio value={3}>中等度</Radio>
+                  <Radio value={4}>重度</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="体幹">
               {form.getFieldDecorator('tendon_runk', {
+                initialValue: parameter[0].tendon_runk,
                 rules: [
                   {
                     required: true,
@@ -205,10 +211,10 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">著名な制限なし</Radio>
-                  <Radio value="2">軽度</Radio>
-                  <Radio value="3">中等度</Radio>
-                  <Radio value="4">重度</Radio>
+                  <Radio value={1}>著名な制限なし</Radio>
+                  <Radio value={2}>軽度</Radio>
+                  <Radio value={3}>中等度</Radio>
+                  <Radio value={4}>重度</Radio>
                 </Radio.Group>
               )}
             </FormItem>
@@ -216,6 +222,7 @@ export default class AssessmentEdit extends PureComponent {
           <Card style={{ marginBottom: 24 }} title="麻痺" bordered={false}>
             <FormItem {...formItemLayout} label="上肢">
               {form.getFieldDecorator('paralysis_arm', {
+                initialValue: parameter[0].paralysis_arm,
                 rules: [
                   {
                     required: true,
@@ -224,14 +231,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">実用</Radio>
-                  <Radio value="2">補助</Radio>
-                  <Radio value="3">廃用</Radio>
+                  <Radio value={1}>実用</Radio>
+                  <Radio value={2}>補助</Radio>
+                  <Radio value={3}>廃用</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="下肢">
               {form.getFieldDecorator('paralysis_legs', {
+                initialValue: parameter[0].paralysis_legs,
                 rules: [
                   {
                     required: true,
@@ -240,14 +248,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">かなり動かせる</Radio>
-                  <Radio value="2">半分程度</Radio>
-                  <Radio value="3">僅かに動かせる</Radio>
+                  <Radio value={1}>かなり動かせる</Radio>
+                  <Radio value={2}>半分程度</Radio>
+                  <Radio value={3}>僅かに動かせる</Radio>   
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="手指">
               {form.getFieldDecorator('paralysis_finger', {
+                initialValue: parameter[0].paralysis_finger,
                 rules: [
                   {
                     required: true,
@@ -256,9 +265,9 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">かなり動かせる</Radio>
-                  <Radio value="2">半分程度</Radio>
-                  <Radio value="3">僅かに動かせる</Radio>
+                  <Radio value={1}>かなり動かせる</Radio>
+                  <Radio value={2}>半分程度</Radio>
+                  <Radio value={3}>僅かに動かせる</Radio>   
                 </Radio.Group>
               )}
             </FormItem>
@@ -266,6 +275,7 @@ export default class AssessmentEdit extends PureComponent {
           <Card style={{ marginBottom: 24 }} title="ADL Barthel Index" bordered={false}>
             <FormItem {...formItemLayout} label="食事">
               {form.getFieldDecorator('meal', {
+                initialValue: parameter[0].meal,
                 rules: [
                   {
                     required: true,
@@ -274,14 +284,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">10点</Radio>
-                  <Radio value="2">5点</Radio>
-                  <Radio value="3">0点</Radio>
+                  <Radio value={1}>10点</Radio>
+                  <Radio value={2}>5点</Radio>
+                  <Radio value={3}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="車椅子〜ベッドへの移乗">
               {form.getFieldDecorator('move', {
+                initialValue: parameter[0].move,
                 rules: [
                   {
                     required: true,
@@ -290,15 +301,16 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">15点</Radio>
-                  <Radio value="2">10点</Radio>
-                  <Radio value="3">5点</Radio>
-                  <Radio value="4">0点</Radio>
+                  <Radio value={1}>15点</Radio>
+                  <Radio value={2}>10点</Radio>
+                  <Radio value={3}>5点</Radio>
+                  <Radio value={4}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="整容">
               {form.getFieldDecorator('aesthetic', {
+                initialValue: parameter[0].aesthetic,
                 rules: [
                   {
                     required: true,
@@ -307,13 +319,14 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">5点</Radio>
-                  <Radio value="2">0点</Radio>
+                  <Radio value={1}>5点</Radio>
+                  <Radio value={2}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="トイレ動作">
               {form.getFieldDecorator('toilet', {
+                initialValue: parameter[0].toilet,
                 rules: [
                   {
                     required: true,
@@ -322,14 +335,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">10点</Radio>
-                  <Radio value="2">5点</Radio>
-                  <Radio value="3">0点</Radio>
+                  <Radio value={1}>10点</Radio>
+                  <Radio value={2}>5点</Radio>
+                  <Radio value={3}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="入浴">
               {form.getFieldDecorator('bath', {
+                initialValue: parameter[0].bath,
                 rules: [
                   {
                     required: true,
@@ -338,13 +352,14 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">5点</Radio>
-                  <Radio value="2">0点</Radio>
+                  <Radio value={1}>5点</Radio>
+                  <Radio value={2}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="歩行">
-              {form.getFieldDecorator('title', {
+              {form.getFieldDecorator('walking', {
+                initialValue: parameter[0].walking,
                 rules: [
                   {
                     required: true,
@@ -353,15 +368,16 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">15点</Radio>
-                  <Radio value="2">10点</Radio>
-                  <Radio value="3">5点</Radio>
-                  <Radio value="4">0点</Radio>
+                  <Radio value={1}>15点</Radio>
+                  <Radio value={2}>10点</Radio>
+                  <Radio value={3}>5点</Radio>
+                  <Radio value={4}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="階段昇降">
               {form.getFieldDecorator('stairs', {
+                initialValue: parameter[0].stairs,
                 rules: [
                   {
                     required: true,
@@ -370,14 +386,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">10点</Radio>
-                  <Radio value="2">5点</Radio>
-                  <Radio value="3">0点</Radio>
+                  <Radio value={1}>10点</Radio>
+                  <Radio value={2}>5点</Radio>
+                  <Radio value={3}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="着替え">
               {form.getFieldDecorator('change', {
+                initialValue: parameter[0].change,
                 rules: [
                   {
                     required: true,
@@ -386,14 +403,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">10点</Radio>
-                  <Radio value="2">5点</Radio>
-                  <Radio value="3">0点</Radio>
+                  <Radio value={1}>10点</Radio>
+                  <Radio value={2}>5点</Radio>
+                  <Radio value={3}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="排便コントロール">
               {form.getFieldDecorator('defecation', {
+                initialValue: parameter[0].defecation,
                 rules: [
                   {
                     required: true,
@@ -402,9 +420,9 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">10点</Radio>
-                  <Radio value="2">5点</Radio>
-                  <Radio value="3">0点</Radio>
+                  <Radio value={1}>10点</Radio>
+                  <Radio value={2}>5点</Radio>
+                  <Radio value={3}>0点</Radio>
                 </Radio.Group>
               )}
             </FormItem>
@@ -424,6 +442,7 @@ export default class AssessmentEdit extends PureComponent {
           <Card style={{ marginBottom: 24 }} title="家庭でのIADL" bordered={false}>
             <FormItem {...formItemLayout} label="買い物">
               {form.getFieldDecorator('shopping', {
+                initialValue: parameter[0].shopping,
                 rules: [
                   {
                     required: true,
@@ -432,14 +451,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">できる</Radio>
-                  <Radio value="2">介助でできる</Radio>
-                  <Radio value="3">できない</Radio>
+                  <Radio value={1}>できる</Radio>
+                  <Radio value={2}>介助でできる</Radio>
+                  <Radio value={3}>できない</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="調理">
               {form.getFieldDecorator('cook', {
+                initialValue: parameter[0].cook,
                 rules: [
                   {
                     required: true,
@@ -448,14 +468,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">できる</Radio>
-                  <Radio value="2">介助でできる</Radio>
-                  <Radio value="3">できない</Radio>
+                  <Radio value={1}>できる</Radio>
+                  <Radio value={2}>介助でできる</Radio>
+                  <Radio value={3}>できない</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="掃除">
               {form.getFieldDecorator('cleaning', {
+                initialValue: parameter[0].cleaning,
                 rules: [
                   {
                     required: true,
@@ -464,14 +485,15 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">できる</Radio>
-                  <Radio value="2">介助でできる</Radio>
-                  <Radio value="3">できない</Radio>
+                  <Radio value={1}>できる</Radio>
+                  <Radio value={2}>介助でできる</Radio>
+                  <Radio value={3}>できない</Radio>
                 </Radio.Group>
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="洗濯">
               {form.getFieldDecorator('washing', {
+                initialValue: parameter[0].washing,
                 rules: [
                   {
                     required: true,
@@ -480,9 +502,9 @@ export default class AssessmentEdit extends PureComponent {
                 ],
               })(
                 <Radio.Group>
-                  <Radio value="1">できる</Radio>
-                  <Radio value="2">介助でできる</Radio>
-                  <Radio value="3">できない</Radio>
+                  <Radio value={1}>できる</Radio>
+                  <Radio value={2}>介助でできる</Radio>
+                  <Radio value={3}>できない</Radio>
                 </Radio.Group>
               )}
             </FormItem>
@@ -493,22 +515,25 @@ export default class AssessmentEdit extends PureComponent {
               <Col lg={6} md={12} sm={24}>
                 <FormItem {...formItemLayout} label="閉脚立位">
                   {form.getFieldDecorator('closedStance', {
+                    initialValue: parameter[0].closedStance,
                     rules: [{ required: true, message: '閉脚立位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="セミタンデム位">
                   {form.getFieldDecorator('semiTandem', {
+                    initialValue: parameter[0].semiTandem,
                     rules: [{ required: true, message: 'セミタンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="タンデム位">
                   {form.getFieldDecorator('tandem', {
+                    initialValue: parameter[0].tandem,
                     rules: [{ required: true, message: 'タンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
             </Row>
@@ -517,22 +542,25 @@ export default class AssessmentEdit extends PureComponent {
               <Col lg={6} md={12} sm={24}>
                 <FormItem {...formItemLayout} label="補助具の使用">
                   {form.getFieldDecorator('subsidize', {
+                    initialValue: parameter[0].subsidize,
                     rules: [{ required: true, message: '閉脚立位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
                 <FormItem labelCol={{ span: 7 }} wrapperCol={{ span: 15 }} label="1回目">
                   {form.getFieldDecorator('noOne', {
+                    initialValue: parameter[0].noOne,
                     rules: [{ required: true, message: 'セミタンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="2回目">
                   {form.getFieldDecorator('noTwo', {
+                    initialValue: parameter[0].noTwo,
                     rules: [{ required: true, message: 'タンデム位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
             </Row>
@@ -541,8 +569,9 @@ export default class AssessmentEdit extends PureComponent {
               <Col lg={6} md={12} sm={24}>
                 <FormItem {...formItemLayout} label="椅子立ち上がりテスト 5回">
                   {form.getFieldDecorator('chair', {
+                    initialValue: parameter[0].chair,
                     rules: [{ required: true, message: '閉脚立位入力してください' }],
-                  })(<Input placeholder="请输入" />)}
+                  })(<Input placeholder="入力してください" />)}
                 </FormItem>
               </Col>
               <Col xl={{ span: 6, offset: 2 }} lg={{ span: 8 }} md={{ span: 12 }} sm={24}>
@@ -555,8 +584,9 @@ export default class AssessmentEdit extends PureComponent {
               <Col xl={{ span: 8, offset: 2 }} lg={{ span: 10 }} md={{ span: 24 }} sm={24}>
                 <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="評価日">
                   {form.getFieldDecorator('total_Short', {
+                    initialValue: parameter[0].total_Short,
                     rules: [{ required: true, message: 'セミタンデム位入力してください' }],
-                  })(<Input type="Date" placeholder="请输入" />)}
+                  })(<Input type="Date" placeholder="入力してください" />)}
                 </FormItem>
               </Col>
             </Row>

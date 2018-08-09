@@ -44,17 +44,17 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="実行時間">
         {form.getFieldDecorator('executeTime', {
           rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="请输入" />)}
+        })(<Input placeholder="入力してください" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="使用者">
         {form.getFieldDecorator('task_user', {
           rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="请输入" />)}
+        })(<Input placeholder="入力してください" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="管理者">
         {form.getFieldDecorator('task_admin', {
           rules: [{ required: true, message: '入力してください。' }],
-        })(<Input placeholder="请输入" />)}
+        })(<Input placeholder="入力してください" />)}
       </FormItem>
     </Modal>
   );
